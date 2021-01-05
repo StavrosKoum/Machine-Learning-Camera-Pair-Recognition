@@ -1,0 +1,114 @@
+Test list_create...                             [ OK ]
+==3732==
+==3732== HEAP SUMMARY:
+==3732==     in use at exit: 0 bytes in 0 blocks
+==3732==   total heap usage: 7 allocs, 7 frees, 4,381 bytes allocated
+==3732==
+==3732== All heap blocks were freed -- no leaks are possible
+==3732==
+==3732== For counts of detected and suppressed errors, rerun with: -v
+==3732== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test JsonNode_create...                         [ OK ]
+==3733==
+==3733== HEAP SUMMARY:
+==3733==     in use at exit: 0 bytes in 0 blocks
+==3733==   total heap usage: 5 allocs, 5 frees, 4,289 bytes allocated
+==3733==
+==3733== All heap blocks were freed -- no leaks are possible
+==3733==
+==3733== For counts of detected and suppressed errors, rerun with: -v
+==3733== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test JsonFile_create...                         [ OK ]
+==3734==
+==3734== HEAP SUMMARY:
+==3734==     in use at exit: 0 bytes in 0 blocks
+==3734==   total heap usage: 8 allocs, 8 frees, 4,374 bytes allocated
+==3734==
+==3734== All heap blocks were freed -- no leaks are possible
+==3734==
+==3734== For counts of detected and suppressed errors, rerun with: -v
+==3734== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test RecordNode_create...                       [ OK ]
+==3735==
+==3735== HEAP SUMMARY:
+==3735==     in use at exit: 0 bytes in 0 blocks
+==3735==   total heap usage: 6 allocs, 6 frees, 4,357 bytes allocated
+==3735==
+==3735== All heap blocks were freed -- no leaks are possible
+==3735==
+==3735== For counts of detected and suppressed errors, rerun with: -v
+==3735== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test RecordList_create...                       [ OK ]
+==3736==
+==3736== HEAP SUMMARY:
+==3736==     in use at exit: 0 bytes in 0 blocks
+==3736==   total heap usage: 7 allocs, 7 frees, 4,381 bytes allocated
+==3736==
+==3736== All heap blocks were freed -- no leaks are possible
+==3736==
+==3736== For counts of detected and suppressed errors, rerun with: -v
+==3736== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test hashTable_create...                        [ OK ]
+==3737== error calling PR_SET_PTRACER, vgdb might block
+==3737==
+==3737== HEAP SUMMARY:
+==3737==     in use at exit: 0 bytes in 0 blocks
+==3737==   total heap usage: 16 allocs, 16 frees, 4,950 bytes allocated
+==3737==
+==3737== All heap blocks were freed -- no leaks are possible
+==3737==
+==3737== For counts of detected and suppressed errors, rerun with: -v
+==3737== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test test_search...                             [ OK ]
+==3738== error calling PR_SET_PTRACER, vgdb might block
+==3738==
+==3738== HEAP SUMMARY:
+==3738==     in use at exit: 0 bytes in 0 blocks
+==3738==   total heap usage: 20 allocs, 20 frees, 5,964 bytes allocated
+==3738==
+==3738== All heap blocks were freed -- no leaks are possible
+==3738==
+==3738== For counts of detected and suppressed errors, rerun with: -v
+==3738== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test test_word_list_and_node...                 [ OK ]
+==3739==
+==3739== HEAP SUMMARY:
+==3739==     in use at exit: 0 bytes in 0 blocks
+==3739==   total heap usage: 5 allocs, 5 frees, 4,309 bytes allocated
+==3739==
+==3739== All heap blocks were freed -- no leaks are possible
+==3739==
+==3739== For counts of detected and suppressed errors, rerun with: -v
+==3739== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test test_word_hash_table...                    ==3740== error calling PR_SET_PTRACER, vgdb might block
+[ OK ]
+==3740==
+==3740== HEAP SUMMARY:
+==3740==     in use at exit: 0 bytes in 0 blocks
+==3740==   total heap usage: 6 allocs, 6 frees, 8,333 bytes allocated
+==3740==
+==3740== All heap blocks were freed -- no leaks are possible
+==3740==
+==3740== For counts of detected and suppressed errors, rerun with: -v
+==3740== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+Test test_logistic_regression...                ==3741== error calling PR_SET_PTRACER, vgdb might block
+[ OK ]
+==3741==
+==3741== HEAP SUMMARY:
+==3741==     in use at exit: 0 bytes in 0 blocks
+==3741==   total heap usage: 4 allocs, 4 frees, 5,104 bytes allocated
+==3741==
+==3741== All heap blocks were freed -- no leaks are possible
+==3741==
+==3741== For counts of detected and suppressed errors, rerun with: -v
+==3741== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+SUCCESS: All unit tests have passed.
+==3731==
+==3731== HEAP SUMMARY:
+==3731==     in use at exit: 0 bytes in 0 blocks
+==3731==   total heap usage: 2 allocs, 2 frees, 4,256 bytes allocated
+==3731==
+==3731== All heap blocks were freed -- no leaks are possible
+==3731==
+==3731== For counts of detected and suppressed errors, rerun with: -v
+==3731== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
