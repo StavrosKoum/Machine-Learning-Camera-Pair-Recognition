@@ -6,6 +6,7 @@
 #include "hashTable.h"
 #include "bagOfWords.h"
 #include "logisticRegression.h"
+#include "jobScheduler.h"
 #include <math.h>
 
 #define BUCKETSIZE 120

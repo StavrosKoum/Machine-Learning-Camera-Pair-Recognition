@@ -1,0 +1,12 @@
+
+#files to be ignored
+
+#object files
+*.o
+
+#vscode files
+.vs*
+
+#executables
+project2
+testing

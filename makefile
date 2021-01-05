@@ -3,15 +3,15 @@
 #
 #
 
-OBJS 	= main.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o
-OBJS1   = unit_test.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o
-SOURCE	= main.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c metrics.c
-SOURCE1	= unit_test.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c logisticRegression.c metrics.c
-HEADER  = jsonStruct.h acutest.h hashTable.h graph.h bagOfWords.h logisticRegression.h metrics.h
+OBJS 	= main.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o jobScheduler.o
+OBJS1   = unit_test.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o jobScheduler.o
+SOURCE	= main.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c metrics.c jobScheduler.c
+SOURCE1	= unit_test.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c logisticRegression.c metrics.c jobScheduler.c
+HEADER  = jsonStruct.h acutest.h hashTable.h graph.h bagOfWords.h logisticRegression.h metrics.h jobScheduler.h
 OUT  	= project2
 OUTTEST = testing
 CC	= gcc
-FLAGS   = -g -c -Wall -lm
+FLAGS   = -g -c -Wall -lm -pthread
 LFLAGS	= -lm
 # -g option enables debugging mode 
 # -c flag generates object code for separate files
@@ -47,6 +47,9 @@ logisticRegression.o: logisticRegression.c
 
 metrics.o: metrics.c
 	$(CC) $(FLAGS) metrics.c
+
+jobScheduler.o: jobScheduler.c
+	$(CC) $(FLAGS) jobScheduler.c
 
 # clean house
 clean:
