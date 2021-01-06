@@ -112,3 +112,59 @@ Job *queuePop(Queue *q){
     return j;
     
 }
+
+//constructor for job
+
+Job *create_job(void * function, Arguments *arg_struct)
+{
+    Job* ptr = malloc(sizeof(Job));
+    ptr->function = function;
+    ptr->args = arg_struct;
+
+    return ptr;
+
+}
+
+//jobScheduler constructor
+jobScheduler* initialise_jobScheduler(int num_threads,void* thread_function)
+{
+    jobScheduler* ptr = malloc(sizeof(jobScheduler));
+    ptr->q = createQueue();
+    ptr->execution_threads = num_threads;
+
+    void* temp;
+
+    Arguments* args = malloc(sizeof(Arguments));
+    args->argv = malloc(sizeof(int));
+    int i = 555;
+    args->argv[0] = i;
+    Job* job = create_job(NULL,args);
+    queueInsert(ptr->q,job);
+   
+    //make n numThreads in array
+    ptr->tids = malloc(sizeof(pthread_t)*num_threads);
+
+    for(int i =0; i <num_threads;i++)
+    {
+        //make thread
+        pthread_create(&ptr->tids[i], NULL,thread_function,(void *)ptr->q);
+
+    }
+
+    for(int i =0; i <num_threads;i++)
+    {
+        pthread_join(ptr->tids[i],&temp);
+
+    }
+
+
+    
+
+
+
+
+    return ptr;
+}
+
+
+

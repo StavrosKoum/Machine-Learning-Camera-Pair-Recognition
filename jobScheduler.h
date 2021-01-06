@@ -84,4 +84,8 @@ void queueInsert(Queue *, Job *);
 //function that pops and returns the job from the top of the queue
 Job *queuePop(Queue *);
 
+jobScheduler* initialise_jobScheduler(int ,void *);
+
+Job *create_job(void * function, Arguments *arg_struct);
+
 #endif

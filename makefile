@@ -12,7 +12,7 @@ OUT  	= project2
 OUTTEST = testing
 CC	= gcc
 FLAGS   = -g -c -Wall -lm -pthread
-LFLAGS	= -lm
+LFLAGS	= -lm -pthread
 # -g option enables debugging mode 
 # -c flag generates object code for separate files
 

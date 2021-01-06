@@ -12,7 +12,30 @@
 #define BUCKETSIZE 120
 #define SIZE 5000
 
+void* thread_function(void* queue)
+{
+
+    Job* job = queuePop(queue);
+    if(job==NULL)
+    {
+        return 0;
+    }
+    printf("thread id %ld and num is %d\n",pthread_self(),job->args->argv[0]);
+    return 0;
+}
+
 int main(int argc,char *argv[]){
+
+
+    initialise_jobScheduler(5,thread_function);
+
+
+    
+
+
+    return 0;
+    
+
 
     //arguments
     char *datasetX,*datasetCSV;
