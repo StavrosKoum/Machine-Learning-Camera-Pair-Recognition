@@ -3,6 +3,10 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <stddef.h>
+#include <stdbool.h>
+
+typedef void (*thread_funct)(void *args);
 
 //struct keeping the arguments for each job
 typedef struct args{
@@ -20,7 +24,8 @@ typedef struct args{
 //job struct
 typedef struct job{
 
-
+    //pointer to the function to be executed
+    thread_funct func;
     //pointer to the function to be executed
     void *function;
     //pointer to a struct containing arguments
@@ -65,7 +70,21 @@ typedef struct jobScheduler{
     //array with the ids of the avaiable threads
     pthread_t* tids;
 
+    //mutex for all locking
+    pthread_mutex_t  work_mutex;
+    // signals that there is work to be processed
+    pthread_cond_t   work_cond;
+    // signals that there are no threads processing
+    pthread_cond_t   working_cond;
+
+    size_t alive_thread_count;
+    size_t thread_count;
+    //false by default
+    bool stop;
+
 }jobScheduler;
+
+
 
 //--------------QUEUE FUNCTIONS--------------//
 
@@ -84,8 +103,12 @@ void queueInsert(Queue *, Job *);
 //function that pops and returns the job from the top of the queue
 Job *queuePop(Queue *);
 
-jobScheduler* initialise_jobScheduler(int ,void *);
+//function that initialises and returns job scheduler 
+jobScheduler* initialise_jobScheduler(int );
 
-Job *create_job(void * function, Arguments *arg_struct);
+//function that initialises and returnes a job
+Job *create_job(thread_funct function, Arguments *arg_struct);
+
+void JobSchedulerWait(jobScheduler *jb);
 
 #endif

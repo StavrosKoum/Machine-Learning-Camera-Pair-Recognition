@@ -2,37 +2,70 @@
 #include <string.h>
 #include <stdlib.h> 
 #include <dirent.h>
+#include <unistd.h>
 #include "jsonStruct.h"
 #include "hashTable.h"
 #include "bagOfWords.h"
 #include "logisticRegression.h"
 #include "jobScheduler.h"
+
 #include <math.h>
 
 #define BUCKETSIZE 120
 #define SIZE 5000
 
-void* thread_function(void* queue)
-{
 
-    Job* job = queuePop(queue);
-    if(job==NULL)
-    {
-        return 0;
-    }
-    printf("thread id %ld and num is %d\n",pthread_self(),job->args->argv[0]);
-    return 0;
+void worker(void *arg)
+{
+    // int *val = arg;
+    // int  old = *val;
+    printf("worker\n");
+
+    Arguments *temp = arg;
+
+    int *val = temp->argv[0];
+    int old = *val;
+
+    *val += 1000;
+    printf("tid=%p, old=%d, val=%d\n", pthread_self(), old, *val);
+
+    if (*val%2)
+        usleep(100000);
 }
+
+
 
 int main(int argc,char *argv[]){
 
+    jobScheduler *jb;
+    Job *job;
+    Arguments *args;
 
-    initialise_jobScheduler(5,thread_function);
+    size_t   i;
 
 
+    jb = initialise_jobScheduler(5);
+    sleep(10);
+
+
+    printf("threads\n");
+
+    for (i=0; i<4; i++) {
+
+        args = malloc(sizeof(Arguments));
+        args->argc = 1;
+        args->argv = malloc(sizeof(int));
+        args->argv[0] = &i;
+
+        job = create_job(worker,args);
+
+
+        // vals[i] = i
+        queueInsert(jb->q,job);
+    }
     
 
-
+    JobSchedulerWait(jb);
     return 0;
     
 
