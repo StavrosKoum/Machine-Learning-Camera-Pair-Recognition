@@ -19,7 +19,6 @@ void worker(void *arg)
 {
     // int *val = arg;
     // int  old = *val;
-    printf("worker\n");
 
     Arguments *temp = arg;
 
@@ -27,10 +26,8 @@ void worker(void *arg)
     int old = *val;
 
     *val += 1000;
-    printf("tid=%p, old=%d, val=%d\n", pthread_self(), old, *val);
+    printf("tid=%ld, old=%d, val=%d\n", pthread_self(), old, *val);
 
-    if (*val%2)
-        usleep(100000);
 }
 
 
@@ -41,31 +38,28 @@ int main(int argc,char *argv[]){
     Job *job;
     Arguments *args;
 
-    size_t   i;
-
-
-    jb = initialise_jobScheduler(5);
-    sleep(10);
-
+    jb = initialise_jobScheduler(50);
 
     printf("threads\n");
-
-    for (i=0; i<4; i++) {
+    int j = 0;
+    for (int i = 0; i<1000; i++) {
 
         args = malloc(sizeof(Arguments));
         args->argc = 1;
-        args->argv = malloc(sizeof(int));
-        args->argv[0] = &i;
-
+        args->argv = malloc(sizeof(int*));
+        args->argv[0] = &j;
+        printf("edw %d\n", i);
         job = create_job(worker,args);
 
-
         // vals[i] = i
-        queueInsert(jb->q,job);
+        queueInsert(jb,job);
     }
     
 
     JobSchedulerWait(jb);
+
+    printf("After wait\n");
+
     return 0;
     
 

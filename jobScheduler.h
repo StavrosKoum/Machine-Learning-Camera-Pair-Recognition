@@ -98,7 +98,7 @@ void freeQueueNode(queueNode *);
 Queue *createQueue();
 
 //functions that adds a job to the end of the queue
-void queueInsert(Queue *, Job *);
+void queueInsert(jobScheduler *, Job *);
 
 //function that pops and returns the job from the top of the queue
 Job *queuePop(Queue *);

@@ -56,30 +56,40 @@ Queue *createQueue(){
 }
 
 //functions that adds a job to the end of the queue
-void queueInsert(Queue *q, Job *j){
+void queueInsert(jobScheduler *JS, Job *j){
 
     queueNode *node = NULL;
 
     //create a node for the job
     node = createQueueNode(j);
 
+    //lock while insertion
+    //its critical section
+    pthread_mutex_lock(&(JS->work_mutex));
+
     //if the queue is empty
-    if(q->counter == 0){
+    if(JS->q->counter == 0){
         //update tail and head
-        q->head = node;
-        q->tail = node;
+        JS->q->head = node;
+        JS->q->tail = node;
         //adjust counter
-        q->counter = 1;
+        JS->q->counter = 1;
 
     //add the node to the end of the queue
     }else{
 
-        q->tail->next = node;
+        JS->q->tail->next = node;
+        JS->q->tail = JS->q->tail->next; 
         //adjust counter
-        q->counter += 1; 
+        JS->q->counter += 1; 
 
     }
     
+    //notify the threads
+    pthread_cond_broadcast(&(JS->work_cond));
+    //end of critical section
+    pthread_mutex_unlock(&(JS->work_mutex));
+
 }
 
 //function that pops and returns the job from the top of the queue
@@ -90,7 +100,6 @@ Job *queuePop(Queue *q){
 
     //if the list is empty its en error
     if(q->counter == 0){
-        printf("Queue is empty!\n");
         return NULL;
     }
 
@@ -102,11 +111,11 @@ Job *queuePop(Queue *q){
     //keep the job
     j = node->job;
 
-    //free the node
-    freeQueueNode(node);
-
     //move head to next node
     q->head = q->head->next;
+
+    //free the node
+    //freeQueueNode(node);
 
     //return the job
     return j;
@@ -136,7 +145,7 @@ Job *create_job(thread_funct function, Arguments *arg_struct)
 void* thread_Job_function(void* jobSch)
 {
 
-    jobScheduler *JS = jobSch;
+    jobScheduler *JS = (jobScheduler *) jobSch;
     Job *work;
 
     while(1){
@@ -144,8 +153,9 @@ void* thread_Job_function(void* jobSch)
         pthread_mutex_lock(&(JS->work_mutex));
         //check if there is more work to be done
         //wait
-        while(JS->q->counter == 0 && JS->stop != 0){
+        while(JS->q->counter == 0 && !JS->stop){
             //lock work cond and unlock work mutex
+            //printf("Thread going to sleep\n");
             pthread_cond_wait(&(JS->work_cond), &(JS->work_mutex));
         }
 
@@ -171,7 +181,7 @@ void* thread_Job_function(void* jobSch)
         pthread_mutex_unlock(&(JS->work_mutex));
     }
 
-    JS->alive_thread_count--;
+    JS->thread_count--;
     pthread_cond_signal(&(JS->working_cond));
     pthread_mutex_unlock(&(JS->work_mutex));
     printf("end\n");
@@ -191,12 +201,17 @@ void* thread_Job_function(void* jobSch)
 jobScheduler* initialise_jobScheduler(int num_threads)
 {
 
-    jobScheduler* ptr = malloc(sizeof(jobScheduler));
+    jobScheduler* ptr = NULL;
+    ptr = malloc(sizeof(jobScheduler));
+    if(ptr == NULL){
+        printf("tafo");
+        exit(-3);
+    }
     ptr->q = createQueue();
     ptr->execution_threads = num_threads;
     ptr->alive_thread_count = 0;
-    ptr->thread_count = 0;
-
+    ptr->thread_count = num_threads;
+    ptr->stop = 0;
     // void* temp;
 
     // Arguments* args = malloc(sizeof(Arguments));
@@ -219,7 +234,7 @@ jobScheduler* initialise_jobScheduler(int num_threads)
     for(int i =0; i <num_threads;i++)
     {
         //make thread
-        pthread_create(&ptr->tids[i], NULL,thread_Job_function,(void *)ptr->q);
+        pthread_create(&ptr->tids[i], NULL,thread_Job_function, ptr);
         pthread_detach(ptr->tids[i]);
     }
 
@@ -236,6 +251,7 @@ jobScheduler* initialise_jobScheduler(int num_threads)
 
 
 void JobSchedulerWait(jobScheduler *jb){
+
     if(jb == NULL){
         return;
     }
