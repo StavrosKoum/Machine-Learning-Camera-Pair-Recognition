@@ -34,33 +34,33 @@ void worker(void *arg)
 
 int main(int argc,char *argv[]){
 
-    jobScheduler *jb;
-    Job *job;
-    Arguments *args;
+    // jobScheduler *jb;
+    // Job *job;
+    // Arguments *args;
 
-    jb = initialise_jobScheduler(50);
+    // jb = initialise_jobScheduler(50);
 
-    printf("threads\n");
-    int j = 0;
-    for (int i = 0; i<1000; i++) {
+    // printf("threads\n");
+    // int j = 0;
+    // for (int i = 0; i<1000; i++) {
 
-        args = malloc(sizeof(Arguments));
-        args->argc = 1;
-        args->argv = malloc(sizeof(int*));
-        args->argv[0] = &j;
-        printf("edw %d\n", i);
-        job = create_job(worker,args);
+    //     args = malloc(sizeof(Arguments));
+    //     args->argc = 1;
+    //     args->argv = malloc(sizeof(int*));
+    //     args->argv[0] = &j;
+    //     printf("edw %d\n", i);
+    //     job = create_job(worker,args);
 
-        // vals[i] = i
-        queueInsert(jb,job);
-    }
+    //     // vals[i] = i
+    //     queueInsert(jb,job);
+    // }
     
 
-    JobSchedulerWait(jb);
+    // JobSchedulerWait(jb);
 
-    printf("After wait\n");
+    // printf("After wait\n");
 
-    return 0;
+    // return 0;
     
 
 
@@ -254,7 +254,7 @@ int main(int argc,char *argv[]){
 
     //remove words with tf-idf under 0.002
     //0.00034
-    deleteWordsWithCount(wordHash, 0.00034);
+    deleteWordsWithCount(wordHash, 0.001);
     //re-apply the wordIds after the delete
     reCalculateHashTableWordId(wordHash);
     //wordHashPrint(wordHash);
@@ -267,7 +267,7 @@ int main(int argc,char *argv[]){
     //initialize the classifier
     //fit the train data and train
     //return the classifier struct
-    classifier = CreateTrainAndTest(datasetX,datasetCSV,eShopHash,eShopHashSize, wordHash, lines);
+    classifier = CreateTrainAndTest(datasetX,datasetCSV,eShopHash,eShopHashSize, wordHash, lines,512);
 
     //get metrics for the program
     

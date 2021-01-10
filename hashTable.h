@@ -47,7 +47,7 @@ void printNegativeCliques(Bucket **ht, int stop);
 int check_neg_cliques(Bucket** ht, char* word1, char* word2,int limit);
 void NegativeQliqueTest(char *path, char *csv, Bucket **hashtable, int hashSize);
 
-logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, word_ht *wordHash, int size80);
+logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, word_ht *wordHash, int size80,int batch_size);
 jsonFile* findJsonFromCsv(Bucket** ht,int hash, char *key);
 int GetCSVlineCount(char *path,char *csv);
 double* arrayConcat(double *startArray, double *endArray, int size);

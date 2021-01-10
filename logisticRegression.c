@@ -17,8 +17,8 @@ logistic_reg * create_logistic_reg(int lineSize)
     ptr->bias = 0.0;
     ptr->learning = 0.02;
     ptr->x = NULL;
-    ptr->y = -1;
     ptr->lineSize = lineSize;
+    ptr->arraySize = 0;
 
     ptr->weights = malloc(lineSize * sizeof(double));
 
@@ -31,11 +31,12 @@ logistic_reg * create_logistic_reg(int lineSize)
 
 }
 
-void fit(logistic_reg * cur,double *x,int y, int lineSize)
+void fit(logistic_reg * cur,double **x,int *y, int lineSize,int array_size)
 {
     cur->x = x;
     cur->y = y;
     cur->lineSize = lineSize;
+    cur->arraySize = array_size;
 }
 
 
@@ -62,18 +63,31 @@ double cost_function(logistic_reg *cls){
 
     double error=0.0; 
     double z=0.0;
+    double* line = NULL;
+    double error_sum = 0.0;
 
-    z = calculateZ(cls->x, cls);
 
-    if(cls->y==1){              
+    for(int i =0; i < cls->arraySize;i++ )
+    {
+        line = cls->x[i];
+        z = calculateZ(line, cls);
 
-        error = -log10(z);
-    }else{
+        if(cls->y[i]==1)
+        {              
 
-        error = -log10(1 - z);
+            error = -log10(z);
+        }
+        else
+        {
+
+            error = -log10(1 - z);
+        }
+        error_sum +=error;
     }
 
-    return error;
+    
+    double J = (cls->learning) * error_sum;
+    return J;
 } 
 
 double cost_function_derivative(logistic_reg *cls, int j)
@@ -81,27 +95,43 @@ double cost_function_derivative(logistic_reg *cls, int j)
     double linear_score = 0.0;
     double error = 0.0;
     double J;
+    double* line = NULL;
+    double error_sum = 0.0;
+
+    for(int i =0; i < cls->arraySize;i++ )
+    {
+        line = cls->x[i];
+
+        linear_score = calculateZ(line,cls);
+        error = (linear_score - cls->y[i]) * line[j];
+        error_sum +=error;
+
+    }
+
 
     //printf("%d %f\n", i, x[i][0]);
-    linear_score = calculateZ(cls->x,cls);
+    //linear_score = calculateZ(cls->x,cls);
     // printf("linear score is %6.4f",linear_score);
 
-    error = (linear_score - cls->y) * cls->x[j];
+    //error = (linear_score - cls->y) * cls->x[j];
 
-    J = (cls->learning) * error;
+    J = (cls->learning) * error_sum;
 
     //printf("J is ----> %6.4f",J);
     return J;
 }
 
-double* gradient_descend(logistic_reg *cls, int i)
+double* gradient_descend(logistic_reg *cls)
 {
     double derivative = 0.0;
 
-    derivative = cost_function_derivative(cls,i);
+    for(int i =0; i < cls->lineSize;i++ )
+    {
+        derivative = cost_function_derivative(cls,i);
     
-    cls->weights[i] -= derivative;
-
+        cls->weights[i] -= derivative;
+    }
+    
     return cls->weights;
 }
 
@@ -111,20 +141,21 @@ double* gradient_descend(logistic_reg *cls, int i)
 //each time closer to the ideal weights
 logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit){
 
+
     //if it's 0 run 1 time
     //if its 1 run 10 times
-    if(cls->y == 0){
-        limit = 2;
-    }
+    
 
     //do the following steps until the limit
     for(int i = 0; i < limit; i++){
 
-        //update each weight
-        for(int k = 0; k < cls->lineSize; k++){
+        // //update each weight
+        // for(int k = 0; k < cls->lineSize; k++){
+            
             //calculate the new weights
-            cls->weights = gradient_descend(cls, k);
-        } 
+            cls->weights = gradient_descend(cls);
+       
+        // } 
     }
 
     //return the new weights

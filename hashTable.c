@@ -1115,7 +1115,7 @@ double* arrayConcat(double *startArray, double *endArray, int size){
     double *array = NULL;
 
     //create a new array with size
-    array = malloc(size * sizeof(double));
+    array = malloc(size * 2 *sizeof(double));
     //error check
     if(array == NULL){
         perror("malloc");
@@ -1124,9 +1124,17 @@ double* arrayConcat(double *startArray, double *endArray, int size){
 
     //traverse the arrays
     for(int i = 0; i < size; i++){
+        
         //get euclidian distance
-        array[i] = sqrt(pow((startArray[i] - endArray[i]), 2) +  pow((endArray[i] - startArray[i]), 2) );
+        //array[i] = sqrt(pow((startArray[i] - endArray[i]), 2) +  pow((endArray[i] - startArray[i]), 2) );
         //array[i] = startArray[i] + endArray[i];
+        array[i] = startArray[i];
+        
+    }
+
+    for(int i = size; i < (size*2); i++)
+    {
+         array[i] = endArray[i-size];
     }
 
     return array;
@@ -1169,7 +1177,7 @@ int GetCSVlineCount(char *path,char *csv){
 } 
 
 
-logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, word_ht *wordHash, int size){
+logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, word_ht *wordHash, int size,int batch_size){
 
     char buffer[512];
     char CSVpath[100];
@@ -1196,6 +1204,10 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     jsonFile *FirstFile,*SecondFile;
     Clique *temp;
 
+    int remaining;
+    double** x_train;
+    int* y_train;
+
 
     //init metrics
     positiveMetrics *P_metrics;
@@ -1208,7 +1220,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //initialize the classifier
     //size is the concatenated size of 2 jsonFiles represented as TF-IDF matrices
-    classifier = create_logistic_reg(wordHash->id_counter);
+    classifier = create_logistic_reg(2 * (wordHash->id_counter));
 
     //initialize the file array
     //same size as the number of lines inside
@@ -1340,41 +1352,87 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //format of the predictions file
     fprintf(predFp, "Prediction, Actual Result\n");
-    //traverse the array and feed it to the classifier
-    for(int i = 0; i < size; i++){
 
-        //if its the first 80%
-        //go to train
-        if(i < (size * 80 / 100)){
-            
-            //message
-            if(i == 0){
-                printf("\nTraining the Logistic Regression Classifier...\n");
-            }
+    remaining = size * 60 / 100;
 
-            //fit data
-            fit(classifier, file[i], fileResults[i], wordHash->id_counter);   
-            //train with the current file 10 times
-            classifier = logisticRegretionAlgorithm(classifier, 10);
+    
+    int current = 0 ;
+    printf("\nTraining the Logistic Regression Classifier...\n");
+    while(remaining!=0)
+    {
+        if(remaining < batch_size)
+        {
+            batch_size = remaining;
+        }
+        
+        //allocate the arrays
+        x_train  = malloc(sizeof(double*) * batch_size);
+        y_train = malloc(sizeof(int) * batch_size);
 
-            if(i % 1000 == 0){
-                printf("Current Cost: %f\n", cost_function(classifier));
-            }
-
-        //else start testing
-        }else{
-            
-            if(i == (size * 80 / 100 + 1)){
-                printf("\nTraining Completed.\n");
-                printf("\nGenerating test results...\n");
-            }
-
-            //test
-            logisticRegrationTest(classifier, file[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
-
+        for(int i=0; i < batch_size; i++)
+        {
+            x_train[i]= file[current];
+            y_train[i] = fileResults[current];
+            current+=1;
         }
 
+        //fit data
+        fit(classifier, x_train, y_train,2 * (wordHash->id_counter),batch_size);   
+        //train with the current file 10 times
+        classifier = logisticRegretionAlgorithm(classifier, 1);
+        printf("Current Cost: %f\n", cost_function(classifier));
+        free(y_train);
+        free(x_train);
+        remaining -= batch_size;
     }
+
+    printf("\nTraining Completed.\n");
+    printf("\nGenerating test results...\n");
+
+    for(int i = current;i < (size - size * (20/100) ); i ++)
+    {
+        //test
+        logisticRegrationTest(classifier, file[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
+    }
+
+
+
+
+    // //traverse the array and feed it to the classifier
+    // for(int i = 0; i < size; i++){
+
+    //     //if its the first 80%
+    //     //go to train
+    //     if(i < (size * 60 / 100)){
+            
+    //         //message
+    //         if(i == 0){
+    //             printf("\nTraining the Logistic Regression Classifier...\n");
+    //         }
+
+    //         //fit data
+    //         fit(classifier, file[i], fileResults[i], wordHash->id_counter);   
+    //         //train with the current file 10 times
+    //         classifier = logisticRegretionAlgorithm(classifier, 10);
+
+    //         if(i % 1000 == 0){
+    //             printf("Current Cost: %f\n", cost_function(classifier));
+    //         }
+
+    //     //else start testing
+    //     }else{
+            
+    //         if(i == (size * 80 / 100 + 1)){
+    //             printf("\nTraining Completed.\n");
+    //             printf("\nGenerating test results...\n");
+    //         }
+
+    //         //test
+    //         logisticRegrationTest(classifier, file[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
+
+    //     }
+
+    // }
 
     printf("\nTesting Completed.\n");
 

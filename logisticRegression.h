@@ -12,21 +12,24 @@ typedef struct logistic_reg
 
     double *weights;
 
-    double *x;
+    double **x;
 
-    int y;
+    int *y;
 
     double learning; 
 
     int lineSize;
 
+    int arraySize;
+
     int error;
+    
 
 }logistic_reg;
 
 double** shuffleArray(double** array, int *array2, char **array3, char **array4, int size);
 logistic_reg * create_logistic_reg(int lineSize);
-void fit(logistic_reg * cur,double *x,int y, int lineSize);
+void fit(logistic_reg * cur,double **x,int* y, int lineSize,int array_size);
 logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit);
 double cost_function(logistic_reg *cls);
 // double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp);

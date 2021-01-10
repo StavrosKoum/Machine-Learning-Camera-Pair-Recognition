@@ -177,13 +177,27 @@ void test_logistic_regression(void)
 	TEST_ASSERT(ptr->lineSize == 100);
 	TEST_ASSERT(ptr->weights != NULL);
 
-	double array[100];
-	//give some values to array
-	for(int i = 0; i< 100; i++)
+	double** array;
+	double* ar_ptr;
+
+	array = malloc(2* sizeof(double*));
+
+	for(int i = 0; i< 2; i++)
 	{
-		array[i] = 1.0/i;
+		array[i] = malloc(100*sizeof(i));
 	}
-	fit(ptr,array,0,100);
+
+	for(int i = 0; i< 2; i++)
+	{
+		ar_ptr = array[i];
+		//give some values to array
+		for(int i = 0; i< 100; i++)
+		{
+			ar_ptr[i] = 1.0/i;
+		}
+	}
+	
+	fit(ptr,array,0,100,2);
 
 	TEST_ASSERT(ptr->x != NULL);
 	TEST_ASSERT(ptr->y == 0);
@@ -205,6 +219,9 @@ void test_logistic_regression(void)
 	
 
 
+	free(array[0]);
+	free(array[1]);
+	free(array);
 
 	freeLogisticRegressor(ptr);
 
