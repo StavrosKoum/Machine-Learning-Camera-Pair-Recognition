@@ -1388,8 +1388,8 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     printf("\nTraining Completed.\n");
     printf("\nGenerating test results...\n");
-
-    for(int i = current;i < (size - size * (20/100) ); i ++)
+    printf("start: %d       finish: %d", current, (size * 80 / 100));
+    for(int i = current;i < (size * 80 / 100); i ++)
     {
         //test
         logisticRegrationTest(classifier, file[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);

@@ -62,6 +62,7 @@ negativeMetrics *updateNegativeMetrics(negativeMetrics *metrics, int x, int y){
 
 
 positiveMetrics *evaluatePositiveMetrics(positiveMetrics *metrics){
+    printf("TRUE-POSITIVE: %d\n FALSE-POSITIVE: %d\n FALSE-NEGATIVE: %d\n", metrics->truePositive, metrics->falsePositive, metrics->flaseNegative);
     metrics->precision = (double)metrics->truePositive/((double)metrics->truePositive + (double)metrics->falsePositive);
     metrics->recall = (double)metrics->truePositive/((double)metrics->truePositive + (double)metrics->flaseNegative);
     metrics->f1 = 2*(metrics->precision*metrics->recall /(metrics->precision+metrics->recall ));

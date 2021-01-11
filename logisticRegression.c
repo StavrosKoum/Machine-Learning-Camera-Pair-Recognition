@@ -15,7 +15,7 @@ logistic_reg * create_logistic_reg(int lineSize)
     ptr = malloc(sizeof(logistic_reg));
 
     ptr->bias = 0.0;
-    ptr->learning = 0.02;
+    ptr->learning = 0.01;
     ptr->x = NULL;
     ptr->lineSize = lineSize;
     ptr->arraySize = 0;
@@ -86,7 +86,7 @@ double cost_function(logistic_reg *cls){
     }
 
     
-    double J = (cls->learning) * error_sum;
+    double J = error_sum / cls->arraySize;
     return J;
 } 
 
@@ -106,6 +106,18 @@ double cost_function_derivative(logistic_reg *cls, int j)
         error = (linear_score - cls->y[i]) * line[j];
         error_sum +=error;
 
+        if(cls->y[i] == 1){
+            //if its 1 add more repetitions
+            for(int k = 0; k < 10; k++){
+
+                line = cls->x[i];
+
+                linear_score = calculateZ(line,cls);
+                error = (linear_score - cls->y[i]) * line[j];
+                error_sum +=error;
+
+            }
+        }
     }
 
 
@@ -130,6 +142,7 @@ double* gradient_descend(logistic_reg *cls)
         derivative = cost_function_derivative(cls,i);
     
         cls->weights[i] -= derivative;
+
     }
     
     return cls->weights;
