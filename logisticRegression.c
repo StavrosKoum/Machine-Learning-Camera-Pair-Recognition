@@ -162,7 +162,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
         cls->weights = gradient_descend(cls);
 
         predictHashTable(cls, ht, HTsize, threshold, wordHash);
-
+        exit(-5);
     }
     //return the new weights
     return cls;
@@ -293,6 +293,8 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     double *X = NULL;
     double z = 0.0;
 
+    printf("PAME\n");
+
     //traverse the hashTable
     for(int i = 0; i < HTsize; i++){
 
@@ -316,18 +318,22 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                     //first, traverse all the positive files
                     curFile = clique->file;
 
-                    while(curFile != NULL){
+                    printf("%s          %d\n", clique->name, clique->cliqueSum);
+
+                    while(curFile != NULL && clique->cliqueSum != 1){
 
                         //get tf-idf representation of curFile
                         CreateJsonListWordCountArray(curFile,wordHash->id_counter);
                         FillJsonWordCountArray(curFile,wordHash->id_counter,wordHash);
-
+                        //init ptr, X
+                        ptr = NULL;
+                        X = NULL;
                         //traverse all the nodes in the list
-                        for(int i=0; i<clique->cliqueSum -1; i++)
+                        for(int j = 0; j<clique->cliqueSum -1; j++)
                         {
                             ptr = curFile->next;
                             //traverse the nodes after the current
-                            for(int k = i; k < clique->cliqueSum -1; k++)
+                            for(int u = j; u < clique->cliqueSum -1; u++)
                             {
                                 //get the tf-idf representation of each file
                                 CreateJsonListWordCountArray(ptr,wordHash->id_counter);
@@ -339,12 +345,18 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                 //get the model predection
                                 z = calculateZ(X, cls);
                                 printf("PREDICTION %f\n", z);
-                                exit(-1);
+                                ptr = ptr->next;
                             }
 
+                        }
 
-
-                            cur = cur->next;
+                        //free arrays
+                        free(curFile->JsonWordCount);
+                        if(ptr != NULL){
+                            free(ptr->JsonWordCount);
+                        }
+                        if(X != NULL){
+                            free(X);
                         }
 
                     }
@@ -353,6 +365,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
             }
 
+            cur = cur->next;
         }
 
     }    
