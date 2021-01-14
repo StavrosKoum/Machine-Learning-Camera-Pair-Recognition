@@ -314,13 +314,15 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                     //get it
                     clique = cur->array[k]->graph->head;
+                    printf("_______________ %d, %s",k,clique->name);
+
 
                     //first, traverse all the positive files
                     curFile = clique->file;
 
                     printf("%s          %d\n", clique->name, clique->cliqueSum);
 
-                    while(curFile != NULL && clique->cliqueSum != 1){
+                    if(clique->cliqueSum != 1){
 
                         //get tf-idf representation of curFile
                         CreateJsonListWordCountArray(curFile,wordHash->id_counter);
@@ -344,20 +346,25 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                                 //get the model predection
                                 z = calculateZ(X, cls);
-                                printf("PREDICTION %f\n", z);
+                                printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
+
+                                if(ptr != NULL)
+                                {
+                                    free(ptr->JsonWordCount);
+                                }
+                                if(X != NULL)
+                                {
+                                    free(X);
+                                }
                                 ptr = ptr->next;
+
                             }
 
                         }
 
                         //free arrays
                         free(curFile->JsonWordCount);
-                        if(ptr != NULL){
-                            free(ptr->JsonWordCount);
-                        }
-                        if(X != NULL){
-                            free(X);
-                        }
+                        
 
                     }
 
