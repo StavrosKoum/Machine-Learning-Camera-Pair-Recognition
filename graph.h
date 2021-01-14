@@ -35,6 +35,9 @@ typedef struct negative_node
     //flag to see if its already printed
     bool printed;
 
+    //flag used to distinguish all the unique pairs
+    bool pair;
+
     //ptr to next
     struct negative_node *next_ptr;
     

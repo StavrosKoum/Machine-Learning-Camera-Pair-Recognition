@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "logisticRegression.h"
-#include "hashTable.h"
 #include "metrics.h"
 #include "time.h"
 
@@ -152,25 +151,19 @@ double* gradient_descend(logistic_reg *cls)
 
 //for each step until limit the algorithm calculates gradients which change the weights
 //each time closer to the ideal weights
-logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit){
+logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash){
 
-
-    //if it's 0 run 1 time
-    //if its 1 run 10 times
-    
-
-    //do the following steps until the limit
-    for(int i = 0; i < limit; i++){
-
-        // //update each weight
-        // for(int k = 0; k < cls->lineSize; k++){
+    double threshold = 0.05;
+    double step = 0.10;
+    //do the following steps until the threshold
+    while(threshold < 0.5){
             
-            //calculate the new weights
-            cls->weights = gradient_descend(cls);
-       
-        // } 
-    }
+        //calculate the new weights
+        cls->weights = gradient_descend(cls);
 
+        predictHashTable(cls, ht, HTsize, threshold, wordHash);
+
+    }
     //return the new weights
     return cls;
 }
@@ -285,4 +278,83 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
 
     //returnt he completed array
     return array;
+}
+
+//function that traverses all the pairs and selects the results with the 
+//higher accuracy depening on the threshold
+double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash){
+
+    Bucket *cur = NULL;
+    int limit = 0;
+    Clique *clique = NULL;
+    jsonFile *curFile = NULL;
+    jsonFile *ptr = NULL;
+    double *curFileArray = NULL;
+    double *X = NULL;
+    double z = 0.0;
+
+    //traverse the hashTable
+    for(int i = 0; i < HTsize; i++){
+
+        //set current
+        cur  = ht[i];
+        //search cur and it's links
+        while(cur != NULL){
+
+            //fix limit
+            limit = cur->spaces;
+
+            //for each space in the array
+            for(int k = 0; k < limit; k++){
+                
+                //if there is a clique
+                if(cur->array[k] != NULL){
+
+                    //get it
+                    clique = cur->array[k]->graph->head;
+
+                    //first, traverse all the positive files
+                    curFile = clique->file;
+
+                    while(curFile != NULL){
+
+                        //get tf-idf representation of curFile
+                        CreateJsonListWordCountArray(curFile,wordHash->id_counter);
+                        FillJsonWordCountArray(curFile,wordHash->id_counter,wordHash);
+
+                        //traverse all the nodes in the list
+                        for(int i=0; i<clique->cliqueSum -1; i++)
+                        {
+                            ptr = curFile->next;
+                            //traverse the nodes after the current
+                            for(int k = i; k < clique->cliqueSum -1; k++)
+                            {
+                                //get the tf-idf representation of each file
+                                CreateJsonListWordCountArray(ptr,wordHash->id_counter);
+                                FillJsonWordCountArray(ptr,wordHash->id_counter,wordHash);
+                                
+                                //concat the two arrays
+                                X = arrayConcat(curFile->JsonWordCount, ptr->JsonWordCount, wordHash->id_counter);
+
+                                //get the model predection
+                                z = calculateZ(X, cls);
+                                printf("PREDICTION %f\n", z);
+                                exit(-1);
+                            }
+
+
+
+                            cur = cur->next;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }    
+
 }

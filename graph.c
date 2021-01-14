@@ -116,6 +116,7 @@ Negative_node*  create_negative_node(Clique * neg_clique)
     Negative_node *ptr = malloc(sizeof(Negative_node));
     ptr->neg_clique_ptr = neg_clique;
     ptr->printed = false; 
+    ptr->pair = 0;
     ptr->next_ptr = NULL;
     return ptr;
 }

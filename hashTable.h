@@ -6,6 +6,8 @@
 #include "logisticRegression.h"
 #include "graph.h"
 
+typedef struct logistic_reg logistic_reg;
+
 typedef struct bucketNode
 {
     char* name;

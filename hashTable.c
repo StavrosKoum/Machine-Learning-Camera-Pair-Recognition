@@ -293,7 +293,7 @@ Clique* findEntry(Bucket** ht, int hash, char *key){
     for(int i =0; i< bucketToGo->spaces; i++){
         //if you find it 
         if(bucketToGo->array[i] != NULL){
-            //printf("%s ->", bucketToGo->array[i]->name);
+            //tf("%s ->", bucketToGo->array[i]->name);
             if(!strcmp(key, bucketToGo->array[i]->name)){
                 //printf("FOUND %s\n", key);
                 //return the clique
@@ -1379,7 +1379,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
         //fit data
         fit(classifier, x_train, y_train,2 * (wordHash->id_counter),batch_size);   
         //train with the current file 10 times
-        classifier = logisticRegretionAlgorithm(classifier, 1);
+        classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash);
         printf("Current Cost: %f\n", cost_function(classifier));
         free(y_train);
         free(x_train);
