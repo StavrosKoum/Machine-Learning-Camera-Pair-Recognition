@@ -162,7 +162,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
         cls->weights = gradient_descend(cls);
 
         predictHashTable(cls, ht, HTsize, threshold, wordHash);
-        exit(-5);
+        threshold +=1;
     }
     //return the new weights
     return cls;
@@ -289,6 +289,8 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     Clique *clique = NULL;
     jsonFile *curFile = NULL;
     jsonFile *ptr = NULL;
+    jsonFile *neg_file1 = NULL;
+    jsonFile *neg_file2 = NULL;
     double *curFileArray = NULL;
     double *X = NULL;
     double z = 0.0;
@@ -314,44 +316,55 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                     //get it
                     clique = cur->array[k]->graph->head;
-                    printf("_______________ %d, %s",k,clique->name);
+                    //printf("_______________ %d, %s",k,clique->name);
 
 
                     //first, traverse all the positive files
                     curFile = clique->file;
 
-                    printf("%s          %d\n", clique->name, clique->cliqueSum);
+                    //printf("%s          %d\n", clique->name, clique->cliqueSum);
 
                     if(clique->cliqueSum != 1){
 
-                        //get tf-idf representation of curFile
-                        CreateJsonListWordCountArray(curFile,wordHash->id_counter);
-                        FillJsonWordCountArray(curFile,wordHash->id_counter,wordHash);
-                        //init ptr, X
-                        ptr = NULL;
-                        X = NULL;
-                        //traverse all the nodes in the list
+                        
+                      
+                        //traverse all the nodes in the  positive list
                         for(int j = 0; j<clique->cliqueSum -1; j++)
                         {
+                            //init ptr, X
+                            ptr = NULL;
+                            X = NULL;
+                            if(curFile->JsonWordCount==NULL)
+                            {
+                                //get tf-idf representation of curFile
+                                CreateJsonListWordCountArray(curFile,wordHash->id_counter);
+                                FillJsonWordCountArray(curFile,wordHash->id_counter,wordHash);
+                            }
+                            
+
                             ptr = curFile->next;
                             //traverse the nodes after the current
                             for(int u = j; u < clique->cliqueSum -1; u++)
                             {
-                                //get the tf-idf representation of each file
-                                CreateJsonListWordCountArray(ptr,wordHash->id_counter);
-                                FillJsonWordCountArray(ptr,wordHash->id_counter,wordHash);
+                                if(ptr->JsonWordCount ==NULL)
+                                {
+                                    //get the tf-idf representation of each file
+                                    CreateJsonListWordCountArray(ptr,wordHash->id_counter);
+                                    FillJsonWordCountArray(ptr,wordHash->id_counter,wordHash);
+                                }
+                                
                                 
                                 //concat the two arrays
                                 X = arrayConcat(curFile->JsonWordCount, ptr->JsonWordCount, wordHash->id_counter);
 
                                 //get the model predection
                                 z = calculateZ(X, cls);
-                                printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
+                                //printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
 
-                                if(ptr != NULL)
-                                {
-                                    free(ptr->JsonWordCount);
-                                }
+                                // if(ptr != NULL)
+                                // {
+                                //     free(ptr->JsonWordCount);
+                                // }
                                 if(X != NULL)
                                 {
                                     free(X);
@@ -359,13 +372,97 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                 ptr = ptr->next;
 
                             }
-
+                            //free arrays
+                            //free(curFile->JsonWordCount);
+                            curFile = curFile->next;
+                            
                         }
-
-                        //free arrays
-                        free(curFile->JsonWordCount);
                         
 
+                        
+                        
+
+                    }
+
+                    Clique* tmp = NULL;
+                    Negative_node* cur_neg;
+                    cur_neg = clique->neg_node_list;
+                    //traverse all the negative nodes 
+                    while(cur_neg!=NULL)
+                    {   
+                       
+                        if(cur_neg->pair==0)
+                        {
+                            //mark as visited
+                            cur_neg->pair = 1;
+
+                            tmp = cur_neg->neg_clique_ptr;
+                            
+
+                            //search for neg clique
+                            Negative_node* temp_neg_node;
+                            temp_neg_node = tmp->neg_node_list;
+                            while (temp_neg_node!=NULL)
+                            {
+
+                                if(!strcmp(temp_neg_node->neg_clique_ptr->name,clique->name))
+                                {
+                                    temp_neg_node->pair = 1;
+                                }
+                                temp_neg_node = temp_neg_node->next_ptr;
+                            }
+                            
+                            neg_file1 = clique->file;
+
+                            
+                            while(neg_file1!=NULL)
+                            {
+                                
+                                if(neg_file1->JsonWordCount == NULL)
+                                {
+                                    //get the tf-idf representation of each file
+                                    CreateJsonListWordCountArray(neg_file1,wordHash->id_counter);
+                                    FillJsonWordCountArray(neg_file1,wordHash->id_counter,wordHash);
+                                }
+                                
+                                neg_file2 = tmp->file;
+
+                                while (neg_file2!= NULL)
+                                {
+
+                                    if(neg_file2->JsonWordCount == NULL)
+                                    {
+                                        //get the tf-idf representation of each file
+                                        CreateJsonListWordCountArray(neg_file2,wordHash->id_counter);
+                                        FillJsonWordCountArray(neg_file2,wordHash->id_counter,wordHash);
+                                    }
+                                    
+                                
+                                    //concat the two arrays
+                                    X = arrayConcat(neg_file1->JsonWordCount, neg_file2->JsonWordCount, wordHash->id_counter);
+
+                                    //get the model predection
+                                    z = calculateZ(X, cls);
+                                    //printf("NEGATIVE PREDICTION %f %s %s\n", z,neg_file2->site,neg_file1->site);
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    //free(neg_file2->JsonWordCount);
+                                    free(X);                  
+                                     
+                                    neg_file2 = neg_file2->next;
+                                }
+
+
+                                //free(neg_file1->JsonWordCount);
+                                neg_file1 = neg_file1->next;
+                            }
+
+                            
+                        }
+                        cur_neg = cur_neg->next_ptr;
                     }
 
                 }
