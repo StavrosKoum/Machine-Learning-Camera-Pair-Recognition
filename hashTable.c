@@ -506,7 +506,7 @@ void fixLists(Bucket **hashtable, int hashSize, Clique *toStay, Clique *toMove){
 }
 
 
-void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize){
+void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize,int opt){
 
     char CSVpath[100];
     char buffer[512];
@@ -523,7 +523,13 @@ void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize){
     char *segment1,*segment2,*label;
 
 
-    snprintf(CSVpath, sizeof(CSVpath), "./%s/%s",path,csv);
+    if(opt == 1){
+        snprintf(CSVpath, sizeof(CSVpath), "./%s/%s",path,csv);
+    }
+    else{
+        snprintf(CSVpath, sizeof(CSVpath), "%s",csv);
+    }
+
     //printf("%s\n",CSVpath);
 
     //open csv file 
@@ -539,7 +545,6 @@ void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize){
     //skip first line
     fgets(buffer, sizeof(buffer), csvfp);
     while (fgets(buffer, sizeof(buffer), csvfp) != NULL){
-       // printf("%s\n",buffer);
 
         //get the first column
         segment1 = strtok(buffer,",");
@@ -1355,37 +1360,84 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     remaining = size * 60 / 100;
 
+    //create a new hashtable for transitivity
+    Bucket** transitivityHashtable = NULL;
+    int hashresult,thashSize;
+    jsonFile *tempJson,*secondTempJson;
+
+    // testFile
+    FILE *testFile;
+    testFile = fopen("TransitivityFile.csv","w");
+
+    //set the size of the hashtable with bucket size 120
+    thashSize = size * 80 / 100;
+    transitivityHashtable = initHashTables(thashSize,120);
+
     
-    int current = 0 ;
-    printf("\nTraining the Logistic Regression Classifier...\n");
-    while(remaining!=0)
-    {
-        if(remaining < batch_size)
-        {
-            batch_size = remaining;
-        }
-        
-        //allocate the arrays
-        x_train  = malloc(sizeof(double*) * batch_size);
-        y_train = malloc(sizeof(int) * batch_size);
+    fprintf(testFile,"left_spec_id,right_spec_id,label\n");
 
-        for(int i=0; i < batch_size; i++)
-        {
-            x_train[i]= file[current];
-            y_train[i] = fileResults[current];
-            current+=1;
-        }
+    for(int j=0;j<remaining;j++){
+        // keep the file lef
+        tempJson = malloc(sizeof(jsonFile));
+        tempJson->site = strdup(fileNameLeft[j]);
+        // tempJson->JsonWordCount = file[j];
+        tempJson->next = NULL;
 
-        //fit data
-        fit(classifier, x_train, y_train,2 * (wordHash->id_counter),batch_size);   
-        //train with the current file 10 times
-        classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash);
-        printf("Current Cost: %f\n", cost_function(classifier));
-        free(y_train);
-        free(x_train);
-        remaining -= batch_size;
+        //keep the file right
+        secondTempJson = malloc(sizeof(jsonFile));
+        secondTempJson->site = strdup(fileNameRight[j]);
+        // secondTempJson->JsonWordCount = file[j];
+        secondTempJson->next = NULL;
+
+        // add json in the hash table
+        hashresult = hashing1(tempJson->site,thashSize);
+        transitivityHashtable[hashresult] = addToHashTable(transitivityHashtable[hashresult], tempJson->site, hashresult, tempJson);
+
+        // add the second record in the hash
+        hashresult = hashing1(secondTempJson->site,thashSize);
+        transitivityHashtable[hashresult] = addToHashTable(transitivityHashtable[hashresult], secondTempJson->site, hashresult, secondTempJson);
+
+        fprintf(testFile, "%s,%s,%d\n",tempJson->site,secondTempJson->site,fileResults[j]);
+
     }
 
+    fclose(testFile);
+
+    parcerCSV("a","TransitivityFile.csv",transitivityHashtable,thashSize,5);
+
+    int current = 0;
+    printf("\nTraining the Logistic Regression Classifier...\n");
+    
+    // while(remaining!=0)
+    // {
+    //     if(remaining < batch_size)
+    //     {
+    //         batch_size = remaining;
+    //     }
+        
+    //     //allocate the arrays
+    //     x_train  = malloc(sizeof(double*) * batch_size);
+    //     y_train = malloc(sizeof(int) * batch_size);
+
+    //     for(int i=0; i < batch_size; i++)
+    //     {
+    //         x_train[i]= file[current];
+    //         y_train[i] = fileResults[current];
+    //         current+=1;
+    //     }
+
+    //     //fit data
+    //     fit(classifier, x_train, y_train,2 * (wordHash->id_counter),batch_size);   
+    //     //train with the current file 10 times
+    //     printf("Current Cost: %f\n", cost_function(classifier));
+    //     free(y_train);
+    //     free(x_train);
+    //     remaining -= batch_size;
+    // }
+
+    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,file,fileResults,size,batch_size);
+
+    current = size * 60 / 100;
     printf("\nTraining Completed.\n");
     printf("\nGenerating test results...\n");
     printf("start: %d       finish: %d", current, (size * 80 / 100));
@@ -1460,6 +1512,8 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     free(fileNameRight);
     //close the prediction file
     fclose(predFp);
+
+    freeBuckets(transitivityHashtable, thashSize);
 
     //free metrics 
     // freePositiveMetrics(&P_metrics);

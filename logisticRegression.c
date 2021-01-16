@@ -151,15 +151,50 @@ double* gradient_descend(logistic_reg *cls)
 
 //for each step until limit the algorithm calculates gradients which change the weights
 //each time closer to the ideal weights
-logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash){
+logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,double **x, int *y,int x_size,int batchSize){
 
     double threshold = 0.05;
     double step = 0.10;
+    int current;
+    int remaining = x_size * 60 / 100;
+    double **x_train;
+    int *y_train;
+
     //do the following steps until the threshold
     while(threshold < 0.5){
+
+        current = 0;
+        remaining = x_size * 60 / 100;
             
-        //calculate the new weights
-        cls->weights = gradient_descend(cls);
+        while(remaining != 0){
+
+            if(remaining < batchSize){
+                batchSize = remaining;
+            }
+
+            //allocate the arrays
+            x_train  = malloc(sizeof(double*) * batchSize);
+            y_train = malloc(sizeof(int) * batchSize);
+
+            for(int i=0; i < batchSize; i++){
+                x_train[i]= x[current];
+                y_train[i] = y[current];
+                current+=1;
+            }
+
+            fit(cls, x_train, y_train,2 * (wordHash->id_counter),batchSize);   
+
+            //calculate the new weights
+            cls->weights = gradient_descend(cls);
+
+            printf("Remaining = %d and batchSize = %d\n",remaining,batchSize);
+            printf("Current Cost: %f\n", cost_function(cls));
+            free(y_train);
+            free(x_train);
+            remaining -= batchSize;
+        }
+
+        
 
         predictHashTable(cls, ht, HTsize, threshold, wordHash);
         threshold +=1;

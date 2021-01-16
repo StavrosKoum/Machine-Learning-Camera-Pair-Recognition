@@ -44,7 +44,7 @@ Clique* findEntry(Bucket** ht, int hash, char *key);
 void print_cliques(Bucket** ht, int stop);
 void setCliquePointersToNull(Bucket **ht, int stop, recordList *list, int hashSize);
 
-void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize);
+void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize,int opt);
 void printNegativeCliques(Bucket **ht, int stop);
 int check_neg_cliques(Bucket** ht, char* word1, char* word2,int limit);
 void NegativeQliqueTest(char *path, char *csv, Bucket **hashtable, int hashSize);

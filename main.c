@@ -229,7 +229,7 @@ int main(int argc,char *argv[]){
     closedir(dr);   
 
     //Read the csv file
-    parcerCSV(datasetX,datasetCSV, eShopHash, eShopHashSize);
+    parcerCSV(datasetX,datasetCSV, eShopHash, eShopHashSize,1);
     //Get the number of lines in the file 
     lines = GetCSVlineCount(datasetX,datasetCSV);
 
