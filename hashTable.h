@@ -26,6 +26,20 @@ typedef struct bucket{
 
 }Bucket;
 
+//struct to keep all the info regarding a train pair for the model
+typedef struct transitivityPair{
+
+    jsonFile *leftJson;
+    jsonFile *rightJson;
+    int result;
+    double prediction;
+    double *array;
+
+}transitivityPair;
+
+transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, double *array, int result);
+
+
 //functions
 Bucket** initHashTables(int maxB, int bSize);
 int hashing(char* word, int limit);

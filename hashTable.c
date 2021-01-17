@@ -99,6 +99,27 @@ Bucket* createBucket(int size){
 
 }
 
+transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, double *array, int result){
+
+    transitivityPair *pair = NULL;
+    //allocate space
+    pair = malloc(sizeof(transitivityPair));
+    if(pair == NULL){
+        perror("pair malloc");
+        exit(-3);
+    }
+
+    //set data
+    pair->leftJson = file1;
+    pair->rightJson = file2;
+    pair->result = result;
+    pair->prediction = p;
+    pair->array = array;
+
+    //return it
+    return pair;
+}   
+
 //searches array for the key. -1 -> not found
 int searchArray(bucketNode** array ,char* key, int limit){
 
@@ -1435,7 +1456,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     //     remaining -= batch_size;
     // }
 
-    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,file,fileResults,size,batch_size);
+    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,file,fileResults,size,batch_size, transitivityHashtable, thashSize);
 
     current = size * 60 / 100;
     printf("\nTraining Completed.\n");

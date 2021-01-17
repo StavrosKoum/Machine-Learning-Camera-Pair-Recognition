@@ -254,7 +254,7 @@ int main(int argc,char *argv[]){
 
     //remove words with tf-idf under 0.002
     //0.00034
-    deleteWordsWithCount(wordHash, 0.001);
+    deleteWordsWithCount(wordHash, 0.002);
     //re-apply the wordIds after the delete
     reCalculateHashTableWordId(wordHash);
     //wordHashPrint(wordHash);
@@ -267,7 +267,7 @@ int main(int argc,char *argv[]){
     //initialize the classifier
     //fit the train data and train
     //return the classifier struct
-    classifier = CreateTrainAndTest(datasetX,datasetCSV,eShopHash,eShopHashSize, wordHash, lines,512);
+    classifier = CreateTrainAndTest(datasetX,datasetCSV,eShopHash,eShopHashSize, wordHash, lines, 1024);
 
     //get metrics for the program
     

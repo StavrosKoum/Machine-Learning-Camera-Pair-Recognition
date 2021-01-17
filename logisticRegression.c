@@ -107,7 +107,7 @@ double cost_function_derivative(logistic_reg *cls, int j)
 
         if(cls->y[i] == 1){
             //if its 1 add more repetitions
-            for(int k = 0; k < 10; k++){
+            for(int k = 0; k < 3; k++){
 
                 line = cls->x[i];
 
@@ -151,9 +151,9 @@ double* gradient_descend(logistic_reg *cls)
 
 //for each step until limit the algorithm calculates gradients which change the weights
 //each time closer to the ideal weights
-logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,double **x, int *y,int x_size,int batchSize){
+logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,double **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize){
 
-    double threshold = 0.05;
+    double threshold = 0.1;
     double step = 0.10;
     int current;
     int remaining = x_size * 60 / 100;
@@ -196,7 +196,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
 
         
 
-        predictHashTable(cls, ht, HTsize, threshold, wordHash);
+        predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize);
         threshold +=1;
     }
     //return the new weights
@@ -280,7 +280,7 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
     int tempRes = 0;
     char *tempName = NULL;
     //initialize generator
-    srand(time(NULL));
+    //srand(time(NULL));
     //traverse the array
     for(int i = 0; i < size; i++){
         //get a random number between i -- rand_max
@@ -317,7 +317,7 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
 
 //function that traverses all the pairs and selects the results with the 
 //higher accuracy depening on the threshold
-double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash){
+double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize){
 
     Bucket *cur = NULL;
     int limit = 0;
@@ -329,7 +329,14 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     double *curFileArray = NULL;
     double *X = NULL;
     double z = 0.0;
+    int pCounter = 0;
+    int nCounter = 0;
 
+    //to store the results that pass the requirements
+    //transitivityPair pairs[HTsize];
+    transitivityPair *filePair = NULL;
+    jsonFile *leftJson = NULL;
+    jsonFile *rightJson = NULL;
     printf("PAME\n");
 
     //traverse the hashTable
@@ -363,7 +370,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                         
                       
-                        //traverse all the nodes in the  positive list
+                        //traverse all the nodes in the POSITIVE list
                         for(int j = 0; j<clique->cliqueSum -1; j++)
                         {
                             //init ptr, X
@@ -394,16 +401,31 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                                 //get the model predection
                                 z = calculateZ(X, cls);
-                                //printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
+                                // printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
 
-                                // if(ptr != NULL)
-                                // {
-                                //     free(ptr->JsonWordCount);
-                                // }
-                                if(X != NULL)
-                                {
-                                    free(X);
+                                //check if the prediction is in the range we want
+                                if(z > (0.8 - threshold)){
+
+                                    printf("adding positive %f\n", z);
+
+                                    //count the pair
+                                    pCounter++;
+
+                                    //create 2 jsonFiles with the data
+                                    leftJson = createRedusedJsonFile(curFile->site, curFile->JsonWordCount);
+                                    rightJson = createRedusedJsonFile(ptr->site, ptr->JsonWordCount);
+                                    //create the pair
+                                    filePair = createTransitivityPair(leftJson, rightJson, z, X, 1);
+                                    
+                                    //add the pair to the array
+                                    //pairs[pCounter] = filePair;
+
                                 }
+
+                                // if(X != NULL)
+                                // {
+                                //     free(X);
+                                // }
                                 ptr = ptr->next;
 
                             }
@@ -422,7 +444,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                     Clique* tmp = NULL;
                     Negative_node* cur_neg;
                     cur_neg = clique->neg_node_list;
-                    //traverse all the negative nodes 
+                    //traverse all the NEGATIVE nodes 
                     while(cur_neg!=NULL)
                     {   
                        
@@ -480,7 +502,13 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     z = calculateZ(X, cls);
                                     //printf("NEGATIVE PREDICTION %f %s %s\n", z,neg_file2->site,neg_file1->site);
                                     
-                                    
+                                    //if its in the range we want
+                                    if(z < threshold){
+
+                                        //count it
+                                        nCounter++;
+
+                                    }
                                     
                                     
                                     
@@ -509,4 +537,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
     }    
 
+    //Print results
+    printf("Positive pairs: %d\n", pCounter);
+    printf("Negative pairs: %d\n", nCounter);
 }

@@ -56,6 +56,7 @@ typedef struct jsonFile
 
 
 jsonFile* createJsonFile(char *site);
+jsonFile* createRedusedJsonFile(char *site, double *wordCount);
 int insertJsonFile(jsonFile *list, jsonNode *node);
 int insertJsonFileHead(jsonFile *list, jsonNode *node);
 jsonFile* createAndInsertJsonNode(jsonFile *list, char *key, char *desc);

@@ -42,7 +42,7 @@ jsonFile* createJsonFile(char *site){
     //set the site
     list->site = strdup(site);
 
-    //init the counter
+    //init the counter    int arraySize = 0;
     list->counter = 0;
 
     //mark next pointer as null
@@ -59,6 +59,37 @@ jsonFile* createJsonFile(char *site){
     //return it
     return list;
 
+}
+
+jsonFile *createRedusedJsonFile(char *site, double *wordCount){
+
+    jsonFile *list = NULL;
+
+    //allocate space
+    list = malloc(sizeof(jsonFile));
+
+    //set pointers
+    list->head = NULL;
+    list->tail = NULL;
+
+    //set the site
+    list->site = strdup(site);
+
+    //init the counter    int arraySize = 0;
+    list->counter = 0;
+
+    //mark next pointer as null
+    list->next = NULL;
+
+    //init flag as 0
+    list->print_flag = 0;
+
+    //initialize the wordList
+    list->words = createWordList();
+
+    list->JsonWordCount = wordCount;
+
+    return list;
 }
 
 //insert function for jsonFile
