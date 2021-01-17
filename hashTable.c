@@ -845,7 +845,7 @@ int bucketArrayPrint(bucketNode** array, int limit,FILE* fp)
 
 void print_cliques(Bucket** ht, int stop)
 {
-
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
     Bucket* cur = NULL;
     int limit = 0;
     int counter = 0;

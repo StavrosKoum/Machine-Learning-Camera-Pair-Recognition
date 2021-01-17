@@ -41,7 +41,7 @@ www.ebay.com//54559, www.mypriceindia.com//63, prediction: 0.284555, result 0
 www.ebay.com//46830, www.ebay.com//54114, prediction: 0.456414, result 0
 www.ebay.com//24016, www.ebay.com//46185, prediction: 0.244293, result 0
 www.ebay.com//42173, www.ebay.com//43020, prediction: 0.465160, result 0
-www.ebay.com//54040, www.priceme.co.nz//1914, prediction: 0.230950, result 0
+www.ebay.com//54040, www.priceme.co.nz//1914, prediction: 0.230951, result 0
 www.ebay.com//44670, www.ebay.com//56576, prediction: 0.287333, result 0
 www.ebay.com//56678, www.mypriceindia.com//35, prediction: 0.417425, result 0
 www.ebay.com//54333, www.price-hunt.com//9877, prediction: 0.369540, result 0
@@ -658,7 +658,7 @@ www.ebay.com//25039, www.shopmania.in//1226, prediction: 0.291073, result 0
 www.ebay.com//57195, www.ebay.com//60231, prediction: 0.481527, result 0
 www.shopmania.in//1284, www.mypriceindia.com//22, prediction: 0.449535, result 0
 buy.net//5791, www.ebay.com//44615, prediction: 0.287394, result 0
-www.ebay.com//56394, www.ebay.com//24817, prediction: 0.217600, result 0
+www.ebay.com//56394, www.ebay.com//24817, prediction: 0.217599, result 0
 www.ebay.com//43998, www.ebay.com//55380, prediction: 0.341390, result 0
 www.ebay.com//47729, www.ebay.com//25180, prediction: 0.340330, result 0
 www.ebay.com//57195, www.pcconnection.com//12408, prediction: 0.379229, result 0
@@ -872,7 +872,7 @@ www.ebay.com//24280, www.ebay.com//24887, prediction: 0.246161, result 0
 www.ebay.com//55623, buy.net//5791, prediction: 0.324586, result 1
 www.ebay.com//44280, www.ebay.com//60035, prediction: 0.347202, result 0
 www.wexphotographic.com//601, www.camerafarm.com.au//777, prediction: 0.425267, result 0
-www.ebay.com//55623, www.ebay.com//55935, prediction: 0.385783, result 0
+www.ebay.com//55623, www.ebay.com//55935, prediction: 0.385784, result 0
 www.ebay.com//52786, www.ebay.com//57363, prediction: 0.224768, result 0
 www.ebay.com//56033, cammarkt.com//501, prediction: 0.264249, result 0
 www.ebay.com//54333, www.ebay.com//56394, prediction: 0.348130, result 0
@@ -1022,7 +1022,7 @@ www.priceme.co.nz//2093, www.priceme.co.nz//2246, prediction: 0.187720, result 0
 www.ebay.com//45766, www.camerafarm.com.au//829, prediction: 0.209759, result 0
 www.ebay.com//48251, www.ebay.com//48111, prediction: 0.413539, result 0
 www.ebay.com//60484, www.ebay.com//47338, prediction: 0.394688, result 0
-www.ebay.com//48415, www.ebay.com//43940, prediction: 0.422318, result 1
+www.ebay.com//48415, www.ebay.com//43940, prediction: 0.422319, result 1
 www.ebay.com//42268, www.ebay.com//55935, prediction: 0.304477, result 1
 www.ebay.com//47932, www.ebay.com//54255, prediction: 0.401578, result 0
 www.ebay.com//46468, www.ebay.com//44280, prediction: 0.243377, result 1
@@ -1546,7 +1546,7 @@ www.ebay.com//55080, www.ebay.com//42504, prediction: 0.219054, result 1
 www.pricedekho.com//1242, www.ebay.com//45309, prediction: 0.349416, result 0
 www.ebay.com//56851, www.ebay.com//46788, prediction: 0.250714, result 1
 www.mypriceindia.com//52, www.ebay.com//57000, prediction: 0.401487, result 0
-www.camerafarm.com.au//758, www.ebay.com//48599, prediction: 0.487940, result 0
+www.camerafarm.com.au//758, www.ebay.com//48599, prediction: 0.487941, result 0
 www.ebay.com//24887, www.ebay.com//56359, prediction: 0.148426, result 0
 www.priceme.co.nz//54, www.shopmania.in//1430, prediction: 0.361207, result 0
 www.ebay.com//54114, www.shopbot.com.au//1664, prediction: 0.353457, result 1
@@ -1897,7 +1897,7 @@ www.ebay.com//53871, www.priceme.co.nz//2246, prediction: 0.217494, result 0
 www.shopmania.in//974, www.camerafarm.com.au//811, prediction: 0.371910, result 0
 www.ebay.com//56845, www.ebay.com//53179, prediction: 0.396069, result 1
 www.ebay.com//56033, www.ebay.com//55745, prediction: 0.313796, result 0
-www.ebay.com//52805, www.shopbot.com.au//388, prediction: 0.312213, result 0
+www.ebay.com//52805, www.shopbot.com.au//388, prediction: 0.312212, result 0
 www.gosale.com//1049, www.ebay.com//42307, prediction: 0.136491, result 1
 www.ebay.com//42504, www.ebay.com//55439, prediction: 0.251138, result 0
 www.ebay.com//57346, www.ebay.com//54722, prediction: 0.296224, result 0
@@ -2147,7 +2147,7 @@ www.ebay.com//54324, www.priceme.co.nz//2043, prediction: 0.222427, result 0
 www.ebay.com//54040, www.gosale.com//1049, prediction: 0.186142, result 0
 www.mypriceindia.com//155, www.pricedekho.com//1198, prediction: 0.419429, result 0
 www.ebay.com//60522, www.shopbot.com.au//401, prediction: 0.367352, result 0
-www.ebay.com//24957, www.ebay.com//24858, prediction: 0.218919, result 0
+www.ebay.com//24957, www.ebay.com//24858, prediction: 0.218918, result 0
 www.priceme.co.nz//1746, www.ebay.com//24330, prediction: 0.193923, result 0
 www.ebay.com//48415, www.ebay.com//57137, prediction: 0.382986, result 0
 www.ebay.com//44615, www.priceme.co.nz//1762, prediction: 0.245695, result 0
@@ -2256,7 +2256,7 @@ www.ebay.com//55277, www.ebay.com//47451, prediction: 0.264613, result 0
 www.ebay.com//47095, www.priceme.co.nz//1847, prediction: 0.135807, result 1
 www.ebay.com//44570, www.ebay.com//42307, prediction: 0.191515, result 0
 www.ebay.com//43811, www.ebay.com//55080, prediction: 0.286500, result 0
-buy.net//5698, www.gosale.com//462, prediction: 0.200709, result 0
+buy.net//5698, www.gosale.com//462, prediction: 0.200708, result 0
 www.ebay.com//42073, www.ebay.com//41983, prediction: 0.124772, result 0
 www.priceme.co.nz//1847, www.ebay.com//44615, prediction: 0.325059, result 0
 www.ebay.com//54255, www.ebay.com//55644, prediction: 0.398423, result 0
@@ -2333,7 +2333,7 @@ www.ebay.com//42386, www.gosale.com//462, prediction: 0.269134, result 0
 www.ebay.com//56576, www.shopmania.in//1430, prediction: 0.340559, result 0
 www.mypriceindia.com//775, www.ebay.com//53179, prediction: 0.436984, result 0
 www.ebay.com//43228, www.priceme.co.nz//2382, prediction: 0.214974, result 0
-www.garricks.com.au//29, www.eglobalcentral.co.uk//361, prediction: 0.458546, result 0
+www.garricks.com.au//29, www.eglobalcentral.co.uk//361, prediction: 0.458545, result 0
 www.pricedekho.com//1242, www.ebay.com//42835, prediction: 0.417529, result 0
 www.shopmania.in//932, www.ebay.com//60484, prediction: 0.392481, result 0
 www.ebay.com//53706, www.priceme.co.nz//1833, prediction: 0.274305, result 0
@@ -2501,7 +2501,7 @@ www.ebay.com//42902, www.walmart.com//644, prediction: 0.073364, result 0
 www.ebay.com//44028, www.ebay.com//42902, prediction: 0.129673, result 0
 www.mypriceindia.com//142, www.ebay.com//47121, prediction: 0.399537, result 0
 www.ebay.com//59612, www.priceme.co.nz//1762, prediction: 0.341117, result 0
-www.ebay.com//55080, www.ebay.com//44553, prediction: 0.131032, result 1
+www.ebay.com//55080, www.ebay.com//44553, prediction: 0.131031, result 1
 www.ebay.com//58782, www.ebay.com//59297, prediction: 0.152866, result 0
 www.ebay.com//43503, www.ilgs.net//104, prediction: 0.151293, result 0
 www.ebay.com//53930, www.ebay.com//46356, prediction: 0.419823, result 0
@@ -2757,7 +2757,7 @@ www.ilgs.net//86, www.wexphotographic.com//589, prediction: 0.402530, result 0
 www.ebay.com//54559, www.ebay.com//44570, prediction: 0.276647, result 0
 www.ebay.com//59061, www.ebay.com//48027, prediction: 0.210067, result 0
 www.ebay.com//44280, www.pricedekho.com//1198, prediction: 0.347533, result 0
-www.ebay.com//43741, www.ebay.com//54939, prediction: 0.211894, result 0
+www.ebay.com//43741, www.ebay.com//54939, prediction: 0.211893, result 0
 www.ebay.com//43811, www.ebay.com//56394, prediction: 0.350642, result 0
 www.ebay.com//43683, www.gosale.com//1049, prediction: 0.124687, result 0
 www.ebay.com//58704, www.ebay.com//43077, prediction: 0.393988, result 0
@@ -3012,7 +3012,7 @@ www.ebay.com//24524, www.ilgs.net//47, prediction: 0.398782, result 0
 www.pricedekho.com//1093, www.ilgs.net//104, prediction: 0.456131, result 0
 www.ebay.com//59612, www.pricedekho.com//1088, prediction: 0.434328, result 0
 buy.net//5641, www.ilgs.net//86, prediction: 0.383365, result 0
-www.ebay.com//47725, www.priceme.co.nz//5, prediction: 0.248540, result 0
+www.ebay.com//47725, www.priceme.co.nz//5, prediction: 0.248541, result 0
 www.ebay.com//46185, www.ebay.com//55644, prediction: 0.225520, result 0
 www.flipkart.com//2178, www.ebay.com//24799, prediction: 0.251911, result 0
 www.mypriceindia.com//142, www.eglobalcentral.co.uk//361, prediction: 0.420365, result 0
@@ -5333,7 +5333,7 @@ www.ebay.com//43434, www.priceme.co.nz//1778, prediction: 0.298831, result 1
 www.ebay.com//56678, www.ebay.com//54277, prediction: 0.371662, result 0
 www.gosale.com//1484, www.ebay.com//56678, prediction: 0.236604, result 0
 www.ebay.com//43940, www.eglobalcentral.co.uk//698, prediction: 0.352491, result 0
-www.ebay.com//55912, www.ebay.com//54722, prediction: 0.306080, result 0
+www.ebay.com//55912, www.ebay.com//54722, prediction: 0.306081, result 0
 www.ebay.com//43543, www.mypriceindia.com//710, prediction: 0.278982, result 0
 www.ebay.com//53871, www.ebay.com//54333, prediction: 0.322725, result 0
 www.ebay.com//42073, www.gosale.com//630, prediction: 0.087177, result 0
@@ -5979,7 +5979,7 @@ www.priceme.co.nz//2043, www.pcconnection.com//12408, prediction: 0.313285, resu
 www.ebay.com//43720, buy.net//5698, prediction: 0.257048, result 1
 www.ebay.com//44280, www.mypriceindia.com//744, prediction: 0.339994, result 0
 www.ebay.com//43811, www.ebay.com//42739, prediction: 0.437537, result 0
-www.ebay.com//42902, www.camerafarm.com.au//740, prediction: 0.097670, result 0
+www.ebay.com//42902, www.camerafarm.com.au//740, prediction: 0.097669, result 0
 www.shopmania.in//974, www.ebay.com//47725, prediction: 0.464934, result 0
 www.ebay.com//43019, www.ebay.com//48111, prediction: 0.397903, result 0
 www.ebay.com//58782, www.ebay.com//54892, prediction: 0.294295, result 0
@@ -7296,7 +7296,7 @@ www.ebay.com//46524, www.ebay.com//56661, prediction: 0.366484, result 1
 www.ebay.com//54892, www.mypriceindia.com//22, prediction: 0.339208, result 0
 buy.net//5641, www.priceme.co.nz//1847, prediction: 0.188963, result 0
 www.ebay.com//43077, www.ebay.com//48599, prediction: 0.431693, result 0
-www.ebay.com//45946, www.ebay.com//55080, prediction: 0.292487, result 0
+www.ebay.com//45946, www.ebay.com//55080, prediction: 0.292486, result 0
 www.ebay.com//41954, www.walmart.com//633, prediction: 0.188492, result 0
 www.ebay.com//24858, www.ebay.com//44274, prediction: 0.298204, result 0
 www.ebay.com//54400, www.ebay.com//42739, prediction: 0.377140, result 1
@@ -8270,7 +8270,7 @@ www.pricedekho.com//1093, www.ebay.com//42073, prediction: 0.242781, result 0
 www.ebay.com//58750, www.priceme.co.nz//2064, prediction: 0.245546, result 0
 www.ebay.com//53278, www.ebay.com//44280, prediction: 0.302548, result 1
 www.ebay.com//24280, www.priceme.co.nz//1682, prediction: 0.179611, result 0
-www.ebay.com//53633, www.ebay.com//44570, prediction: 0.386825, result 0
+www.ebay.com//53633, www.ebay.com//44570, prediction: 0.386826, result 0
 www.walmart.com//762, www.ebay.com//46788, prediction: 0.354890, result 0
 www.ebay.com//46788, www.ebay.com//54400, prediction: 0.321975, result 0
 www.ebay.com//46468, www.ebay.com//57363, prediction: 0.212760, result 0
@@ -8290,7 +8290,7 @@ www.eglobalcentral.co.uk//585, www.ebay.com//59061, prediction: 0.436906, result
 www.ebay.com//54776, www.ebay.com//55534, prediction: 0.264918, result 0
 buy.net//5698, www.walmart.com//633, prediction: 0.213173, result 1
 www.ebay.com//43077, www.ebay.com//42504, prediction: 0.323633, result 0
-www.shopbot.com.au//1664, www.eglobalcentral.co.uk//698, prediction: 0.407253, result 0
+www.shopbot.com.au//1664, www.eglobalcentral.co.uk//698, prediction: 0.407252, result 0
 www.ebay.com//55380, www.eglobalcentral.co.uk//698, prediction: 0.265274, result 0
 www.ebay.com//55717, www.ebay.com//42173, prediction: 0.289912, result 0
 www.shopmania.in//950, www.ebay.com//46185, prediction: 0.354112, result 0
@@ -8321,7 +8321,7 @@ www.pcconnection.com//12408, www.priceme.co.nz//1914, prediction: 0.228900, resu
 www.ebay.com//43503, www.ebay.com//58781, prediction: 0.093598, result 0
 www.price-hunt.com//9877, www.camerafarm.com.au//829, prediction: 0.293495, result 0
 www.ebay.com//55768, www.ebay.com//54386, prediction: 0.312148, result 0
-www.ebay.com//46830, www.ebay.com//24249, prediction: 0.282204, result 0
+www.ebay.com//46830, www.ebay.com//24249, prediction: 0.282203, result 0
 www.ebay.com//56644, www.flipkart.com//2193, prediction: 0.237111, result 0
 www.walmart.com//697, www.shopmania.in//974, prediction: 0.399580, result 1
 www.camerafarm.com.au//796, www.shopbot.com.au//271, prediction: 0.455024, result 0
@@ -8920,7 +8920,7 @@ www.camerafarm.com.au//739, www.shopmania.in//1226, prediction: 0.396339, result
 www.ebay.com//55717, www.ebay.com//55954, prediction: 0.441773, result 0
 www.ebay.com//55745, buy.net//5698, prediction: 0.225971, result 0
 www.ebay.com//53260, www.ebay.com//46098, prediction: 0.284834, result 0
-www.ebay.com//58782, www.ebay.com//58766, prediction: 0.178397, result 0
+www.ebay.com//58782, www.ebay.com//58766, prediction: 0.178396, result 0
 www.ebay.com//54114, www.priceme.co.nz//2043, prediction: 0.200361, result 1
 www.gosale.com//1122, www.ebay.com//24887, prediction: 0.396226, result 0
 www.ebay.com//59791, www.priceme.co.nz//1675, prediction: 0.202036, result 1
@@ -9139,7 +9139,7 @@ www.shopbot.com.au//1664, www.ebay.com//55172, prediction: 0.424830, result 0
 www.ebay.com//43543, www.ebay.com//57071, prediction: 0.282549, result 0
 www.ebay.com//47564, www.pricedekho.com//1088, prediction: 0.412666, result 0
 www.ebay.com//58750, www.ebay.com//60718, prediction: 0.384464, result 0
-www.priceme.co.nz//2043, www.ebay.com//46788, prediction: 0.355157, result 0
+www.priceme.co.nz//2043, www.ebay.com//46788, prediction: 0.355158, result 0
 www.ebay.com//44615, www.ebay.com//57137, prediction: 0.293187, result 0
 www.eglobalcentral.co.uk//135, www.mypriceindia.com//35, prediction: 0.417534, result 0
 www.ebay.com//58782, www.ebay.com//45946, prediction: 0.247086, result 0

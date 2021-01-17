@@ -3,11 +3,11 @@
 #
 #
 
-OBJS 	= main.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o jobScheduler.o
-OBJS1   = unit_test.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o jobScheduler.o
-SOURCE	= main.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c metrics.c jobScheduler.c
-SOURCE1	= unit_test.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c logisticRegression.c metrics.c jobScheduler.c
-HEADER  = jsonStruct.h acutest.h hashTable.h graph.h bagOfWords.h logisticRegression.h metrics.h jobScheduler.h
+OBJS 	= main.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o jobScheduler.o red-black.o
+OBJS1   = unit_test.o jsonStruct.o jsonParcer.o hashTable.o graph.o bagOfWords.o logisticRegression.o metrics.o jobScheduler.o red-black.o
+SOURCE	= main.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c metrics.c jobScheduler.c red-black.c
+SOURCE1	= unit_test.c jsonStruct.c jsonParcer.c hashTable.c graph.c bagOfWords.c logisticRegression.c metrics.c jobScheduler.c red-black.c
+HEADER  = jsonStruct.h acutest.h hashTable.h graph.h bagOfWords.h logisticRegression.h metrics.h jobScheduler.h red-black.h
 OUT  	= project2
 OUTTEST = testing
 CC	= gcc
@@ -50,6 +50,10 @@ metrics.o: metrics.c
 
 jobScheduler.o: jobScheduler.c
 	$(CC) $(FLAGS) jobScheduler.c
+
+red-black.o: red-black.c
+	$(CC) $(FLAGS) red-black.c
+
 
 # clean house
 clean:

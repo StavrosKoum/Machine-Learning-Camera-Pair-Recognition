@@ -5,6 +5,8 @@
 #include "logisticRegression.h"
 #include "metrics.h"
 #include "time.h"
+#include "red-black.h"
+
 
 logistic_reg * create_logistic_reg(int lineSize)
 {
@@ -332,6 +334,13 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     int pCounter = 0;
     int nCounter = 0;
 
+    //create tree for pairs
+    rbTree* tree_ptr;
+
+    tree_ptr = createTree();
+
+
+
     //to store the results that pass the requirements
     //transitivityPair pairs[HTsize];
     transitivityPair *filePair = NULL;
@@ -366,7 +375,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                     //printf("%s          %d\n", clique->name, clique->cliqueSum);
 
-                    if(clique->cliqueSum != 1){
+                    if(clique->cliqueSum != 1 && clique->printed!= 1){
 
                         
                       
@@ -401,10 +410,10 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                                 //get the model predection
                                 z = calculateZ(X, cls);
-                                // printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
+                                printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
 
                                 //check if the prediction is in the range we want
-                                if(z > (0.8 - threshold)){
+                                if(z > (0.7 - threshold)){
 
                                     printf("adding positive %f\n", z);
 
@@ -417,9 +426,9 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     //create the pair
                                     filePair = createTransitivityPair(leftJson, rightJson, z, X, 1);
                                     
-                                    //add the pair to the array
-                                    //pairs[pCounter] = filePair;
-
+                                    printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
+                                    //add the pair to the tree
+                                    insertTree(&tree_ptr->root,filePair);
                                 }
 
                                 // if(X != NULL)
@@ -437,7 +446,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                         
 
                         
-                        
+                        clique->printed = 1;
 
                     }
 
@@ -537,7 +546,11 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
     }    
 
+    //print tree
+    printTree(tree_ptr->root);
     //Print results
     printf("Positive pairs: %d\n", pCounter);
     printf("Negative pairs: %d\n", nCounter);
+
+
 }
