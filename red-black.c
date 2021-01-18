@@ -33,8 +33,13 @@ treeNode* createTreeNode(transitivityPair* pair){
         exit(-1);
     }
 
-    //set date
-    temp->priority = pair->prediction;
+    //set piority
+    //depends on the actual result
+    if(pair->result == 0){
+        temp->priority = pair->prediction;
+    }else{
+        temp->priority = abs(1 - pair->prediction);
+    }
     //set pointers
     temp->pair = pair;
     temp->right = NULL;
@@ -293,7 +298,7 @@ void treeNodeListPrint(treeNode* node){
 
     //while there are nodes
     while(temp != NULL){
-        printf("%f %s____%s ",temp->priority,temp->pair->leftJson->site,temp->pair->rightJson->site);
+        printf("%11.10f %s____%s ",temp->priority,temp->pair->leftJson->site,temp->pair->rightJson->site);
         printf("\n");
 
         //go to the next one

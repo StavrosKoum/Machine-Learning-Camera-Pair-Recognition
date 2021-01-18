@@ -36,7 +36,7 @@ typedef struct negative_node
     bool printed;
 
     //flag used to distinguish all the unique pairs
-    bool pair;
+    int pair;
 
     //ptr to next
     struct negative_node *next_ptr;
@@ -62,6 +62,7 @@ Graph* createGraph();
 void graphInsert(Graph *g,jsonFile *key);
 void graphPrint(Graph *g);
 void graphFree(Graph *graph);
+Negative_node*  create_negative_node(Clique * neg_clique);
 int insert_neg_clique(Clique * neg_clique,Clique* this_clique);
 void updateCliquePrinted(Clique *clique, char *key, int value);
 void freeNegativeNodeList(Negative_node *head);

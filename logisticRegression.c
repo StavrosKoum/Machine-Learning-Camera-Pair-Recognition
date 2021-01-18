@@ -410,12 +410,12 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                                 //get the model predection
                                 z = calculateZ(X, cls);
-                                printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
+                                //printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
 
                                 //check if the prediction is in the range we want
-                                if(z > (0.7 - threshold)){
+                                if(z > (1 - threshold)){
 
-                                    printf("adding positive %f\n", z);
+                                    //printf("adding positive %f\n", z);
 
                                     //count the pair
                                     pCounter++;
@@ -426,7 +426,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     //create the pair
                                     filePair = createTransitivityPair(leftJson, rightJson, z, X, 1);
                                     
-                                    printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
+                                    //printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
                                     //add the pair to the tree
                                     insertTree(&tree_ptr->root,filePair);
                                 }
@@ -456,23 +456,33 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                     //traverse all the NEGATIVE nodes 
                     while(cur_neg!=NULL)
                     {   
+                        //printf("CLIQUE %p\nNEGATIVE %p\nNEXT %p\n", clique, cur_neg->neg_clique_ptr, cur_neg->next_ptr->neg_clique_ptr);
                        
-                        if(cur_neg->pair==0)
+                        //search for neg clique
+                        tmp = cur_neg->neg_clique_ptr;
+
+                        Negative_node* temp_neg_node;
+                        temp_neg_node = tmp->neg_node_list;
+                        while (temp_neg_node!=NULL)
+                        {
+
+                            if(!strcmp(temp_neg_node->neg_clique_ptr->name,clique->name))
+                            {
+                                //printf("edw %d\n", temp_neg_node->pair);
+                                temp_neg_node->pair = 1;
+                            }
+                            temp_neg_node = temp_neg_node->next_ptr;
+                        }
+
+                        if(cur_neg->pair == 0)
                         {
                             //mark as visited
                             cur_neg->pair = 1;
 
-                            tmp = cur_neg->neg_clique_ptr;
-                            
-
-                            //search for neg clique
-                            Negative_node* temp_neg_node;
-                            temp_neg_node = tmp->neg_node_list;
-                            while (temp_neg_node!=NULL)
-                            {
-
-                                if(!strcmp(temp_neg_node->neg_clique_ptr->name,clique->name))
-                                {
+                            //update cur_neg list with pairs
+                            temp_neg_node = clique->neg_node_list;
+                            while(temp_neg_node != NULL){
+                                if(!strcmp(temp_neg_node->neg_clique_ptr->name, cur_neg->neg_clique_ptr->name)){
                                     temp_neg_node->pair = 1;
                                 }
                                 temp_neg_node = temp_neg_node->next_ptr;
@@ -514,6 +524,16 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     //if its in the range we want
                                     if(z < threshold){
 
+                                        //create 2 jsonFiles with the data
+                                        leftJson = createRedusedJsonFile(neg_file1->site, neg_file1->JsonWordCount);
+                                        rightJson = createRedusedJsonFile(neg_file2->site, neg_file2->JsonWordCount);
+                                        //create the pair
+                                        filePair = createTransitivityPair(leftJson, rightJson, z, X, 0);
+                                        
+                                        printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
+                                        //add the pair to the tree
+                                        insertTree(&tree_ptr->root,filePair);
+
                                         //count it
                                         nCounter++;
 
@@ -522,7 +542,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     
                                     
                                     //free(neg_file2->JsonWordCount);
-                                    free(X);                  
+                                    //free(X);                  
                                      
                                     neg_file2 = neg_file2->next;
                                 }

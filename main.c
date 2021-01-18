@@ -230,9 +230,8 @@ int main(int argc,char *argv[]){
 
     //Read the csv file
     parcerCSV(datasetX,datasetCSV, eShopHash, eShopHashSize,1);
-
-
-    print_cliques(eShopHash,eShopHashSize);
+    // print_cliques(eShopHash,eShopHashSize);
+    
     //Get the number of lines in the file 
     lines = GetCSVlineCount(datasetX,datasetCSV);
 
@@ -265,8 +264,9 @@ int main(int argc,char *argv[]){
     printf("\nTF-IDF arrays feeded to the classifier have %d spaces.\n", wordHash->id_counter);
     
     //split the data from the csv file as following
-    //80 % train data
+    //60 % train data
     //20 % test data
+    //20 % validation data
     //initialize the classifier
     //fit the train data and train
     //return the classifier struct

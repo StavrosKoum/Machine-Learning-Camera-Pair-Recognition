@@ -67,7 +67,7 @@ test:
 	./testing
 
 run:
-	./$(OUT) -x Datasets -c sigmod_medium_labelled_dataset.csv
+	./$(OUT) -x Datasets -c sigmod_large_labelled_dataset.csv
 
 #debug the program for errors using the gdb debugger
 debug:

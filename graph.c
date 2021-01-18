@@ -107,10 +107,6 @@ void graphFree(Graph *graph){
 }
 
 
-
-
-
-//untested!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Negative_node*  create_negative_node(Clique * neg_clique)
 {
     Negative_node *ptr = malloc(sizeof(Negative_node));
