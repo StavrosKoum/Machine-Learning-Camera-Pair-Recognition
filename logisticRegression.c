@@ -198,7 +198,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
 
         
 
-        predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize);
+        predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, 1);
         threshold +=1;
     }
     //return the new weights
@@ -319,7 +319,7 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
 
 //function that traverses all the pairs and selects the results with the 
 //higher accuracy depening on the threshold
-double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize){
+double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim){
 
     Bucket *cur = NULL;
     int limit = 0;
@@ -375,7 +375,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
                     //printf("%s          %d\n", clique->name, clique->cliqueSum);
 
-                    if(clique->cliqueSum != 1 && clique->printed!= 1){
+                    if(clique->cliqueSum != 1 && clique->printed < lim){
 
                         
                       
@@ -446,7 +446,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                         
 
                         
-                        clique->printed = 1;
+                        clique->printed += 1;
 
                     }
 
@@ -469,21 +469,23 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                             if(!strcmp(temp_neg_node->neg_clique_ptr->name,clique->name))
                             {
                                 //printf("edw %d\n", temp_neg_node->pair);
-                                temp_neg_node->pair = 1;
+                                if(temp_neg_node->pair < lim){
+                                    temp_neg_node->pair += 1;
+                                }
                             }
                             temp_neg_node = temp_neg_node->next_ptr;
                         }
 
-                        if(cur_neg->pair == 0)
+                        if(cur_neg->pair == (lim - 1))
                         {
-                            //mark as visited
-                            cur_neg->pair = 1;
 
                             //update cur_neg list with pairs
                             temp_neg_node = clique->neg_node_list;
                             while(temp_neg_node != NULL){
                                 if(!strcmp(temp_neg_node->neg_clique_ptr->name, cur_neg->neg_clique_ptr->name)){
-                                    temp_neg_node->pair = 1;
+                                    if(temp_neg_node->pair < lim){
+                                        temp_neg_node->pair += 1;
+                                    }
                                 }
                                 temp_neg_node = temp_neg_node->next_ptr;
                             }
