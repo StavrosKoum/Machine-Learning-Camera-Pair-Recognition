@@ -21,6 +21,7 @@ typedef struct rbTree
 {
     
     treeNode* root;
+    int counter;
 
 }rbTree;
 

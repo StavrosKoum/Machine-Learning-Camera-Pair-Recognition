@@ -121,6 +121,7 @@ Negative_node*  create_negative_node(Clique * neg_clique)
 int search_for_neg_clique(Negative_node *neg_list,Clique* neg_clique)
 {
     Negative_node* cur = neg_list;
+
     while(cur!=NULL)
     {
         if(!strcmp(cur->neg_clique_ptr->name,neg_clique->name))
@@ -147,7 +148,7 @@ int insert_neg_clique(Clique * neg_clique,Clique* this_clique)
     //search if neg clique exists 
     int i = search_for_neg_clique(this_clique->neg_node_list,neg_clique);
 
-    if(i)//if it exists already
+    if(i == 1)//if it exists already
     {
         return 0;
     }
@@ -205,4 +206,25 @@ void freeNegativeNodeList(Negative_node *head){
 
     }
 
+}
+
+//search the clique for the site and return the json
+jsonFile *searchClique(Clique *clique, char *site){
+
+    jsonFile *cur = clique->file;
+
+    //search all the files
+    while (cur != NULL){
+        
+        //if its the one we want
+        if(!strcmp(cur->site, site)){
+            return cur;
+        }
+
+        //go to the nex
+        cur = cur->next;
+    }
+    
+    //not found
+    return NULL;
 }

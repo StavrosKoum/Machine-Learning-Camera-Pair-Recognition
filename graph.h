@@ -62,6 +62,7 @@ Graph* createGraph();
 void graphInsert(Graph *g,jsonFile *key);
 void graphPrint(Graph *g);
 void graphFree(Graph *graph);
+jsonFile *searchClique(Clique *clique, char *site);
 Negative_node*  create_negative_node(Clique * neg_clique);
 int insert_neg_clique(Clique * neg_clique,Clique* this_clique);
 void updateCliquePrinted(Clique *clique, char *key, int value);

@@ -16,6 +16,7 @@ rbTree* createTree(){
 
     //init
     tree->root = NULL;
+    tree->counter = 0;
     //return
     return tree;
 
@@ -271,7 +272,6 @@ void insertTree(treeNode** root, transitivityPair* pair){
                 newNode->parent = NULL;
                 //add it
                 curNode = insertTreeNodeList(curNode, newNode);
-
                 return;
             }
         }

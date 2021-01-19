@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "logisticRegression.h"
+#include "graph.h"
 #include "metrics.h"
 #include "time.h"
 #include "red-black.h"
@@ -103,13 +104,19 @@ double cost_function_derivative(logistic_reg *cls, int j)
     {
         line = cls->x[i];
 
+        //if line[j] is 0
+        //we know that the error will also be 0
+        if(line[j] == 0){
+            continue;
+        }
+
         linear_score = calculateZ(line,cls);
         error = (linear_score - cls->y[i]) * line[j];
         error_sum +=error;
 
         if(cls->y[i] == 1){
             //if its 1 add more repetitions
-            for(int k = 0; k < 3; k++){
+            for(int k = 0; k < 5; k++){
 
                 line = cls->x[i];
 
@@ -156,7 +163,7 @@ double* gradient_descend(logistic_reg *cls)
 logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,double **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize){
 
     double threshold = 0.1;
-    double step = 0.10;
+    //double step = 0.10;
     int current;
     int remaining = x_size * 60 / 100;
     double **x_train;
@@ -196,9 +203,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             remaining -= batchSize;
         }
 
-        
-
-        predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, 1);
+        predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, 1, x, y);
         threshold +=1;
     }
     //return the new weights
@@ -317,9 +322,85 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
     return array;
 }
 
+//IF DECISION BOUNDARY CHANGES --> CHANGE LINES:
+
+//transitivity issues are resolved using the following algorithm
+//entries are extracted from the tree sorted by the prediction distance from 0 or 1
+//if it's possible they are added to the hashtable
+//after the procedure above is completed the new train set (X and Y) is created
+void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double **X, int *Y){
+
+    int hash;
+    Negative_node *neg = NULL;
+    // Clique *temp;
+    int found = 0;
+    if(root == NULL)
+        return;
+
+    //go to left sub-tree
+    resolveTransitivity(root->left, hashTable, trSize, X, Y);
+
+    //get the pair
+    transitivityPair *pair = NULL;
+
+    //check root and its links
+    treeNode *cur;
+    cur = root;
+    while(cur != NULL){
+
+        //get the pair
+        pair = root->pair;
+
+        //check if the jsonFiles are in the hashTable
+        //left
+        hash = hashing1(pair->leftJson->site, trSize);
+        Clique *left = findEntry(hashTable, hash, pair->leftJson->site);
+        //right
+        hash = hashing1(pair->rightJson->site, trSize);
+        Clique *right = findEntry(hashTable, hash, pair->rightJson->site);
+
+        if(left != NULL)    printf("%s is in the hashTable LEFT\n", pair->leftJson->site);
+        else                printf("%s not found LEFT\n", pair->leftJson->site);
+
+        if(right != NULL)    printf("%s is in the hashTable RIGHT\n", pair->rightJson->site);
+        else                printf("%s not found RIGHT\n", pair->rightJson->site);
+
+        //IF THE RESULT IS 0
+        if(pair->result == 0){
+
+            //check if there is a negative connection between the files
+            //search left negatives for right
+            neg = left->neg_node_list;
+            while(neg != NULL && found == 0){
+                //search negs files
+                if(searchClique(neg->neg_clique_ptr, pair->rightJson->site) != NULL){
+                    printf("Found RIGHT\n");
+                    //no work needed
+                    found = 1;
+                }
+                neg = neg->next_ptr;
+            }
+
+            if(found == 0){
+
+                //work
+
+            }
+        }
+
+        //go to next node
+        cur = cur->next;
+    }
+
+    //go to right sub-tree
+    resolveTransitivity(root->right, hashTable, trSize, X, Y);
+
+
+}
+
 //function that traverses all the pairs and selects the results with the 
 //higher accuracy depening on the threshold
-double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim){
+double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, double **x, int *y){
 
     Bucket *cur = NULL;
     int limit = 0;
@@ -328,25 +409,22 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     jsonFile *ptr = NULL;
     jsonFile *neg_file1 = NULL;
     jsonFile *neg_file2 = NULL;
-    double *curFileArray = NULL;
     double *X = NULL;
     double z = 0.0;
     int pCounter = 0;
     int nCounter = 0;
-
-    //create tree for pairs
-    rbTree* tree_ptr;
-
-    tree_ptr = createTree();
-
-
 
     //to store the results that pass the requirements
     //transitivityPair pairs[HTsize];
     transitivityPair *filePair = NULL;
     jsonFile *leftJson = NULL;
     jsonFile *rightJson = NULL;
+    rbTree* tree_ptr;
+    
     printf("PAME\n");
+    
+    //create tree for pairs
+    tree_ptr = createTree();
 
     //traverse the hashTable
     for(int i = 0; i < HTsize; i++){
@@ -429,6 +507,8 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     //printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
                                     //add the pair to the tree
                                     insertTree(&tree_ptr->root,filePair);
+                                    //update counter
+                                    tree_ptr->counter += 1;
                                 }
 
                                 // if(X != NULL)
@@ -535,6 +615,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                         printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
                                         //add the pair to the tree
                                         insertTree(&tree_ptr->root,filePair);
+                                        //update counter
 
                                         //count it
                                         nCounter++;
@@ -574,5 +655,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     printf("Positive pairs: %d\n", pCounter);
     printf("Negative pairs: %d\n", nCounter);
 
-
+    //time to resolve transitivity
+    resolveTransitivity(tree_ptr->root, trHash, trSize, x, y);
+    
 }

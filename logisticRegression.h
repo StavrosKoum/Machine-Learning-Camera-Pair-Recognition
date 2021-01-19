@@ -36,7 +36,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
 double cost_function(logistic_reg *cls);
 // double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp);
 double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp,positiveMetrics *P_metrics, negativeMetrics *N_metrics);    
-double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **, int, int lim);
+double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **, int, int lim, double **x, int *y);
 
 void printClassifier(logistic_reg *cls);
 void freeLogisticRegressor(logistic_reg *cls);

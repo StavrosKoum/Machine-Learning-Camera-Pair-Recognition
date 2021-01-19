@@ -1231,8 +1231,8 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     Clique *temp;
 
     int remaining;
-    double** x_train;
-    int* y_train;
+    // double** x_train;
+    // int* y_train;
 
 
     //init metrics
