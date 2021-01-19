@@ -331,7 +331,11 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
 void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double **X, int *Y){
 
     int hash;
+    int found_left = 0;
+    int found_right= 0;
+    Negative_node* tmp_neg;
     Negative_node *neg = NULL;
+    jsonFile* tmp_json = NULL;
     // Clique *temp;
     int found = 0;
     if(root == NULL)
@@ -359,34 +363,176 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
         hash = hashing1(pair->rightJson->site, trSize);
         Clique *right = findEntry(hashTable, hash, pair->rightJson->site);
 
-        if(left != NULL)    printf("%s is in the hashTable LEFT\n", pair->leftJson->site);
+        if(left != NULL)    
+        {
+            printf("%s is in the hashTable LEFT\n", pair->leftJson->site);
+            found_left = 1;
+        }
         else                printf("%s not found LEFT\n", pair->leftJson->site);
 
-        if(right != NULL)    printf("%s is in the hashTable RIGHT\n", pair->rightJson->site);
+        if(right != NULL)
+        {
+            printf("%s is in the hashTable RIGHT\n", pair->rightJson->site);
+            found_right = 1;
+
+        }    
         else                printf("%s not found RIGHT\n", pair->rightJson->site);
 
-        //IF THE RESULT IS 0
-        if(pair->result == 0){
+        //left found while right not
+        if(found_left ==1 && found_right == 0)
+        {
+            //IF THE RESULT IS 0
+            if(pair->result == 0)
+            {
+                //ADD right JSON TO HASHTABLE
+                //add the json to the correct eshop bucket
+                hash = hashing1(pair->rightJson->site, trSize);
+                //printf("HASH %d\n", res);
+                addToHashTable(hashTable[hash], pair->rightJson->site, hash, pair->rightJson);
+                //take his clique
+                right = findEntry(hashTable, hash, pair->rightJson->site);
 
+                //create negative connection between right and elft cliques
+                right->neg_node_list = create_negative_node(left);
+                
+                //create and insert negative connection between left and right cliques
+                tmp_neg = left->neg_node_list;
+                left->neg_node_list = create_negative_node(right);
+                left->neg_node_list->next_ptr = tmp_neg;
+
+            }
+            else if(pair->result == 1)
+            {
+                pair->rightJson->next = left->file;
+                left->file = pair->rightJson;
+            }
+        }
+        if(found_left ==0 && found_right == 1)
+        {
+            //IF THE RESULT IS 0
+            if(pair->result == 0)
+            {
+                //ADD left JSON TO HASHTABLE
+                //add the json to the correct eshop bucket
+                hash = hashing1(pair->leftJson->site, trSize);
+                //printf("HASH %d\n", res);
+                addToHashTable(hashTable[hash], pair->leftJson->site, hash, pair->leftJson);
+                //take his clique
+                left = findEntry(hashTable, hash, pair->leftJson->site);
+
+                //create negative connection between right and elft cliques
+                left->neg_node_list = create_negative_node(right);
+                
+                //create and insert negative connection between right and right cliques
+                tmp_neg = right->neg_node_list;
+                right->neg_node_list = create_negative_node(left);
+                right->neg_node_list->next_ptr = tmp_neg;
+
+            }
+            else if(pair->result == 1)
+            {
+                pair->leftJson->next = right->file;
+                right->file = pair->leftJson;
+            }
+        }
+
+        //if none of the jsonFiles were found
+        if(found_left ==0 && found_right == 0)
+        {
+            if(pair->result ==1)
+            {
+                //create and add ONE clique because they are the same (randomly the left)
+                hash = hashing1(pair->leftJson->site, trSize);
+                //printf("HASH %d\n", res);
+                addToHashTable(hashTable[hash], pair->leftJson->site, hash, pair->leftJson);
+                //take his clique
+                left = findEntry(hashTable, hash, pair->rightJson->site);
+
+                //also add right
+                left->file->next = pair->rightJson;
+            }
+
+            //now if they are negative connected
+            if(pair->result == 0 )
+            {
+                //FOR LEFT
+                hash = hashing1(pair->leftJson->site, trSize);
+                //printf("HASH %d\n", res);
+                addToHashTable(hashTable[hash], pair->leftJson->site, hash, pair->leftJson);
+                //take his clique
+                left = findEntry(hashTable, hash, pair->rightJson->site);
+
+                //FOR RIGHT
+                hash = hashing1(pair->rightJson->site, trSize);
+                //printf("HASH %d\n", res);
+                addToHashTable(hashTable[hash], pair->rightJson->site, hash, pair->rightJson);
+                //take his clique
+                right = findEntry(hashTable, hash, pair->rightJson->site);
+
+                //create negative conectio
+                left->neg_node_list = create_negative_node(right);
+                right->neg_node_list = create_negative_node(left);
+            }
+
+        }
+        //if they both exist to hashtable
+        if(found_left == 1 && found_right == 1)
+        {
             //check if there is a negative connection between the files
             //search left negatives for right
             neg = left->neg_node_list;
-            while(neg != NULL && found == 0){
+            while(neg != NULL && found == 0)
+            {
                 //search negs files
-                if(searchClique(neg->neg_clique_ptr, pair->rightJson->site) != NULL){
-                    printf("Found RIGHT\n");
+                if(searchClique(neg->neg_clique_ptr, pair->rightJson->site) != NULL)
+                {
+                    printf("Found RIGHT\n ");
                     //no work needed
                     found = 1;
                 }
                 neg = neg->next_ptr;
             }
 
-            if(found == 0){
-
-                //work
-
+            int found_positive = 0 ;
+            //search at right for left
+            if(searchClique(left, pair->rightJson->site) != NULL)
+            {
+                found_positive = 1;
             }
+            if(found == 0 && found_positive == 0)
+            {
+                if(pair->result== 0)
+                {
+                    //insert negative node to left
+                    tmp_neg = left->neg_node_list;
+                    left->neg_node_list = create_negative_node(right);
+                    left->neg_node_list->next_ptr = tmp_neg;
+
+                    //insert negative node to right
+                    tmp_neg = right->neg_node_list;
+                    right->neg_node_list = create_negative_node(left);
+                    right->neg_node_list->next_ptr = tmp_neg;
+                }
+                else
+                {
+                   //append right to left clique
+                   tmp_json = left->file;
+
+                    //go to last file
+                    while(tmp_json->next != NULL)
+                    {
+                        tmp_json = tmp_json->next;
+                    }
+
+                    //insert right list to left list of jsons
+                    tmp_json->next = right->file;
+                }
+                
+            }
+
         }
+
+                
 
         //go to next node
         cur = cur->next;
