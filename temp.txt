@@ -1,4 +1,4 @@
-./project2 -x Datasets -c sigmod_medium_labelled_dataset.csv
+./project2 -x Datasets -c sigmod_large_labelled_dataset.csv
 There are 29787 total files in the Dataset.
 Traversing Dataset folders.
 Opening folder: www.ilgs.net.
@@ -33,677 +33,229 @@ There are 50421 unique words in all the files.
 TF-IDF arrays feeded to the classifier have 118 spaces.
 
 Training the Logistic Regression Classifier...
-Remaining = 27999 and batchSize = 1024
-Current Cost: 0.188659
-Remaining = 26975 and batchSize = 1024
-Current Cost: 0.194581
-Remaining = 25951 and batchSize = 1024
-Current Cost: 0.194313
-Remaining = 24927 and batchSize = 1024
-Current Cost: 0.176560
-Remaining = 23903 and batchSize = 1024
-Current Cost: 0.196954
-Remaining = 22879 and batchSize = 1024
-Current Cost: 0.185413
-Remaining = 21855 and batchSize = 1024
-Current Cost: 0.188981
-Remaining = 20831 and batchSize = 1024
-Current Cost: 0.206340
-Remaining = 19807 and batchSize = 1024
-Current Cost: 0.207025
-Remaining = 18783 and batchSize = 1024
-Current Cost: 0.181655
-Remaining = 17759 and batchSize = 1024
-Current Cost: 0.165799
-Remaining = 16735 and batchSize = 1024
-Current Cost: 0.183996
-Remaining = 15711 and batchSize = 1024
-Current Cost: 0.185762
-Remaining = 14687 and batchSize = 1024
-Current Cost: 0.177207
-Remaining = 13663 and batchSize = 1024
-Current Cost: 0.161915
-Remaining = 12639 and batchSize = 1024
-Current Cost: 0.191471
-Remaining = 11615 and batchSize = 1024
-Current Cost: 0.182550
-Remaining = 10591 and batchSize = 1024
-Current Cost: 0.175042
-Remaining = 9567 and batchSize = 1024
-Current Cost: 0.193705
-Remaining = 8543 and batchSize = 1024
-Current Cost: 0.161551
-Remaining = 7519 and batchSize = 1024
-Current Cost: 0.189384
-Remaining = 6495 and batchSize = 1024
-Current Cost: 0.177703
-Remaining = 5471 and batchSize = 1024
-Current Cost: 0.180796
-Remaining = 4447 and batchSize = 1024
-Current Cost: 0.161307
-Remaining = 3423 and batchSize = 1024
-Current Cost: 0.187330
-Remaining = 2399 and batchSize = 1024
-Current Cost: 0.176996
-Remaining = 1375 and batchSize = 1024
-Current Cost: 0.176283
-Remaining = 351 and batchSize = 351
-Current Cost: 0.186471
-PAME
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//59297 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//48591 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//2346 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//24858 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//45497 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______buy.net//5946 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//56359 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//48027 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______buy.net//5946 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.flipkart.com//2193 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//5 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//2246 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//1914 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.priceme.co.nz//5 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.priceme.co.nz//2246 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.priceme.co.nz//1914 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//42517 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//2382 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//24330 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//1675 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//2064 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.flipkart.com//2178 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//46468______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.gosale.com//953 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.camerafarm.com.au//829 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//42074 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//48059 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//44028 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______cammarkt.com//413 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//53278______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55173______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//53179______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43720______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//47121______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//42073 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54907______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//57139______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//46468______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54403______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43019______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43434______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.ebay.com//42073 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//55080 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//56162 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//44553 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.priceme.co.nz//1746 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//52627 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______buy.net//5641 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______www.ebay.com//43741 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41983______www.ebay.com//43741 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43503______cammarkt.com//203 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.shopbot.com.au//1325 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//24330 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//42517 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//2382 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.gosale.com//462 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//43741 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//42074 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//44028 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______cammarkt.com//413 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//56162 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//44553 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//1746 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//54 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55277______www.gosale.com//1049 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//42307 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.gosale.com//1049 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//58766 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//1847 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//1675 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//2064 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42196______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55534______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48251______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//59301______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//25039______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55277______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55745______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44643______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45074______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44044______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43543______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//2093 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.shopbot.com.au//1394 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58782______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.flipkart.com//2193 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//5 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//2246 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//1914 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//24817 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//59297 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.priceme.co.nz//2346 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//24858 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//45497 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______buy.net//5946 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//56359 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//48027 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42196______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55534______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48251______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//59301______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//25039______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55277______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55745______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44643______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45074______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44044______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43543______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.ebay.com//42073 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58782______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.camerafarm.com.au//829 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______cammarkt.com//203 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55277______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52627______www.flipkart.com//2178 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//24330 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42074______www.gosale.com//1049 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.gosale.com//1049 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44670______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//24280______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43683______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42668______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42074______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48059______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54776______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41954______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//2093 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55526______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//43741 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//54 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//1847 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.flipkart.com//2193 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//5 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//2246 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//1914 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//2382 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44670______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//24280______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43683______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42668______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42074______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48059______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54776______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//41954______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//42073 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55526______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//1746 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//59297 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//24858 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//45497 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______buy.net//5946 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.ebay.com//56359 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42074______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44028______www.flipkart.com//2178 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42307______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58781______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.gosale.com//1049______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58766______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55439______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45101______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48259______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.gosale.com//1049______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58766______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42307______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58781______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.gosale.com//1049______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//58766______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55439______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45101______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48259______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//24330 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//2382 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//43741 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.flipkart.com//2193 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//5 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//2246 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//1914 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//56162 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//1746 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//59297 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//24858 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//45497 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______buy.net//5946 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//56359 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55380______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//47095______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//2093 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52786______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//57071______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45184______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//46788______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//57722______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56851______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//46185______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52805______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55172______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55380______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//47095______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.ebay.com//42073 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52786______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//57071______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45184______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//46788______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//57722______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56851______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//46185______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52805______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55172______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//2064 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.flipkart.com//2178 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54543______www.priceme.co.nz//54 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//60118______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43741______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//60118______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43741______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55080______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55080______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//47191______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54939______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52928______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//24887______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56445______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42433______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56162______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//59174______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44553______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45309______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42504______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42835______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//55080______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//47191______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54939______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//52928______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42268______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//24887______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56445______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42433______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56162______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//59174______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44553______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//45309______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42504______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44570______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42835______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48599______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48591______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> buy.net//5946______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56359______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//48591______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> buy.net//5946______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//56359______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42517______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42517______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.flipkart.com//2193______www.priceme.co.nz//2093 
-->>>>>>>>>>>>>>>>>>> www.flipkart.com//2193______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.flipkart.com//2193______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.flipkart.com//2193______www.ebay.com//42598 
-->>>>>>>>>>>>>>>>>>> www.flipkart.com//2193______www.ebay.com//42073 
-->>>>>>>>>>>>>>>>>>> www.flipkart.com//2193______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.priceme.co.nz//2093 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42073______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54559______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//43326______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.ebay.com//24330 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.gosale.com//462 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.shopbot.com.au//1325 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.flipkart.com//2178 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.priceme.co.nz//1675 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.priceme.co.nz//2064 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42598______www.priceme.co.nz//1980 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//53260______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44606______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//24249______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//54497______www.gosale.com//630 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//44606______www.gosale.com//1484 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42902______www.ebay.com//46830 
-->>>>>>>>>>>>>>>>>>> www.ebay.com//42902______www.shopbot.com.au//1325 
-0.042485 www.ebay.com//43503____www.ebay.com//42598 
-0.044724 www.ebay.com//52627____www.gosale.com//630 
-0.046247 www.ebay.com//52627____www.ebay.com//42598 
-0.048102 www.ebay.com//42598____www.gosale.com//630 
-0.051907 www.ebay.com//54543____www.gosale.com//630 
-0.053182 www.ebay.com//44028____www.gosale.com//630 
-0.053662 www.ebay.com//54543____www.ebay.com//42598 
-0.054976 www.ebay.com//44028____www.ebay.com//42598 
-0.055293 www.ebay.com//42902____www.shopbot.com.au//1325 
-0.055799 www.ebay.com//43503____www.gosale.com//1484 
-0.059544 www.ebay.com//41983____www.ebay.com//42598 
-0.059695 www.flipkart.com//2193____www.gosale.com//630 
-0.060332 www.ebay.com//52627____www.gosale.com//1049 
-0.060666 www.ebay.com//52627____www.gosale.com//1484 
-0.061695 www.flipkart.com//2193____www.ebay.com//42598 
-0.062836 www.ebay.com//44606____www.gosale.com//630 
-0.063801 www.ebay.com//43503____www.ebay.com//42073 
-0.065166 www.ebay.com//42598____www.gosale.com//1484 
-0.067146 www.ebay.com//55080____www.gosale.com//630 
-0.067589 www.gosale.com//1049____www.gosale.com//630 
-0.068119 www.ebay.com//43503____www.priceme.co.nz//5 
-0.068868 www.ebay.com//43503____www.priceme.co.nz//1980 
-0.069314 www.ebay.com//52627____www.ebay.com//42073 
-0.069377 www.ebay.com//55080____www.ebay.com//42598 
-0.069629 www.ebay.com//42074____www.gosale.com//630 
-0.069834 www.gosale.com//1049____www.ebay.com//42598 
-0.069945 www.ebay.com//55277____www.gosale.com//630 
-0.069996 www.ebay.com//43503____www.ebay.com//43741 
-0.070216 www.ebay.com//43503____buy.net//5946 
-0.070221 www.ebay.com//54543____www.gosale.com//1484 
-0.071520 www.ebay.com//44028____www.gosale.com//1049 
-0.071616 www.ebay.com//43503____www.priceme.co.nz//2246 
-0.071616 www.ebay.com//43503____www.priceme.co.nz//1914 
-0.071876 www.ebay.com//58766____www.gosale.com//630 
-0.071911 www.ebay.com//44028____www.gosale.com//1484 
-0.071936 www.ebay.com//42074____www.ebay.com//42598 
-0.072262 www.ebay.com//55277____www.ebay.com//42598 
-0.072768 www.ebay.com//43503____www.ebay.com//24858 
-0.072775 www.ebay.com//43503____www.ebay.com//45497 
-0.073050 www.ebay.com//43503____www.ebay.com//24330 
-0.073115 www.ebay.com//43503____www.priceme.co.nz//1746 
-0.073159 www.ebay.com//43503____www.ebay.com//59297 
-0.073184 www.ebay.com//43503____www.priceme.co.nz//2382 
-0.073407 www.ebay.com//43503____www.flipkart.com//2178 
-0.073629 www.ebay.com//46468____www.ebay.com//42598 
-0.073976 www.ebay.com//52627____www.priceme.co.nz//5 
-0.074253 www.ebay.com//58766____www.ebay.com//42598 
-0.074509 www.ebay.com//43503____www.ebay.com//56359 
-0.074784 www.ebay.com//52627____www.priceme.co.nz//1980 
-0.074958 www.ebay.com//52627____www.priceme.co.nz//2093 
-0.075225 www.ebay.com//42307____www.gosale.com//630 
-0.075506 www.ebay.com//47095____www.gosale.com//630 
-0.075506 www.ebay.com//45184____www.gosale.com//630 
-0.075506 www.ebay.com//56851____www.gosale.com//630 
-0.075506 www.ebay.com//46185____www.gosale.com//630 
-0.075754 www.ebay.com//56359____www.gosale.com//630 
-0.075991 www.ebay.com//43503____www.flipkart.com//2193 
-0.076001 www.ebay.com//52627____www.ebay.com//43741 
-0.076065 www.ebay.com//52786____www.gosale.com//630 
-0.076238 www.ebay.com//52627____buy.net//5946 
-0.077702 www.ebay.com//42307____www.ebay.com//42598 
-0.077749 www.ebay.com//52627____www.priceme.co.nz//2246 
-0.077749 www.ebay.com//52627____www.priceme.co.nz//1914 
-0.077769 www.ebay.com//41983____www.gosale.com//1484 
-0.077904 www.ebay.com//24280____www.gosale.com//630 
-0.077992 www.ebay.com//47095____www.ebay.com//42598 
-0.077992 www.ebay.com//45184____www.ebay.com//42598 
-0.077992 www.ebay.com//56851____www.ebay.com//42598 
-0.077992 www.ebay.com//46185____www.ebay.com//42598 
-0.078217 www.ebay.com//43503____www.ebay.com//56162 
-0.078248 www.ebay.com//56359____www.ebay.com//42598 
-0.078422 www.ebay.com//52627____www.priceme.co.nz//54 
-0.078568 www.ebay.com//52786____www.ebay.com//42598 
-0.078991 www.ebay.com//52627____www.ebay.com//24858 
-0.078998 www.ebay.com//52627____www.ebay.com//45497 
-0.079198 www.ebay.com//43503____www.priceme.co.nz//2064 
-0.079294 www.ebay.com//52627____www.ebay.com//24330 
-0.079364 www.ebay.com//52627____www.priceme.co.nz//1746 
-0.079412 www.ebay.com//52627____www.ebay.com//59297 
-0.079439 www.ebay.com//52627____www.priceme.co.nz//2382 
-0.079544 www.ebay.com//56162____www.gosale.com//630 
-0.079558 www.ebay.com//42902____www.ebay.com//46830 
-0.079679 www.ebay.com//52627____www.flipkart.com//2178 
-0.079867 www.ebay.com//48059____www.gosale.com//630 
-0.079928 www.ebay.com//55526____www.gosale.com//630 
-0.079958 www.ebay.com//58781____www.gosale.com//630 
-0.080115 www.ebay.com//54543____www.ebay.com//42073 
-0.080242 www.ebay.com//42598____www.priceme.co.nz//1980 
-0.080427 www.ebay.com//42598____www.priceme.co.nz//2093 
-0.080462 www.ebay.com//24280____www.ebay.com//42598 
-0.080523 www.flipkart.com//2193____www.gosale.com//1484 
-0.080867 www.ebay.com//52627____www.ebay.com//56359 
-0.081529 www.ebay.com//42668____www.gosale.com//630 
-0.081969 www.ebay.com//43741____www.gosale.com//630 
-0.082022 www.ebay.com//44028____www.ebay.com//42073 
-0.082142 www.ebay.com//55534____www.gosale.com//630 
-0.082142 www.ebay.com//59301____www.gosale.com//630 
-0.082142 www.ebay.com//55745____www.gosale.com//630 
-0.082152 www.ebay.com//56162____www.ebay.com//42598 
-0.082227 www.ebay.com//44044____www.gosale.com//630 
-0.082254 www.ebay.com//54776____www.gosale.com//630 
-0.082356 www.ebay.com//43503____www.ebay.com//44553 
-0.082427 www.ebay.com//57139____www.ebay.com//42598 
-0.082456 www.ebay.com//55439____www.gosale.com//630 
-0.082464 www.ebay.com//52627____www.flipkart.com//2193 
-0.082484 www.ebay.com//48059____www.ebay.com//42598 
-0.082547 www.ebay.com//55526____www.ebay.com//42598 
-0.082578 www.ebay.com//58781____www.ebay.com//42598 
-0.082639 www.ebay.com//52627____www.priceme.co.nz//1847 
-0.083418 www.ebay.com//42433____www.gosale.com//630 
-0.083544 www.ebay.com//43503____www.ebay.com//44028 
-0.083617 www.ebay.com//43503____www.priceme.co.nz//1675 
-0.083797 www.ebay.com//54497____www.gosale.com//630 
-0.083809 www.ebay.com//48259____www.gosale.com//630 
-0.084174 www.ebay.com//44553____www.gosale.com//630 
-0.084196 www.ebay.com//42668____www.ebay.com//42598 
-0.084277 www.ebay.com//45101____www.gosale.com//630 
-0.084330 www.ebay.com//43503____cammarkt.com//413 
-0.084612 www.ebay.com//43434____www.ebay.com//42598 
-0.084649 www.ebay.com//43741____www.ebay.com//42598 
-0.084661 www.ebay.com//44606____www.gosale.com//1484 
-0.084826 www.ebay.com//55534____www.ebay.com//42598 
-0.084826 www.ebay.com//59301____www.ebay.com//42598 
-0.084826 www.ebay.com//55745____www.ebay.com//42598 
-0.084863 www.ebay.com//52627____www.ebay.com//56162 
-0.084876 www.ebay.com//24887____www.gosale.com//630 
-0.084876 www.ebay.com//42835____www.gosale.com//630 
-0.084914 www.ebay.com//44044____www.ebay.com//42598 
-0.084942 www.ebay.com//54776____www.ebay.com//42598 
-0.084967 www.ebay.com//24249____www.gosale.com//630 
-0.085051 www.ebay.com//42598____www.ebay.com//24330 
-0.085150 www.ebay.com//55439____www.ebay.com//42598 
-0.085238 www.ebay.com//43503____www.ebay.com//48027 
-0.085437 www.ebay.com//54543____www.priceme.co.nz//5 
-0.085461 www.ebay.com//42598____www.flipkart.com//2178 
-0.085741 www.ebay.com//43503____cammarkt.com//203 
-0.085752 www.ebay.com//55380____www.gosale.com//630 
-0.085752 www.ebay.com//57071____www.gosale.com//630 
-0.085752 www.ebay.com//55172____www.gosale.com//630 
-0.085920 www.ebay.com//52627____www.priceme.co.nz//2064 
-0.086140 www.ebay.com//42433____www.ebay.com//42598 
-0.086359 www.ebay.com//54543____www.priceme.co.nz//1980 
-0.086543 www.ebay.com//48259____www.ebay.com//42598 
-0.086557 www.ebay.com//54543____www.priceme.co.nz//2093 
-0.086897 www.ebay.com//43543____www.gosale.com//630 
-0.086918 www.ebay.com//44553____www.ebay.com//42598 
-0.087024 www.ebay.com//45101____www.ebay.com//42598 
-0.087107 buy.net//5946____www.gosale.com//630 
-0.087177 www.ebay.com//42073____www.gosale.com//630 
-0.087459 www.ebay.com//44028____www.priceme.co.nz//5 
-0.087499 www.ebay.com//59174____www.gosale.com//630 
-0.087642 www.ebay.com//24887____www.ebay.com//42598 
-0.087642 www.ebay.com//42835____www.ebay.com//42598 
-0.087671 www.ebay.com//43503____www.camerafarm.com.au//829 
-0.087746 www.ebay.com//54543____www.ebay.com//43741 
-0.088017 www.ebay.com//54543____buy.net//5946 
-0.088087 www.ebay.com//42504____www.gosale.com//630 
-0.088184 www.ebay.com//60118____www.gosale.com//630 
-0.088400 www.ebay.com//44028____www.priceme.co.nz//1980 
-0.088543 www.ebay.com//55380____www.ebay.com//42598 
-0.088543 www.ebay.com//57071____www.ebay.com//42598 
-0.088543 www.ebay.com//55172____www.ebay.com//42598 
-0.088603 www.ebay.com//44028____www.priceme.co.nz//2093 
-0.088626 www.ebay.com//41983____www.ebay.com//42073 
-0.088660 www.ebay.com//42196____www.gosale.com//630 
-0.088800 www.ebay.com//43326____www.gosale.com//630 
-0.088902 www.ebay.com//57722____www.gosale.com//630 
-0.088906 www.ebay.com//47121____www.ebay.com//42598 
-0.089152 www.ebay.com//47191____www.gosale.com//630 
-0.089202 www.ebay.com//58782____www.gosale.com//630 
-0.089319 www.ebay.com//52627____www.ebay.com//44553 
-0.089399 www.ebay.com//56445____www.gosale.com//630 
-0.089451 www.ebay.com//53179____www.ebay.com//42598 
-0.089451 www.ebay.com//43019____www.ebay.com//42598 
-0.089494 www.ebay.com//44670____www.gosale.com//630 
-0.089722 www.ebay.com//43543____www.ebay.com//42598 
-0.089738 www.ebay.com//54543____www.priceme.co.nz//2246 
-0.089738 www.ebay.com//54543____www.priceme.co.nz//1914 
-0.089816 www.ebay.com//44028____www.ebay.com//43741 
-0.089849 www.ebay.com//41954____www.gosale.com//630 
-0.089877 www.ebay.com//42517____www.gosale.com//630 
-0.089938 buy.net//5946____www.ebay.com//42598 
-0.090077 www.ebay.com//43503____www.ebay.com//42074 
-0.090093 www.ebay.com//44028____buy.net//5946 
-0.090286 www.ebay.com//52805____www.gosale.com//630 
-0.090324 www.ebay.com//55080____www.gosale.com//1484 
-0.090342 www.ebay.com//59174____www.ebay.com//42598 
-0.090401 www.ebay.com//45309____www.gosale.com//630 
-0.090505 www.ebay.com//54543____www.priceme.co.nz//54 
-0.090598 www.ebay.com//52627____www.ebay.com//44028 
-0.090613 www.ebay.com//43503____www.ebay.com//42517 
-0.090676 www.ebay.com//52627____www.priceme.co.nz//1675 
-0.090691 www.ebay.com//54559____www.gosale.com//630 
-0.090882 www.ebay.com//46788____www.gosale.com//630 
-0.090905 www.gosale.com//1049____www.gosale.com//1484 
-0.090946 www.ebay.com//42504____www.ebay.com//42598 
-0.091047 www.ebay.com//60118____www.ebay.com//42598 
-0.091153 www.ebay.com//54543____www.ebay.com//24858 
-0.091161 www.ebay.com//54543____www.ebay.com//45497 
-0.091444 www.ebay.com//52627____cammarkt.com//413 
-0.091498 www.ebay.com//54543____www.ebay.com//24330 
-0.091536 www.ebay.com//42196____www.ebay.com//42598 
-0.091567 www.ebay.com//25039____www.gosale.com//630 
-0.091578 www.ebay.com//54543____www.priceme.co.nz//1746 
-0.091632 www.ebay.com//54543____www.ebay.com//59297 
-0.091663 www.ebay.com//54543____www.priceme.co.nz//2382 
-0.091725 www.flipkart.com//2193____www.ebay.com//42073 
-0.091785 www.ebay.com//57722____www.ebay.com//42598 
-0.091850 www.ebay.com//44028____www.priceme.co.nz//2246 
-0.091850 www.ebay.com//44028____www.priceme.co.nz//1914 
-0.091905 www.ebay.com//48251____www.gosale.com//630 
-0.091936 www.ebay.com//54543____www.flipkart.com//2178 
-0.091961 www.ebay.com//52928____www.gosale.com//630 
-0.092043 www.ebay.com//47191____www.ebay.com//42598 
-0.092068 www.ebay.com//54403____www.ebay.com//42598 
-0.092094 www.ebay.com//58782____www.ebay.com//42598 
-0.092101 www.ebay.com//52627____www.shopbot.com.au//1325 
-0.092109 www.ebay.com//42598____www.priceme.co.nz//2064 
-0.092178 www.ebay.com//43503____www.priceme.co.nz//2346 
-0.092257 www.ebay.com//48591____www.gosale.com//630 
-0.092297 www.ebay.com//56445____www.ebay.com//42598 
-0.092395 www.ebay.com//44670____www.ebay.com//42598 
-0.092421 www.ebay.com//52627____www.ebay.com//48027 
-0.092633 www.ebay.com//52627____www.ebay.com//42307 
-0.092634 www.ebay.com//44028____www.priceme.co.nz//54 
-0.092641 www.ebay.com//52627____www.gosale.com//462 
-0.092645 www.ebay.com//54907____www.ebay.com//42598 
-0.092760 www.ebay.com//41954____www.ebay.com//42598 
-0.092788 www.ebay.com//42517____www.ebay.com//42598 
-0.092962 www.ebay.com//52627____cammarkt.com//203 
-0.093081 www.ebay.com//42074____www.gosale.com//1049 
-0.093210 www.ebay.com//52805____www.ebay.com//42598 
-0.093288 www.ebay.com//54543____www.ebay.com//56359 
-0.093295 www.ebay.com//44028____www.ebay.com//24858 
-0.093304 www.ebay.com//44028____www.ebay.com//45497 
-0.093328 www.ebay.com//45309____www.ebay.com//42598 
-0.093493 www.ebay.com//55277____www.gosale.com//1049 
-0.093578 www.ebay.com//42074____www.gosale.com//1484 
-0.093648 www.ebay.com//44028____www.ebay.com//24330 
-0.093699 www.ebay.com//43503____www.ebay.com//48591 
-0.093729 www.ebay.com//44028____www.priceme.co.nz//1746 
-0.093752 www.ebay.com//54939____www.gosale.com//630 
-0.093785 www.ebay.com//44028____www.ebay.com//59297 
-0.093817 www.ebay.com//44028____www.priceme.co.nz//2382 
-0.093823 www.ebay.com//46788____www.ebay.com//42598 
-0.093992 www.ebay.com//55277____www.gosale.com//1484 
-0.094036 www.ebay.com//52627____www.ebay.com//58766 
-0.094096 www.ebay.com//44028____www.flipkart.com//2178 
-0.094097 www.ebay.com//43683____www.gosale.com//630 
-0.094455 www.ebay.com//41983____www.priceme.co.nz//5 
-0.094482 www.ebay.com//53260____www.gosale.com//630 
-0.094528 www.ebay.com//25039____www.ebay.com//42598 
-0.094875 www.ebay.com//48251____www.ebay.com//42598 
-0.094934 www.ebay.com//52928____www.ebay.com//42598 
-0.095037 www.ebay.com//52627____www.camerafarm.com.au//829 
-0.095106 www.ebay.com//54543____www.flipkart.com//2193 
-0.095238 www.ebay.com//48591____www.ebay.com//42598 
-0.095441 www.ebay.com//52627____www.shopbot.com.au//1394 
-0.095463 www.ebay.com//41983____www.priceme.co.nz//1980 
-0.095476 www.ebay.com//44028____www.ebay.com//56359 
-0.095727 www.ebay.com//46468____www.gosale.com//1484 
-0.096037 www.ebay.com//43503____www.ebay.com//52627 
-0.096336 www.ebay.com//44643____www.gosale.com//630 
-0.096496 www.ebay.com//43503____www.ebay.com//55080 
-0.096518 www.ebay.com//58766____www.gosale.com//1484 
-0.096611 www.ebay.com//52627____www.ebay.com//24817 
-0.096761 www.ebay.com//45074____www.gosale.com//630 
-0.096776 www.ebay.com//54939____www.ebay.com//42598 
-0.096810 www.ebay.com//53278____www.ebay.com//42598 
-0.096981 www.ebay.com//41983____www.ebay.com//43741 
-0.096987 www.ebay.com//42268____www.gosale.com//630 
-0.097131 www.ebay.com//43683____www.ebay.com//42598 
-0.097172 www.ebay.com//42598____www.priceme.co.nz//1675 
-0.097278 www.ebay.com//41983____buy.net//5946 
-0.097331 www.ebay.com//44028____www.flipkart.com//2193 
-0.097534 www.ebay.com//44028____www.priceme.co.nz//1847 
-0.097624 www.ebay.com//52627____www.ebay.com//42074 
-0.097832 www.ebay.com//54543____www.ebay.com//56162 
-0.097988 www.ebay.com//44570____www.gosale.com//630 
-0.098029 www.ebay.com//48599____www.gosale.com//630 
-0.098200 www.ebay.com//52627____www.ebay.com//42517 
-0.098688 www.ebay.com//42598____www.shopbot.com.au//1325 
-0.098774 www.ebay.com//55173____www.ebay.com//42598 
-0.098776 www.flipkart.com//2193____www.priceme.co.nz//1980 
-0.098975 www.ebay.com//43720____www.ebay.com//42598 
-0.099000 www.flipkart.com//2193____www.priceme.co.nz//2093 
-0.099033 www.ebay.com//54543____www.priceme.co.nz//2064 
-0.099160 www.ebay.com//41983____www.priceme.co.nz//2246 
-0.099160 www.ebay.com//41983____www.priceme.co.nz//1914 
-0.099262 www.ebay.com//42598____www.gosale.com//462 
-0.099326 www.ebay.com//43503____buy.net//5641 
-0.099434 www.ebay.com//44643____www.ebay.com//42598 
-0.099576 www.ebay.com//43503____www.gosale.com//953 
-0.099840 www.ebay.com//43503____www.ebay.com//48059 
-0.099872 www.ebay.com//45074____www.ebay.com//42598 
-0.099882 www.ebay.com//52627____www.priceme.co.nz//2346 
-Positive pairs: 0
-Negative pairs: 296
-
-Training Completed.
-
-Generating test results...
-start: 27999       finish: 37332
-Testing Completed.
-TRUE-POSITIVE: 16
- FALSE-POSITIVE: 94
- FALSE-NEGATIVE: 703
-possitive clique:
-Precision: 0.145455
-Recall: 0.022253
-F1 score: 0.038601
-negative clique:
-Precision: 0.923778
-Recall: 0.989088
-F1 score: 0.955318
-
-Printing the classifier info to a file.
-
-End of the program.
-
-Freeing used memory.
+Remaining = 178590 and batchSize = 1024
+Current Cost: 0.366509
+Remaining = 177566 and batchSize = 1024
+Current Cost: 0.404077
+Remaining = 176542 and batchSize = 1024
+Current Cost: 0.393217
+Remaining = 175518 and batchSize = 1024
+Current Cost: 0.389029
+Remaining = 174494 and batchSize = 1024
+Current Cost: 0.359712
+Remaining = 173470 and batchSize = 1024
+Current Cost: 0.348600
+Remaining = 172446 and batchSize = 1024
+Current Cost: 0.356755
+Remaining = 171422 and batchSize = 1024
+Current Cost: 0.371061
+Remaining = 170398 and batchSize = 1024
+Current Cost: 0.341197
+Remaining = 169374 and batchSize = 1024
+Current Cost: 0.374277
+Remaining = 168350 and batchSize = 1024
+Current Cost: 0.365441
+Remaining = 167326 and batchSize = 1024
+Current Cost: 0.361745
+Remaining = 166302 and batchSize = 1024
+Current Cost: 0.339772
+Remaining = 165278 and batchSize = 1024
+Current Cost: 0.321820
+Remaining = 164254 and batchSize = 1024
+Current Cost: 0.359918
+Remaining = 163230 and batchSize = 1024
+Current Cost: 0.343445
+Remaining = 162206 and batchSize = 1024
+Current Cost: 0.353775
+Remaining = 161182 and batchSize = 1024
+Current Cost: 0.357715
+Remaining = 160158 and batchSize = 1024
+Current Cost: 0.359982
+Remaining = 159134 and batchSize = 1024
+Current Cost: 0.330324
+Remaining = 158110 and batchSize = 1024
+Current Cost: 0.326977
+Remaining = 157086 and batchSize = 1024
+Current Cost: 0.327492
+Remaining = 156062 and batchSize = 1024
+Current Cost: 0.342982
+Remaining = 155038 and batchSize = 1024
+Current Cost: 0.362265
+Remaining = 154014 and batchSize = 1024
+Current Cost: 0.349409
+Remaining = 152990 and batchSize = 1024
+Current Cost: 0.318138
+Remaining = 151966 and batchSize = 1024
+Current Cost: 0.321987
+Remaining = 150942 and batchSize = 1024
+Current Cost: 0.344981
+Remaining = 149918 and batchSize = 1024
+Current Cost: 0.352726
+Remaining = 148894 and batchSize = 1024
+Current Cost: 0.321209
+Remaining = 147870 and batchSize = 1024
+Current Cost: 0.320197
+Remaining = 146846 and batchSize = 1024
+Current Cost: 0.332680
+Remaining = 145822 and batchSize = 1024
+Current Cost: 0.335219
+Remaining = 144798 and batchSize = 1024
+Current Cost: 0.310948
+Remaining = 143774 and batchSize = 1024
+Current Cost: 0.297954
+Remaining = 142750 and batchSize = 1024
+Current Cost: 0.317717
+Remaining = 141726 and batchSize = 1024
+Current Cost: 0.334566
+Remaining = 140702 and batchSize = 1024
+Current Cost: 0.317262
+Remaining = 139678 and batchSize = 1024
+Current Cost: 0.339423
+Remaining = 138654 and batchSize = 1024
+Current Cost: 0.337229
+Remaining = 137630 and batchSize = 1024
+Current Cost: 0.342843
+Remaining = 136606 and batchSize = 1024
+Current Cost: 0.325315
+Remaining = 135582 and batchSize = 1024
+Current Cost: 0.325997
+Remaining = 134558 and batchSize = 1024
+Current Cost: 0.330250
+Remaining = 133534 and batchSize = 1024
+Current Cost: 0.332446
+Remaining = 132510 and batchSize = 1024
+Current Cost: 0.352570
+Remaining = 131486 and batchSize = 1024
+Current Cost: 0.316986
+Remaining = 130462 and batchSize = 1024
+Current Cost: 0.326131
+Remaining = 129438 and batchSize = 1024
+Current Cost: 0.302538
+Remaining = 128414 and batchSize = 1024
+Current Cost: 0.307187
+Remaining = 127390 and batchSize = 1024
+Current Cost: 0.324136
+Remaining = 126366 and batchSize = 1024
+Current Cost: 0.347068
+Remaining = 125342 and batchSize = 1024
+Current Cost: 0.308553
+Remaining = 124318 and batchSize = 1024
+Current Cost: 0.290810
+Remaining = 123294 and batchSize = 1024
+Current Cost: 0.326105
+Remaining = 122270 and batchSize = 1024
+Current Cost: 0.329925
+Remaining = 121246 and batchSize = 1024
+Current Cost: 0.303380
+Remaining = 120222 and batchSize = 1024
+Current Cost: 0.307948
+Remaining = 119198 and batchSize = 1024
+Current Cost: 0.293914
+Remaining = 118174 and batchSize = 1024
+Current Cost: 0.311278
+Remaining = 117150 and batchSize = 1024
+Current Cost: 0.289779
+Remaining = 116126 and batchSize = 1024
+Current Cost: 0.280407
+Remaining = 115102 and batchSize = 1024
+Current Cost: 0.272363
+Remaining = 114078 and batchSize = 1024
+Current Cost: 0.276599
+Remaining = 113054 and batchSize = 1024
+Current Cost: 0.298538
+Remaining = 112030 and batchSize = 1024
+Current Cost: 0.313352
+Remaining = 111006 and batchSize = 1024
+Current Cost: 0.322486
+Remaining = 109982 and batchSize = 1024
+Current Cost: 0.280786
+Remaining = 108958 and batchSize = 1024
+Current Cost: 0.274221
+Remaining = 107934 and batchSize = 1024
+Current Cost: 0.313385
+Remaining = 106910 and batchSize = 1024
+Current Cost: 0.323669
+Remaining = 105886 and batchSize = 1024
+Current Cost: 0.302840
+Remaining = 104862 and batchSize = 1024
+Current Cost: 0.304389
+Remaining = 103838 and batchSize = 1024
+Current Cost: 0.279507
+Remaining = 102814 and batchSize = 1024
+Current Cost: 0.272913
+Remaining = 101790 and batchSize = 1024
+Current Cost: 0.285440
+Remaining = 100766 and batchSize = 1024
+Current Cost: 0.289061
+Remaining = 99742 and batchSize = 1024
+Current Cost: 0.298916
+Remaining = 98718 and batchSize = 1024
+Current Cost: 0.293197
+Remaining = 97694 and batchSize = 1024
+Current Cost: 0.275986
+Remaining = 96670 and batchSize = 1024
+Current Cost: 0.264978
+Remaining = 95646 and batchSize = 1024
+Current Cost: 0.266619
+Remaining = 94622 and batchSize = 1024
+Current Cost: 0.257040
+Remaining = 93598 and batchSize = 1024
+Current Cost: 0.278847
+Remaining = 92574 and batchSize = 1024
+Current Cost: 0.286342
+Remaining = 91550 and batchSize = 1024
+Current Cost: 0.255197
+Remaining = 90526 and batchSize = 1024
+Current Cost: 0.263994
+Remaining = 89502 and batchSize = 1024
+Current Cost: 0.290473
+Remaining = 88478 and batchSize = 1024
+Current Cost: 0.302163
+Remaining = 87454 and batchSize = 1024
+Current Cost: 0.275434
+Remaining = 86430 and batchSize = 1024
+Current Cost: 0.275356
+Remaining = 85406 and batchSize = 1024
+Current Cost: 0.263547
+Remaining = 84382 and batchSize = 1024
+Current Cost: 0.289446
+Remaining = 83358 and batchSize = 1024
+Current Cost: 0.280821
+Remaining = 82334 and batchSize = 1024
+Current Cost: 0.256415
+Remaining = 81310 and batchSize = 1024
+Current Cost: 0.272550
+Remaining = 80286 and batchSize = 1024
+Current Cost: 0.250156
+Remaining = 79262 and batchSize = 1024
+Current Cost: 0.279869
+Remaining = 78238 and batchSize = 1024
+Current Cost: 0.290369
+Remaining = 77214 and batchSize = 1024
+Current Cost: 0.282970
+Remaining = 76190 and batchSize = 1024
+Current Cost: 0.272324
+Remaining = 75166 and batchSize = 1024
+Current Cost: 0.264825
+Remaining = 74142 and batchSize = 1024
+Current Cost: 0.267017
+Remaining = 73118 and batchSize = 1024
+Current Cost: 0.283302
+Remaining = 72094 and batchSize = 1024
+Current Cost: 0.283498
+Remaining = 71070 and batchSize = 1024
+Current Cost: 0.285812
+Remaining = 70046 and batchSize = 1024
+Current Cost: 0.257514
+Remaining = 69022 and batchSize = 1024
+Current Cost: 0.303752
+Remaining = 67998 and batchSize = 1024
+Current Cost: 0.280711
+Remaining = 66974 and batchSize = 1024
+Current Cost: 0.251736
+Remaining = 65950 and batchSize = 1024
+Current Cost: 0.258507
+Remaining = 64926 and batchSize = 1024
+Current Cost: 0.254922
+Remaining = 63902 and batchSize = 1024
+Current Comakefile:70: recipe for target 'run' failed

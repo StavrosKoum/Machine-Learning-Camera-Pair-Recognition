@@ -120,6 +120,17 @@ transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, doubl
     return pair;
 }   
 
+void deletePair(transitivityPair *p){
+
+    //json files will be freed from the hashTable
+
+    //free array
+    free(p->array);
+
+    free(p);
+}
+
+
 //searches array for the key. -1 -> not found
 int searchArray(bucketNode** array ,char* key, int limit){
 
@@ -473,7 +484,6 @@ void case_zero(Clique *node1,Clique *node2)
 
 }
 
-
 void fixLists(Bucket **hashtable, int hashSize, Clique *toStay, Clique *toMove){
 
     //init
@@ -489,17 +499,18 @@ void fixLists(Bucket **hashtable, int hashSize, Clique *toStay, Clique *toMove){
         return;
     }
 
+    // if cur != null
+    // Traverse toMove list and update pointers
     if(cur != NULL){
         while(cur->next_ptr != NULL){
             cur = cur->next_ptr;
         }
 
         cur->next_ptr = toMove->neg_node_list;
+        //function to do the work above
+
     }
     else{
-
-        // if cur != null
-        // Traverse toMove list and update pointers
         toStay->neg_node_list = toMove->neg_node_list;
     }
 
@@ -1141,7 +1152,7 @@ double* arrayConcat(double *startArray, double *endArray, int size){
     double *array = NULL;
 
     //create a new array with size
-    array = malloc(size * 2 *sizeof(double));
+    array = malloc(size * sizeof(double));
     //error check
     if(array == NULL){
         perror("malloc");
@@ -1152,16 +1163,13 @@ double* arrayConcat(double *startArray, double *endArray, int size){
     for(int i = 0; i < size; i++){
         
         //get euclidian distance
-        //array[i] = sqrt(pow((startArray[i] - endArray[i]), 2) +  pow((endArray[i] - startArray[i]), 2) );
-        //array[i] = startArray[i] + endArray[i];
-        array[i] = startArray[i];
-        
+        array[i] = sqrt(pow((startArray[i] - endArray[i]), 2) +  pow((endArray[i] - startArray[i]), 2) );        
     }
 
-    for(int i = size; i < (size*2); i++)
-    {
-         array[i] = endArray[i-size];
-    }
+    // for(int i = size; i < (size*2); i++)
+    // {
+    //      array[i] = endArray[i-size];
+    // }
 
     return array;
 }
@@ -1246,7 +1254,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //initialize the classifier
     //size is the concatenated size of 2 jsonFiles represented as TF-IDF matrices
-    classifier = create_logistic_reg(2 * (wordHash->id_counter));
+    classifier = create_logistic_reg(wordHash->id_counter);
 
     //initialize the file array
     //same size as the number of lines inside

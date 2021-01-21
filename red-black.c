@@ -346,8 +346,8 @@ void freeTreeNodes(treeNode* n){
         toFree= temp;
         //node to the next one
         temp = temp->next;
-        //free
-        //freePatient(toFree->patient);
+        //free pair
+        deletePair(toFree->pair);
         free(toFree);
     }
 

@@ -38,6 +38,7 @@ typedef struct transitivityPair{
 }transitivityPair;
 
 transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, double *array, int result);
+void deletePair(transitivityPair *p);
 
 
 //functions
@@ -62,6 +63,8 @@ void parcerCSV(char *path, char *csv, Bucket **hashtable, int hashSize,int opt);
 void printNegativeCliques(Bucket **ht, int stop);
 int check_neg_cliques(Bucket** ht, char* word1, char* word2,int limit);
 void NegativeQliqueTest(char *path, char *csv, Bucket **hashtable, int hashSize);
+void fixLists(Bucket **hashtable, int hashSize, Clique *toStay, Clique *toMove);
+bucketNode* findEntryArrayPointer(Bucket** ht, int hash, char *key);
 
 logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, word_ht *wordHash, int size80,int batch_size);
 jsonFile* findJsonFromCsv(Bucket** ht,int hash, char *key);
