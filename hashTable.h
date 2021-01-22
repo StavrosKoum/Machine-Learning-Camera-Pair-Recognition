@@ -5,6 +5,7 @@
 #include "jsonStruct.h"
 #include "logisticRegression.h"
 #include "graph.h"
+#include "sparce.h"
 
 typedef struct logistic_reg logistic_reg;
 
@@ -33,11 +34,11 @@ typedef struct transitivityPair{
     jsonFile *rightJson;
     int result;
     double prediction;
-    double *array;
+    sparceMatrix *array;
 
 }transitivityPair;
 
-transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, double *array, int result);
+transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, sparceMatrix *array, int result);
 void deletePair(transitivityPair *p);
 
 

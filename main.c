@@ -256,7 +256,7 @@ int main(int argc,char *argv[]){
 
     //remove words with tf-idf under 0.002
     //0.00034
-    deleteWordsWithCount(wordHash, 0.002);
+    deleteWordsWithCount(wordHash, 0.00034);
     //re-apply the wordIds after the delete
     reCalculateHashTableWordId(wordHash);
     //wordHashPrint(wordHash);

@@ -13,7 +13,7 @@ typedef struct sparceNode{
 
 }sparceNode;
 
-typedef struct spraceMatrix{
+typedef struct sparceMatrix{
 
     //pointer to the first node
     sparceNode *head;
@@ -23,5 +23,6 @@ typedef struct spraceMatrix{
 sparceNode *createSparceNode(int i, double v);
 sparceMatrix *createSparceMatrix();
 sparceMatrix **createMiniFile(sparceMatrix **miniFile, double **file, int size, int lineSize);
-
+double sparce_search(sparceMatrix*,int );
+sparceMatrix * create_sparce_matrix(double* array, int lineSize);
 #endif

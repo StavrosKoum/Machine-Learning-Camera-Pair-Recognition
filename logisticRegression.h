@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "metrics.h"
 #include "hashTable.h"
+#include "sparce.h"
 
 typedef struct bucket Bucket;
 
@@ -14,7 +15,7 @@ typedef struct logistic_reg
 
     double *weights;
 
-    double **x;
+    sparceMatrix **x;
 
     int *y;
 
@@ -29,14 +30,14 @@ typedef struct logistic_reg
 
 }logistic_reg;
 
-double** shuffleArray(double** array, int *array2, char **array3, char **array4, int size);
+double** shuffleArray(double** array, int *array2, int size);
 logistic_reg * create_logistic_reg(int lineSize);
-void fit(logistic_reg * cur,double **x,int* y, int lineSize,int array_size);
-logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,double **x, int *y,int x_size,int batchSize, Bucket **, int );
+void fit(logistic_reg * cur,sparceMatrix **x,int* y, int lineSize,int array_size);
+logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,sparceMatrix **x, int *y,int x_size,int batchSize, Bucket **, int );
 double cost_function(logistic_reg *cls);
 // double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp);
-double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp,positiveMetrics *P_metrics, negativeMetrics *N_metrics);    
-double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **, int, int lim, double **x, int *y);
+double logisticRegrationTest(logistic_reg *cls, sparceMatrix *data, char *left, char *right, int y, FILE *fp,positiveMetrics *P_metrics, negativeMetrics *N_metrics);    
+sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **, int, int lim, sparceMatrix **x, int *y);
 
 void printClassifier(logistic_reg *cls);
 void freeLogisticRegressor(logistic_reg *cls);

@@ -100,7 +100,7 @@ Bucket* createBucket(int size){
 
 }
 
-transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, double *array, int result){
+transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, double p, sparceMatrix *array, int result){
 
     transitivityPair *pair = NULL;
     //allocate space
@@ -123,7 +123,13 @@ transitivityPair *createTransitivityPair(jsonFile *file1, jsonFile *file2, doubl
 
 void deletePair(transitivityPair *p){
 
-    //json files will be freed from the hashTable
+    //free sites
+    free(p->leftJson->site);
+    free(p->rightJson->site);
+
+    //free jsons
+    free(p->leftJson);
+    free(p->rightJson);
 
     //free array
     free(p->array);
@@ -1363,8 +1369,8 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
         fileResults[i] = atoi(label);
 
         //store the names of the files above
-        fileNameLeft[i] = FirstFile->site;
-        fileNameRight[i] = SecondFile->site;
+        // fileNameLeft[i] = FirstFile->site;
+        // fileNameRight[i] = SecondFile->site;
         
         //we can now free the individual arrays inside the jsonFiles
         freeJsonWordCountArray(FirstFile);
@@ -1383,7 +1389,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //at this point all the file is inside the arrays
     //time to shuffle it    
-    file = shuffleArray(file, fileResults, fileNameLeft, fileNameRight, size);
+    file = shuffleArray(file, fileResults, size);
 
     //create sparce array
     sparceFile = createMiniFile(sparceFile, file, size, wordHash->id_counter);
@@ -1468,7 +1474,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     //     remaining -= batch_size;
     // }
 
-    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,file,fileResults,size,batch_size, transitivityHashtable, thashSize);
+    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize);
 
     current = size * 60 / 100;
     printf("\nTraining Completed.\n");
@@ -1477,7 +1483,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     for(int i = current;i < (size * 80 / 100); i ++)
     {
         //test
-        logisticRegrationTest(classifier, file[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
+        logisticRegrationTest(classifier, sparceFile[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
     }
 
 
@@ -1532,17 +1538,17 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //free results array
     free(fileResults);
-    //free file array
-    for(int i = 0; i < size; i++){
+    // //free file array
+    // for(int i = 0; i < size; i++){
 
-        free(file[i]);
+    //     free(file[i]);
 
-    }
-    free(file);
-    //free left names
-    free(fileNameLeft);
-    //same for right
-    free(fileNameRight);
+    // }
+    // free(file);
+    // //free left names
+    // free(fileNameLeft);
+    // //same for right
+    // free(fileNameRight);
     //close the prediction file
     fclose(predFp);
 

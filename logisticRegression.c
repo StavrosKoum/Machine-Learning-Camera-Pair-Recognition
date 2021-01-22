@@ -7,6 +7,7 @@
 #include "metrics.h"
 #include "time.h"
 #include "red-black.h"
+#include "sparce.h"
 
 
 logistic_reg * create_logistic_reg(int lineSize)
@@ -33,7 +34,7 @@ logistic_reg * create_logistic_reg(int lineSize)
 
 }
 
-void fit(logistic_reg * cur,double **x,int *y, int lineSize,int array_size)
+void fit(logistic_reg * cur,sparceMatrix **x,int *y, int lineSize,int array_size)
 {
     cur->x = x;
     cur->y = y;
@@ -50,14 +51,22 @@ double logistic_function(double z)
 }
 
 
-double calculateZ(double *x_line, logistic_reg *cls)
+double calculateZ(sparceMatrix *x_line, logistic_reg *cls)
 {
     double z = 0.0; //cls->bias;
+    sparceNode* cur = x_line->head;
 
-    for(int i =0; i < cls->lineSize; i++)
+    while(cur!=NULL)
     {
-        z += (cls->weights[i]*x_line[i]);
+        z += (cls->weights[cur->index] * cur->value);
+        cur = cur->next;
     }
+
+
+    // for(int i =0; i < cls->lineSize; i++)
+    // {
+    //     z += (cls->weights[i]*x_line[i]);
+    // }
 
     return logistic_function(z);
 }
@@ -65,7 +74,7 @@ double cost_function(logistic_reg *cls){
 
     double error=0.0; 
     double z=0.0;
-    double* line = NULL;
+    sparceMatrix* line = NULL;
     double error_sum = 0.0;
 
 
@@ -97,21 +106,23 @@ double cost_function_derivative(logistic_reg *cls, int j)
     double linear_score = 0.0;
     double error = 0.0;
     double J;
-    double* line = NULL;
+    sparceMatrix* line = NULL;
     double error_sum = 0.0;
+    double line_j;
 
     for(int i =0; i < cls->arraySize;i++ )
     {
         line = cls->x[i];
+        line_j = sparce_search(line,j);
 
         //if line[j] is 0
         //we know that the error will also be 0
-        if(line[j] == 0){
+        if(line_j == 0){
             continue;
         }
 
         linear_score = calculateZ(line,cls);
-        error = (linear_score - cls->y[i]) * line[j];
+        error = (linear_score - cls->y[i]) * line_j;
         error_sum +=error;
 
         if(cls->y[i] == 1){
@@ -121,7 +132,7 @@ double cost_function_derivative(logistic_reg *cls, int j)
                 line = cls->x[i];
 
                 linear_score = calculateZ(line,cls);
-                error = (linear_score - cls->y[i]) * line[j];
+                error = (linear_score - cls->y[i]) * line_j;
                 error_sum +=error;
 
             }
@@ -160,13 +171,13 @@ double* gradient_descend(logistic_reg *cls)
 
 //for each step until limit the algorithm calculates gradients which change the weights
 //each time closer to the ideal weights
-logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,double **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize){
+logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,sparceMatrix **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize){
 
     double threshold = 0.10;
     double step = 0.1;
     int current;
     int remaining = x_size * 60 / 100;
-    double **x_train;
+    sparceMatrix **x_train;
     int *y_train;
     int i = 1;
     int bSize = batchSize;
@@ -184,7 +195,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             }
 
             //allocate the arrays
-            x_train  = malloc(sizeof(double*) * batchSize);
+            x_train  = malloc(sizeof(sparceMatrix*) * batchSize);
             y_train = malloc(sizeof(int) * batchSize);
 
             for(int i=0; i < batchSize; i++){
@@ -213,7 +224,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     return cls;
 }
 
-double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp,positiveMetrics *P_metrics, negativeMetrics *N_metrics){    
+double logisticRegrationTest(logistic_reg *cls, sparceMatrix *data, char *left, char *right, int y, FILE *fp,positiveMetrics *P_metrics, negativeMetrics *N_metrics){    
     //sum
     double z = 0.0;
     //model prediction
@@ -281,14 +292,14 @@ void freeLogisticRegressor(logistic_reg *cls){
 
 
 //shuffle a 2d array of doubles and return it
-double** shuffleArray(double** array, int *array2, char **array3, char ** array4, int size){
+double** shuffleArray(double** array, int *array2, int size){
 
     //line to be swapped with current
     int line = 0;
     //temp line
     double *temp = NULL;
     int tempRes = 0;
-    char *tempName = NULL;
+    
     //initialize generator
     //srand(time(NULL));
     //traverse the array
@@ -310,15 +321,7 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
         array2[i] = array2[line];
         array2[line] = tempRes; 
 
-        //flip name array
-        tempName = array3[i];
-        array3[i] = array3[line];
-        array3[line] = tempName;
-
-        //flip name array
-        tempName = array4[i];
-        array4[i] = array4[line];
-        array4[line] = tempName;
+        
     }   
 
     //returnt he completed array
@@ -331,7 +334,7 @@ double** shuffleArray(double** array, int *array2, char **array3, char ** array4
 //entries are extracted from the tree sorted by the prediction distance from 0 or 1
 //if it's possible they are added to the hashtable
 //after the procedure above is completed the new train set (X and Y) is created
-void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double **X, int *Y){
+void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceMatrix **X, int *Y){
 
     int hash;
     int found_left = 0;
@@ -602,7 +605,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
 
 //function that traverses all the pairs and selects the results with the 
 //higher accuracy depening on the threshold
-double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, double **x, int *y){
+sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, sparceMatrix **x, int *y){
 
     Bucket *cur = NULL;
     int limit = 0;
@@ -615,6 +618,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     double z = 0.0;
     int pCounter = 0;
     int nCounter = 0;
+    sparceMatrix * sparce_matrix;
 
     //to store the results that pass the requirements
     //transitivityPair pairs[HTsize];
@@ -687,9 +691,12 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                 
                                 //concat the two arrays
                                 X = arrayConcat(curFile->JsonWordCount, ptr->JsonWordCount, wordHash->id_counter);
+                                //create sparce matrix with X array
+                                sparce_matrix = create_sparce_matrix(X,wordHash->id_counter);
+
 
                                 //get the model predection
-                                z = calculateZ(X, cls);
+                                z = calculateZ(sparce_matrix, cls);
                                 //printf("PREDICTION %f %s %s\n", z,ptr->site,curFile->site);
 
                                 //check if the prediction is in the range we want
@@ -704,18 +711,18 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                     leftJson = createRedusedJsonFile(curFile->site, curFile->JsonWordCount);
                                     rightJson = createRedusedJsonFile(ptr->site, ptr->JsonWordCount);
                                     //create the pair
-                                    filePair = createTransitivityPair(leftJson, rightJson, z, X, 1);
+                                    filePair = createTransitivityPair(leftJson, rightJson, z, sparce_matrix, 1);
                                     
                                     //printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
                                     //add the pair to the tree
                                     insertTree(&tree_ptr->root,filePair);
                                     //update counter
                                     tree_ptr->counter += 1;
-                                }else{
-
-                                    free(X);
-
                                 }
+
+                                free(X);
+
+                                
 
                                 // if(X != NULL)
                                 // {
@@ -804,9 +811,12 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                 
                                     //concat the two arrays
                                     X = arrayConcat(neg_file1->JsonWordCount, neg_file2->JsonWordCount, wordHash->id_counter);
+                                    //create sparce matrix with X array
+                                    sparce_matrix = create_sparce_matrix(X,wordHash->id_counter);
+
 
                                     //get the model predection
-                                    z = calculateZ(X, cls);
+                                    z = calculateZ(sparce_matrix, cls);
                                     //printf("NEGATIVE PREDICTION %f %s %s\n", z,neg_file2->site,neg_file1->site);
                                     
                                     //if its in the range we want
@@ -816,7 +826,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                         leftJson = createRedusedJsonFile(neg_file1->site, neg_file1->JsonWordCount);
                                         rightJson = createRedusedJsonFile(neg_file2->site, neg_file2->JsonWordCount);
                                         //create the pair
-                                        filePair = createTransitivityPair(leftJson, rightJson, z, X, 0);
+                                        filePair = createTransitivityPair(leftJson, rightJson, z, sparce_matrix, 0);
                                         
                                         //printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
                                         //add the pair to the tree
@@ -826,9 +836,9 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
                                         //count it
                                         nCounter++;
 
-                                    }else{
-                                        free(X);
                                     }
+                                    free(X);
+                                    
                                     
                                     
                                     
@@ -868,5 +878,6 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
     // printTree(tree_ptr->root);
     //free the tree
     freeTree(tree_ptr);
-    
+
+    return x;
 }

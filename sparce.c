@@ -42,20 +42,64 @@ sparceMatrix **createMiniFile(sparceMatrix **miniFile, double **file, int size, 
     miniFile = malloc(size * sizeof(sparceMatrix*));
 
     //for each array
-    for(int i = 0; i < size; i++){
+    for(int i = 0; i < size; i++)
+    {
         //create a sparce matrix
         miniFile[i] = createSparceMatrix();
         array = file[i];
         //for each line
-        for(int j = 0; j < lineSize; j++){
+        for(int j = 0; j < lineSize; j++)
+        {
             //if the element is not zero
             if(array[j] != 0.0){
                 // add it to the sparce matrix
                 insertMatrixNode(miniFile[i], j, array[j]);
             }
         }
+        //free unsused structs
+        free(file[i]);
+        
     }
 
+    free(file);
+    
     // return the file
     return miniFile;
+}
+
+sparceMatrix * create_sparce_matrix(double* array, int lineSize)
+{
+    
+    //allocate the array
+    sparceMatrix* miniFile = createSparceMatrix();
+    //for each line
+        for(int j = 0; j < lineSize; j++){
+            //if the element is not zero
+            if(array[j] != 0.0){
+                // add it to the sparce matrix
+                insertMatrixNode(miniFile, j, array[j]);
+            }
+        }
+    // return the file
+    return miniFile;
+}
+
+
+double sparce_search(sparceMatrix* matrix,int index)
+{
+    sparceNode* cur = matrix->head;
+    while(cur!= NULL)
+    {
+        if(cur->index == index)
+        {
+            return cur->value;
+        }
+
+        if(index < cur->index)
+        {
+            return 0.0;
+        }
+        cur = cur->next;
+    }
+    return 0.0;
 }
