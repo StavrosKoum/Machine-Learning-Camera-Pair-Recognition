@@ -7,6 +7,8 @@
 //create a tree
 rbTree* createTree(){
 
+    printf("!!!!!!!tree\n");
+
     rbTree* tree = NULL;
     tree = malloc(sizeof(rbTree));
     //error check
@@ -231,25 +233,58 @@ void rebalance(treeNode** root, treeNode* node){
 
 }
 
+void insertTree3(transitivityPair *pair, treeNode **root)
+{
+    if( *root == 0 )
+    {
+        *root = createTreeNode(pair);
+        /* initialize the children to null */
+        (*root)->left = 0;    
+        (*root)->right = 0;  
+    }
+    else if(pair->prediction < (*root)->priority)
+    {
+        insertTree3( pair, &(*root)->left );
+    }
+    else if(pair->prediction > (*root)->priority)
+    {
+        insertTree3( pair, &(*root)->right );
+        
+    }else{
+
+        deletePair(pair);
+
+    }
+}
+
 //insertion
-void insertTree(treeNode** root, transitivityPair* pair){
+treeNode* insertTree(treeNode* root, transitivityPair* pair){
 
     //create the new node
+    //printf("INSERT %s\n", pair->leftJson->site);
     treeNode* newNode = createTreeNode(pair);
 
+    int pairP;
+    if(pair->result == 0){
+        pairP = pair->prediction;
+    }else{
+        pairP = fabs(1 - pair->prediction);
+    }
+
     //if there isn't a root make it a root
-    if (*root == NULL)
+    if (root == NULL)
 	{
-		(*root) = newNode;
+		root = newNode;
         //fix color
         newNode->color = 'B';
-    
+        return root;
+
     //there is a root
 	}else{
 
         treeNode* newParent = NULL;
         //do not mess with the root
-        treeNode* curNode = (*root);
+        treeNode* curNode = root;
 
         //follow staandart BST tree insertion
         while (curNode != NULL)
@@ -257,36 +292,38 @@ void insertTree(treeNode** root, transitivityPair* pair){
             //update parent ptr
             newParent = curNode;
             //if the key is smaller
-            if(pair->prediction < curNode->priority)
+            if(pairP < curNode->priority)
                 //go left
                 curNode = curNode->left;
-            else if(pair->prediction > curNode->priority)
+            else if(pairP > curNode->priority)
                 curNode = curNode->right;
             
             //it's equal
             //add it to the node's list
             else{
 
-                //printf("adding to the treeNode list\n");
+                printf("adding to the treeNode list %s\n", pair->leftJson->site);
 
                 //to update the parent
                 newNode->parent = NULL;
                 //add it
                 curNode = insertTreeNodeList(curNode, newNode);
-                return;
+                return root;
             }
         }
+        printf("Added to new leaf %s\n", pair->leftJson->site);
         //add it to the tree
         newNode->parent = newParent;
-        //left or right from the parent
+        // left or right from the parent
         if(newNode->priority < newParent->priority )
             newParent->left = newNode;
         else
             newParent->right = newNode;
 
+        return root;
         //function that fixer iregularities in the tree
         //caused by the new node
-        rebalance(root, newNode);
+        // rebalance(root, newNode);
 
     }
 
@@ -335,9 +372,10 @@ void freeTreeNodes(treeNode* n){
 
     //for the left path
     freeTreeNodes(n->left);
+    
     //for the right path
     freeTreeNodes(n->right);
-
+    
     //free the node and his chain
     temp = n;
     toFree = n;
@@ -351,7 +389,6 @@ void freeTreeNodes(treeNode* n){
         deletePair(toFree->pair);
         free(toFree);
     }
-
 }
 
 // //basic tree-search function

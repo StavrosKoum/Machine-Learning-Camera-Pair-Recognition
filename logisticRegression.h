@@ -30,7 +30,7 @@ typedef struct logistic_reg
 
 }logistic_reg;
 
-double** shuffleArray(double** array, int *array2, int size);
+double** shuffleArray(double** array, int *array2, int size, char **, char **);
 logistic_reg * create_logistic_reg(int lineSize);
 void fit(logistic_reg * cur,sparceMatrix **x,int* y, int lineSize,int array_size);
 logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,sparceMatrix **x, int *y,int x_size,int batchSize, Bucket **, int );

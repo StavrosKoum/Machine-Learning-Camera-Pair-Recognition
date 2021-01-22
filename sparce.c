@@ -70,16 +70,29 @@ sparceMatrix **createMiniFile(sparceMatrix **miniFile, double **file, int size, 
 sparceMatrix * create_sparce_matrix(double* array, int lineSize)
 {
     
+    // for(int i = 0; i < lineSize; i++){
+
+    //     printf("%f\n", array[i]);
+
+    // }
+
     //allocate the array
     sparceMatrix* miniFile = createSparceMatrix();
     //for each line
-        for(int j = 0; j < lineSize; j++){
-            //if the element is not zero
-            if(array[j] != 0.0){
-                // add it to the sparce matrix
-                insertMatrixNode(miniFile, j, array[j]);
-            }
+    for(int j = 0; j < lineSize; j++){
+        //if the element is not zero
+        if(array[j] != 0.0){
+            // add it to the sparce matrix
+            insertMatrixNode(miniFile, j, array[j]);
         }
+    }
+
+    // sparceNode *cur = NULL;
+    // cur = miniFile->head;
+    // while(cur != NULL){
+    //     printf("%d      %f\n", cur->index, cur->value);
+    //     cur = cur->next;
+    // }
     // return the file
     return miniFile;
 }
@@ -95,11 +108,32 @@ double sparce_search(sparceMatrix* matrix,int index)
             return cur->value;
         }
 
-        if(index < cur->index)
+        if(index > cur->index)
         {
             return 0.0;
         }
         cur = cur->next;
     }
     return 0.0;
+}
+
+void deleteSparceNode(sparceNode *node){
+
+    free(node);
+
+}
+
+void deleteSparceMatrix(sparceMatrix *matrix){
+
+    sparceNode *node = matrix->head;
+    sparceNode *cur = matrix->head;
+
+    while(cur != NULL){
+
+        node = cur;
+        cur = cur->next;
+        deleteSparceNode(node);
+    }
+    
+    free(matrix);
 }

@@ -132,7 +132,7 @@ void deletePair(transitivityPair *p){
     free(p->rightJson);
 
     //free array
-    free(p->array);
+    deleteSparceMatrix(p->array);
 
     free(p);
 }
@@ -1368,9 +1368,9 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
         file[i] = X;
         fileResults[i] = atoi(label);
 
-        //store the names of the files above
-        // fileNameLeft[i] = FirstFile->site;
-        // fileNameRight[i] = SecondFile->site;
+        // store the names of the files above
+        fileNameLeft[i] = FirstFile->site;
+        fileNameRight[i] = SecondFile->site;
         
         //we can now free the individual arrays inside the jsonFiles
         freeJsonWordCountArray(FirstFile);
@@ -1389,7 +1389,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //at this point all the file is inside the arrays
     //time to shuffle it    
-    file = shuffleArray(file, fileResults, size);
+    file = shuffleArray(file, fileResults, size, fileNameLeft, fileNameRight);
 
     //create sparce array
     sparceFile = createMiniFile(sparceFile, file, size, wordHash->id_counter);
@@ -1486,8 +1486,9 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
         logisticRegrationTest(classifier, sparceFile[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
     }
 
-
-
+    //free name arrays
+    free(fileNameLeft);
+    free(fileNameRight);
 
     // //traverse the array and feed it to the classifier
     // for(int i = 0; i < size; i++){
@@ -1538,18 +1539,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
 
     //free results array
     free(fileResults);
-    // //free file array
-    // for(int i = 0; i < size; i++){
 
-    //     free(file[i]);
-
-    // }
-    // free(file);
-    // //free left names
-    // free(fileNameLeft);
-    // //same for right
-    // free(fileNameRight);
-    //close the prediction file
     fclose(predFp);
 
     freeBuckets(transitivityHashtable, thashSize);

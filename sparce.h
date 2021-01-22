@@ -25,4 +25,5 @@ sparceMatrix *createSparceMatrix();
 sparceMatrix **createMiniFile(sparceMatrix **miniFile, double **file, int size, int lineSize);
 double sparce_search(sparceMatrix*,int );
 sparceMatrix * create_sparce_matrix(double* array, int lineSize);
+void deleteSparceMatrix(sparceMatrix *matrix);
 #endif

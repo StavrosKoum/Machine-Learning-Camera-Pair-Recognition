@@ -184,6 +184,9 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     //do the following steps until the threshold
     while(threshold < 0.5){
 
+        x_train = NULL;
+        y_train = NULL;
+
         current = 0;
         remaining = x_size * 60 / 100;
         batchSize = bSize;
@@ -212,6 +215,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             printf("Current Cost: %f\n", cost_function(cls));
             free(y_train);
             free(x_train);
+
             remaining -= batchSize;
         }
 
@@ -292,14 +296,15 @@ void freeLogisticRegressor(logistic_reg *cls){
 
 
 //shuffle a 2d array of doubles and return it
-double** shuffleArray(double** array, int *array2, int size){
+double** shuffleArray(double** array, int *array2, int size, char** array3, char** array4){
 
     //line to be swapped with current
     int line = 0;
     //temp line
     double *temp = NULL;
     int tempRes = 0;
-    
+    char *tempName = NULL;
+
     //initialize generator
     //srand(time(NULL));
     //traverse the array
@@ -321,6 +326,15 @@ double** shuffleArray(double** array, int *array2, int size){
         array2[i] = array2[line];
         array2[line] = tempRes; 
 
+        //flip name array
+        tempName = array3[i];
+        array3[i] = array3[line];
+        array3[line] = tempName;
+
+        //flip name array
+        tempName = array4[i];
+        array4[i] = array4[line];
+        array4[line] = tempName;
         
     }   
 
@@ -353,7 +367,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
         return;
 
     //go to left sub-tree
-    resolveTransitivity(root->left, hashTable, trSize, X, Y);
+    resolveTransitivity(root->right, hashTable, trSize, X, Y);
 
     //get the pair
     transitivityPair *pair = NULL;
@@ -598,7 +612,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
     }
 
     //go to right sub-tree
-    resolveTransitivity(root->right, hashTable, trSize, X, Y);
+    resolveTransitivity(root->left, hashTable, trSize, X, Y);
 
 
 }
@@ -619,6 +633,7 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
     int pCounter = 0;
     int nCounter = 0;
     sparceMatrix * sparce_matrix;
+    sparceMatrix * sparce_matrix2;
 
     //to store the results that pass the requirements
     //transitivityPair pairs[HTsize];
@@ -631,7 +646,7 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
     
     //create tree for pairs
     tree_ptr = createTree();
-
+    
     //traverse the hashTable
     for(int i = 0; i < HTsize; i++){
 
@@ -701,6 +716,7 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
 
                                 //check if the prediction is in the range we want
                                 if(z > (1.0 - threshold) || z < threshold){
+                                // if(0){
 
                                     //printf("adding positive %f\n", z);
 
@@ -713,11 +729,16 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
                                     //create the pair
                                     filePair = createTransitivityPair(leftJson, rightJson, z, sparce_matrix, 1);
                                     
-                                    //printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
+                                    // printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
+                                    // printf("%f\n", filePair->prediction);
                                     //add the pair to the tree
-                                    insertTree(&tree_ptr->root,filePair);
+                                    insertTree3(filePair, &tree_ptr->root);
+                                    // printf("after\n");
                                     //update counter
                                     tree_ptr->counter += 1;
+
+                                }else{
+                                        deleteSparceMatrix(sparce_matrix);
                                 }
 
                                 free(X);
@@ -812,31 +833,34 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
                                     //concat the two arrays
                                     X = arrayConcat(neg_file1->JsonWordCount, neg_file2->JsonWordCount, wordHash->id_counter);
                                     //create sparce matrix with X array
-                                    sparce_matrix = create_sparce_matrix(X,wordHash->id_counter);
-
+                                    sparce_matrix2 = create_sparce_matrix(X,wordHash->id_counter);
 
                                     //get the model predection
-                                    z = calculateZ(sparce_matrix, cls);
+                                    z = calculateZ(sparce_matrix2, cls);
                                     //printf("NEGATIVE PREDICTION %f %s %s\n", z,neg_file2->site,neg_file1->site);
                                     
                                     //if its in the range we want
                                     if(z < threshold || (z > (1.0 - threshold))){
+                                    // if(0){
 
                                         //create 2 jsonFiles with the data
                                         leftJson = createRedusedJsonFile(neg_file1->site, neg_file1->JsonWordCount);
                                         rightJson = createRedusedJsonFile(neg_file2->site, neg_file2->JsonWordCount);
                                         //create the pair
-                                        filePair = createTransitivityPair(leftJson, rightJson, z, sparce_matrix, 0);
+                                        filePair = createTransitivityPair(leftJson, rightJson, z, sparce_matrix2, 0);
                                         
                                         //printf("->>>>>>>>>>>>>>>>>>> %s______%s \n",filePair->leftJson->site,filePair->rightJson->site);
                                         //add the pair to the tree
-                                        insertTree(&tree_ptr->root,filePair);
+                                        insertTree3(filePair, &tree_ptr->root);
                                         //update counter
 
                                         //count it
                                         nCounter++;
 
+                                    }else{
+                                        deleteSparceMatrix(sparce_matrix2);
                                     }
+
                                     free(X);
                                     
                                     

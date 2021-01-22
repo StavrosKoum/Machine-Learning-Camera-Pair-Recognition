@@ -73,7 +73,7 @@ run:
 
 #debug the program for errors using the gdb debugger
 debug:
-	gdb --args ./$(OUT) -x Datasets -c sigmod_large_labelled_dataset.csv
+	gdb --args ./$(OUT) -x Datasets -c sigmod_medium_labelled_dataset.csv
 
 # compile program with debugging information
 valgrind: $(OUT)

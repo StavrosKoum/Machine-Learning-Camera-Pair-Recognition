@@ -83,10 +83,7 @@ jsonFile *createRedusedJsonFile(char *site, double *wordCount){
 
     //init flag as 0
     list->print_flag = 0;
-
-    //initialize the wordList
-    list->words = createWordList();
-
+    
     list->JsonWordCount = wordCount;
 
     return list;
