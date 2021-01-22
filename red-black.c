@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "red-black.h"
+#include <math.h>
 
 //create a tree
 rbTree* createTree(){
@@ -39,7 +40,7 @@ treeNode* createTreeNode(transitivityPair* pair){
     if(pair->result == 0){
         temp->priority = pair->prediction;
     }else{
-        temp->priority = abs(1 - pair->prediction);
+        temp->priority = fabs(1 - pair->prediction);
     }
     //set pointers
     temp->pair = pair;

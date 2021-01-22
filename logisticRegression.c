@@ -389,7 +389,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
         //left found while right not
         if(found_left ==1 && found_right == 0)
         {
-            printf("Left found, Right not found\n");
+            //printf("Left found, Right not found\n");
             //IF THE RESULT IS 0
             if(pair->result == 0)
             {
@@ -418,7 +418,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
         }
         if(found_left ==0 && found_right == 1)
         {
-            printf("Right found, Left not found\n");
+            //printf("Right found, Left not found\n");
             //IF THE RESULT IS 0
             if(pair->result == 0)
             {
@@ -449,7 +449,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
         //if none of the jsonFiles were found
         if(found_left ==0 && found_right == 0)
         {
-            printf("None found\n");
+            //printf("None found\n");
             if(pair->result ==1)
             {
                 //create and add ONE clique because they are the same (randomly the left)
@@ -489,7 +489,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
         //if they both exist to hashtable
         if(found_left == 1 && found_right == 1)
         {
-            printf("Both found\n");
+            //printf("Both found\n");
 
             //init found
             found = 0;
@@ -522,7 +522,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
                 //if the result is negative
                 if(pair->result == 0)
                 {
-                    printf("Negative case\n");
+                    //printf("Negative case\n");
                     //insert negative node to left
                     tmp_neg = left->neg_node_list;
                     left->neg_node_list = create_negative_node(right);
@@ -536,7 +536,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
                 //if the result is positive
                 else
                 {
-                    printf("Positive case\n");
+                    //printf("Positive case\n");
                    //append right to left clique
                    tmp_json = left->file;
 
@@ -588,7 +588,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
 
         }
 
-                
+        //printf("%f\n", cur->priority);            
 
         //go to next node
         cur = cur->next;
@@ -865,7 +865,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
     //time to resolve transitivity
     resolveTransitivity(tree_ptr->root, trHash, trSize, x, y);
-
+    // printTree(tree_ptr->root);
     //free the tree
     freeTree(tree_ptr);
     
