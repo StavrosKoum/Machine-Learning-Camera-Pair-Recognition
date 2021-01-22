@@ -588,7 +588,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, double 
 
         }
 
-                
+        printf("%f\n", cur->priority);            
 
         //go to next node
         cur = cur->next;
@@ -865,7 +865,7 @@ double ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double t
 
     //time to resolve transitivity
     resolveTransitivity(tree_ptr->root, trHash, trSize, x, y);
-
+    // printTree(tree_ptr->root);
     //free the tree
     freeTree(tree_ptr);
     
