@@ -7,6 +7,7 @@
 #include "jsonStruct.h"
 #include "logisticRegression.h"
 #include "metrics.h"
+#include "sparce.h"
 
 int hashing(char* word, int limit){
 
@@ -1237,7 +1238,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     FILE *predFp = NULL;
     jsonFile *FirstFile,*SecondFile;
     Clique *temp;
-
+    sparceMatrix **sparceFile = NULL;
     int remaining;
     // double** x_train;
     // int* y_train;
@@ -1383,6 +1384,9 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     //at this point all the file is inside the arrays
     //time to shuffle it    
     file = shuffleArray(file, fileResults, fileNameLeft, fileNameRight, size);
+
+    //create sparce array
+    sparceFile = createMiniFile(sparceFile, file, size, wordHash->id_counter);
 
     //format of the predictions file
     fprintf(predFp, "Prediction, Actual Result\n");

@@ -1,4 +1,4 @@
-#include "sparce.h";
+#include "sparce.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,15 +28,34 @@ void insertMatrixNode(sparceMatrix *matrix, int i, double v){
     //create node
     sparceNode *node = NULL;
 
-    createSparceMatrix(node);
+    node = createSparceNode(i, v);
     //add it to head
     node->next = matrix->head;
     matrix->head = node;
 }
 
-void createMiniFile(sparceMatrix **miniFile, double **file, int size){
+sparceMatrix **createMiniFile(sparceMatrix **miniFile, double **file, int size, int lineSize){
+
+    double *array;
 
     //allocate the array
-    miniFile = malloc(size * sizeof(sparceMatrix*))
+    miniFile = malloc(size * sizeof(sparceMatrix*));
 
+    //for each array
+    for(int i = 0; i < size; i++){
+        //create a sparce matrix
+        miniFile[i] = createSparceMatrix();
+        array = file[i];
+        //for each line
+        for(int j = 0; j < lineSize; j++){
+            //if the element is not zero
+            if(array[j] != 0.0){
+                // add it to the sparce matrix
+                insertMatrixNode(miniFile[i], j, array[j]);
+            }
+        }
+    }
+
+    // return the file
+    return miniFile;
 }

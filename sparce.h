@@ -22,4 +22,6 @@ typedef struct spraceMatrix{
 
 sparceNode *createSparceNode(int i, double v);
 sparceMatrix *createSparceMatrix();
+sparceMatrix **createMiniFile(sparceMatrix **miniFile, double **file, int size, int lineSize);
+
 #endif
