@@ -13,6 +13,7 @@ sparceNode *createSparceNode(int i, double v){
     return node;
 }
 
+
 sparceMatrix *createSparceMatrix(){
 
     sparceMatrix *matrix = NULL;
@@ -21,6 +22,39 @@ sparceMatrix *createSparceMatrix(){
     matrix->head = NULL;
 
     return matrix;
+}
+
+SparceListNode *createSparceListNode(sparceMatrix *matrix,int result){
+
+    SparceListNode *first;
+    
+    first = malloc(sizeof(SparceListNode));
+    first->matrix = matrix;
+    first->result = result;
+    first->next = NULL;
+
+    return first;   
+}
+
+SparceList *createSparceList(){
+    SparceList *temp;
+
+    temp = malloc(sizeof(SparceList));
+    temp->head = NULL;
+    temp->counter = 0;
+
+    return temp;
+}
+
+void InsertSparceListNode(SparceList *list,sparceMatrix *matrix,int result){
+    SparceListNode *temp;
+    temp = createSparceListNode(matrix,result);
+
+    temp->next = list->head;
+    list->head = temp;
+
+    //fix counter
+    list->counter += 1;
 }
 
 void insertMatrixNode(sparceMatrix *matrix, int i, double v){

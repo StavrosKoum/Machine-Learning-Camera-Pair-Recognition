@@ -176,11 +176,12 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     double threshold = 0.10;
     double step = 0.1;
     int current;
-    int remaining = x_size * 60 / 100;
+    int remaining;
     sparceMatrix **x_train;
     int *y_train;
     int i = 1;
     int bSize = batchSize;
+    int newRemaining = x_size * 60 / 100;
     //do the following steps until the threshold
     while(threshold < 0.5){
 
@@ -188,7 +189,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
         y_train = NULL;
 
         current = 0;
-        remaining = x_size * 60 / 100;
+        remaining = newRemaining;
         batchSize = bSize;
             
         while(remaining != 0){
@@ -219,7 +220,14 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             remaining -= batchSize;
         }
 
-        predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, i, x, y);
+        newRemaining = predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, i, *&x, *&y,newRemaining);
+
+        for(int j=0;j<newRemaining;j++){
+            printf("New Remaining %d\n",newRemaining);
+            printf("%d\n",y[j]);
+        }
+
+
         i++;
         threshold += step;
         if(i == 3)      threshold = 1.0; 
@@ -348,7 +356,7 @@ double** shuffleArray(double** array, int *array2, int size, char** array3, char
 //entries are extracted from the tree sorted by the prediction distance from 0 or 1
 //if it's possible they are added to the hashtable
 //after the procedure above is completed the new train set (X and Y) is created
-void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceMatrix **X, int *Y){
+void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceMatrix **X, int *Y, SparceList *spList){
 
     int hash;
     int found_left = 0;
@@ -367,7 +375,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
         return;
 
     //go to left sub-tree
-    resolveTransitivity(root->right, hashTable, trSize, X, Y);
+    resolveTransitivity(root->right, hashTable, trSize, X, Y,spList);
 
     //get the pair
     transitivityPair *pair = NULL;
@@ -426,11 +434,17 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
                 left->neg_node_list = create_negative_node(right);
                 left->neg_node_list->next_ptr = tmp_neg;
 
+                //Enlarge train
+                InsertSparceListNode(spList,pair->array,pair->result);
+
             }
             else if(pair->result == 1)
             {
                 pair->rightJson->next = left->file;
                 left->file = pair->rightJson;
+
+                //Enlarge train
+                InsertSparceListNode(spList,pair->array,pair->result);
             }
         }
         if(found_left ==0 && found_right == 1)
@@ -455,11 +469,17 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
                 right->neg_node_list = create_negative_node(left);
                 right->neg_node_list->next_ptr = tmp_neg;
 
+                //Enlarge train
+                InsertSparceListNode(spList,pair->array,pair->result);
+
             }
             else if(pair->result == 1)
             {
                 pair->leftJson->next = right->file;
                 right->file = pair->leftJson;
+
+                //Enlarge train
+                InsertSparceListNode(spList,pair->array,pair->result);
             }
         }
 
@@ -478,6 +498,9 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
 
                 //also add right
                 left->file->next = pair->rightJson;
+
+                //Enlarge train
+                InsertSparceListNode(spList,pair->array,pair->result);
             }
 
             //now if they are negative connected
@@ -500,12 +523,18 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
                 //create negative conectio
                 left->neg_node_list = create_negative_node(right);
                 right->neg_node_list = create_negative_node(left);
+
+                //Enlarge train
+                InsertSparceListNode(spList,pair->array,pair->result);
             }
 
         }
         //if they both exist to hashtable
         if(found_left == 1 && found_right == 1)
         {
+            //Enlarge train
+            InsertSparceListNode(spList,pair->array,pair->result);
+            
             //printf("Both found\n");
 
             //init found
@@ -549,6 +578,9 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
                     tmp_neg = right->neg_node_list;
                     right->neg_node_list = create_negative_node(left);
                     right->neg_node_list->next_ptr = tmp_neg;
+
+                    // //Enlarge train
+                    // InsertSparceListNode(spList,pair->array,pair->result);
                 }
                 //if the result is positive
                 else
@@ -612,14 +644,14 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
     }
 
     //go to right sub-tree
-    resolveTransitivity(root->left, hashTable, trSize, X, Y);
+    resolveTransitivity(root->left, hashTable, trSize, X, Y,spList);
 
 
 }
 
 //function that traverses all the pairs and selects the results with the 
 //higher accuracy depening on the threshold
-sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, sparceMatrix **x, int *y){
+int predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, sparceMatrix **x, int *y,int size_x){
 
     Bucket *cur = NULL;
     int limit = 0;
@@ -641,6 +673,7 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
     jsonFile *leftJson = NULL;
     jsonFile *rightJson = NULL;
     rbTree* tree_ptr;
+    SparceList *spList;
     
     printf("PAME\n");
     
@@ -897,11 +930,44 @@ sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, do
     printf("Positive pairs: %d\n", pCounter);
     printf("Negative pairs: %d\n", nCounter);
 
+    //create a list for sparce matrix
+    spList = createSparceList();
     //time to resolve transitivity
-    resolveTransitivity(tree_ptr->root, trHash, trSize, x, y);
+    resolveTransitivity(tree_ptr->root, trHash, trSize, x, y,spList);
     // printTree(tree_ptr->root);
+    printf("insertions %d\n",spList->counter);
+
+    int newSize = spList->counter + size_x;
+
+    //Increase the size of train array
+    sparceMatrix **newTrain;
+    int *new_y;
+    newTrain = malloc(sizeof(sparceMatrix*)*newSize);
+    new_y = malloc(sizeof(int)*newSize);
+    //fill the new array
+    for(int j=0;j<size_x;j++){
+        newTrain[j] = x[j];
+        new_y[j] = y[j];
+    }
+    // Delete the arrays with pointers
+    free(x);
+    free(y);
+
+    SparceListNode *temp;
+    temp = spList->head;
+
+    for(int f=size_x;f<newSize;f++){
+        newTrain[f] = temp->matrix;
+        new_y[f] = temp->result;
+
+        temp = temp->next;   
+    }
+
+    x = newTrain;
+    y = new_y;
+
     //free the tree
     freeTree(tree_ptr);
 
-    return x;
+    return newSize;
 }

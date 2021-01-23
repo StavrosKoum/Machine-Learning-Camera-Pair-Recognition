@@ -37,8 +37,8 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
 double cost_function(logistic_reg *cls);
 // double logisticRegrationTest(logistic_reg *cls, double *data, char *left, char *right, int y, FILE *fp);
 double logisticRegrationTest(logistic_reg *cls, sparceMatrix *data, char *left, char *right, int y, FILE *fp,positiveMetrics *P_metrics, negativeMetrics *N_metrics);    
-sparceMatrix ** predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **, int, int lim, sparceMatrix **x, int *y);
-
+int predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, sparceMatrix **x, int *y,int size_x);
+// void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceMatrix **X, int *Y, SparceList *spList);
 void printClassifier(logistic_reg *cls);
 void freeLogisticRegressor(logistic_reg *cls);
 

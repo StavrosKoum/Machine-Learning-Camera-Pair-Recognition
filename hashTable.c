@@ -132,7 +132,7 @@ void deletePair(transitivityPair *p){
     free(p->rightJson);
 
     //free array
-    deleteSparceMatrix(p->array);
+    // deleteSparceMatrix(p->array);
 
     free(p);
 }
