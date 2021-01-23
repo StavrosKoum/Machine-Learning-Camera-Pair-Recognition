@@ -18,6 +18,11 @@
 #define BUCKETSIZE 120
 #define SIZE 5000
 
+int my_run()
+{
+    return rand();
+}
+
 
 void worker(void *arg)
 {
@@ -25,17 +30,20 @@ void worker(void *arg)
     // int  old = *val;
 
     Arguments *temp = arg;
-
     sparceMatrix *val = temp->argv[0];
-
     sparceNode* cur = val->head;
+    int num = *(int*)temp->argv[1];
+    int counter = 0;
+
     while(cur!=NULL)
     {
         printf("%d--%ld\n",cur->index,pthread_self());
-        // if(cur->index == 5)
-        // sleep(1);
+        counter += cur->index;
+        if(cur->index == 5)
+        sleep(1);
         cur = cur->next;
     }
+    printf("-------------->%d\n",num);
     // static __thread int old = 5;
 
     // *val += 1000;
@@ -65,12 +73,13 @@ int main(int argc,char *argv[]){
 
     printf("threads\n");
     int j = 0;
-    for (int i = 0; i<2; i++) {
+    for (int i = 0; i<5; i++) {
 
         args = malloc(sizeof(Arguments));
         args->argc = 1;
-        args->argv = malloc(sizeof(sparceMatrix*));
+        args->argv = malloc(sizeof(void*)*2);
         args->argv[0] = matrix;
+        args->argv[1] = &i;
         printf("edw %d\n", i);
         
         job = create_job(worker,args);

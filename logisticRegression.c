@@ -1009,3 +1009,8 @@ trainData* predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double 
     //return the new set
     return trainSet;
 }
+
+void split_to_threads()
+{
+    
+}
