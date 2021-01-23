@@ -6,8 +6,12 @@
 #include "jsonStruct.h"
 #include "hashTable.h"
 #include "bagOfWords.h"
+#include "sparce.h"
 #include "logisticRegression.h"
 #include "jobScheduler.h"
+#include <pthread.h>
+//#include <threads.h>
+
 
 #include <math.h>
 
@@ -22,11 +26,24 @@ void worker(void *arg)
 
     Arguments *temp = arg;
 
-    int *val = temp->argv[0];
-    int old = *val;
+    sparceMatrix *val = temp->argv[0];
 
-    *val += 1000;
-    printf("tid=%ld, old=%d, val=%d\n", pthread_self(), old, *val);
+    sparceNode* cur = val->head;
+    while(cur!=NULL)
+    {
+        printf("%d--%ld\n",cur->index,pthread_self());
+        // if(cur->index == 5)
+        // sleep(1);
+        cur = cur->next;
+    }
+    // static __thread int old = 5;
+
+    // *val += 1000;
+    // printf("tid=%ld, old=%d, val=%d\n", pthread_self(), old, *val);
+    //printf("value = %d , %ld\n",old,pthread_self());
+    //old+=10;
+    //temp->argv[0] = &old;
+    //printf("New value = %d, %ld \n",old,pthread_self());
 
 }
 
@@ -34,33 +51,43 @@ void worker(void *arg)
 
 int main(int argc,char *argv[]){
 
-    // jobScheduler *jb;
-    // Job *job;
-    // Arguments *args;
+    sparceMatrix * matrix = createSparceMatrix();
+    for(int i = 0; i < 10; i++)
+    {
+        insertMatrixNode(matrix,i,(i*0.1));
+    }
 
-    // jb = initialise_jobScheduler(50);
+    jobScheduler *jb;
+    Job *job;
+    Arguments *args;
 
-    // printf("threads\n");
-    // int j = 0;
-    // for (int i = 0; i<1000; i++) {
+    jb = initialise_jobScheduler(2);
 
-    //     args = malloc(sizeof(Arguments));
-    //     args->argc = 1;
-    //     args->argv = malloc(sizeof(int*));
-    //     args->argv[0] = &j;
-    //     printf("edw %d\n", i);
-    //     job = create_job(worker,args);
+    printf("threads\n");
+    int j = 0;
+    for (int i = 0; i<2; i++) {
 
-    //     // vals[i] = i
-    //     queueInsert(jb,job);
-    // }
+        args = malloc(sizeof(Arguments));
+        args->argc = 1;
+        args->argv = malloc(sizeof(sparceMatrix*));
+        args->argv[0] = matrix;
+        printf("edw %d\n", i);
+        
+        job = create_job(worker,args);
+        
+
+        // vals[i] = i
+        // sleep(1);
+        queueInsert(jb,job);
+        //printf("after %d\n",*(int *)args->argv[0]);
+    }
     
+    sleep(1);
+    JobSchedulerWait(jb);
 
-    // JobSchedulerWait(jb);
+    printf("After wait\n");
 
-    // printf("After wait\n");
-
-    // return 0;
+    return 0;
     
     //arguments
     char *datasetX,*datasetCSV;

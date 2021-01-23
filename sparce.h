@@ -58,5 +58,6 @@ SparceList *createSparceList();
 void InsertSparceListNode(SparceList *list,sparceMatrix *matrix,int result);
 trainData * createTrainData(sparceMatrix **X, int *Y);
 void printSparceMatrix(sparceMatrix *m);
+void insertMatrixNode(sparceMatrix *matrix, int i, double v);
 
 #endif
