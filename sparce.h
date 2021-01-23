@@ -21,6 +21,14 @@ typedef struct sparceMatrix{
 
 }sparceMatrix;
 
+typedef struct trainData{
+
+    //train set
+    sparceMatrix **x;
+    //results
+    int *y;
+
+}trainData;
 
 typedef struct SparceListNode{
 
@@ -48,4 +56,7 @@ void deleteSparceMatrix(sparceMatrix *matrix);
 SparceListNode *createSparceListNode(sparceMatrix *matrix,int result);
 SparceList *createSparceList();
 void InsertSparceListNode(SparceList *list,sparceMatrix *matrix,int result);
+trainData * createTrainData(sparceMatrix **X, int *Y);
+void printSparceMatrix(sparceMatrix *m);
+
 #endif

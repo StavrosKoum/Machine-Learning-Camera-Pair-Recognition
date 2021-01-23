@@ -268,7 +268,7 @@ int main(int argc,char *argv[]){
     //initialize the classifier
     //fit the train data and train
     //return the classifier struct
-    classifier = CreateTrainAndTest(datasetX,datasetCSV,eShopHash,eShopHashSize, wordHash, lines, 1024);
+    classifier = CreateTrainAndTest(datasetX,datasetCSV,eShopHash,eShopHashSize, wordHash, lines, 512);
     //get metrics for the program
     
     //print the classifier data to a .txt file

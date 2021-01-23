@@ -67,6 +67,7 @@ double calculateZ(sparceMatrix *x_line, logistic_reg *cls)
     // {
     //     z += (cls->weights[i]*x_line[i]);
     // }
+    //printf("%f \n", z);
 
     return logistic_function(z);
 }
@@ -82,7 +83,7 @@ double cost_function(logistic_reg *cls){
     {
         line = cls->x[i];
         z = calculateZ(line, cls);
-
+        // printf("Z               %f\n", z);
         if(cls->y[i]==1)
         {              
 
@@ -96,7 +97,8 @@ double cost_function(logistic_reg *cls){
         error_sum +=error;
     }
 
-    
+    printf("%f      %d\n", error_sum, cls->arraySize);
+
     double J = error_sum / cls->arraySize;
     return J;
 } 
@@ -127,7 +129,7 @@ double cost_function_derivative(logistic_reg *cls, int j)
 
         if(cls->y[i] == 1){
             //if its 1 add more repetitions
-            for(int k = 0; k < 8; k++){
+            for(int k = 0; k < 12; k++){
 
                 line = cls->x[i];
 
@@ -178,10 +180,15 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     int current;
     int remaining;
     sparceMatrix **x_train;
+    trainData * trainSet = NULL;
     int *y_train;
     int i = 1;
     int bSize = batchSize;
     int newRemaining = x_size * 60 / 100;
+
+    //create the struct to hold the train set
+    trainSet = createTrainData(x, y);
+
     //do the following steps until the threshold
     while(threshold < 0.5){
 
@@ -203,8 +210,8 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             y_train = malloc(sizeof(int) * batchSize);
 
             for(int i=0; i < batchSize; i++){
-                x_train[i]= x[current];
-                y_train[i] = y[current];
+                x_train[i]= trainSet->x[current];
+                y_train[i] = trainSet->y[current];
                 current+=1;
             }
 
@@ -220,18 +227,30 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             remaining -= batchSize;
         }
 
-        newRemaining = predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, i, *&x, *&y,newRemaining);
+        
+        if(i == 3)      break;
+        //enlarge the data set
+        trainSet = predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, i, trainSet, &newRemaining);
+        
+        // printf("AFTER New Remaining %d\n",newRemaining);
+        // for(int j=0;j<newRemaining;j++){
+        //     printf("INDEX %d        %d\n",j, trainSet->y[j]);
+        // }
 
-        for(int j=0;j<newRemaining;j++){
-            printf("New Remaining %d\n",newRemaining);
-            printf("%d\n",y[j]);
-        }
-
-
-        i++;
+        
         threshold += step;
-        if(i == 3)      threshold = 1.0; 
+        i++;
+        
+         
     }
+
+    //free unneeded memory
+    // free(y);
+    // for(int i = 0; i < newRemaining; i++){
+    //     deleteSparceMatrix(x[i]);
+    // }
+    // free(x);
+
     //return the new weights
     return cls;
 }
@@ -651,7 +670,7 @@ void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceM
 
 //function that traverses all the pairs and selects the results with the 
 //higher accuracy depening on the threshold
-int predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, sparceMatrix **x, int *y,int size_x){
+trainData* predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double threshold, word_ht *wordHash, Bucket **trHash, int trSize, int lim, trainData *trainSet, int *size_x){
 
     Bucket *cur = NULL;
     int limit = 0;
@@ -933,41 +952,60 @@ int predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double thresho
     //create a list for sparce matrix
     spList = createSparceList();
     //time to resolve transitivity
-    resolveTransitivity(tree_ptr->root, trHash, trSize, x, y,spList);
+    resolveTransitivity(tree_ptr->root, trHash, trSize, trainSet->x, trainSet->y,spList);
     // printTree(tree_ptr->root);
     printf("insertions %d\n",spList->counter);
 
-    int newSize = spList->counter + size_x;
+    int newSize = spList->counter + *size_x;
 
     //Increase the size of train array
     sparceMatrix **newTrain;
     int *new_y;
     newTrain = malloc(sizeof(sparceMatrix*)*newSize);
     new_y = malloc(sizeof(int)*newSize);
+
     //fill the new array
-    for(int j=0;j<size_x;j++){
-        newTrain[j] = x[j];
-        new_y[j] = y[j];
+    for(int j=0;j<*size_x;j++){
+        newTrain[j] = trainSet->x[j];
+        new_y[j] = trainSet->y[j];
     }
-    // Delete the arrays with pointers
-    free(x);
-    free(y);
+
+    // free(trainSet->x);
+    // free(trainSet->y);
+
+    // x = NULL;
+    // y = NULL;
 
     SparceListNode *temp;
+    SparceListNode *toFreeNode = NULL;
     temp = spList->head;
+    for(int i = *size_x; i < newSize; i++){
 
-    for(int f=size_x;f<newSize;f++){
-        newTrain[f] = temp->matrix;
-        new_y[f] = temp->result;
+        toFreeNode = temp;
 
-        temp = temp->next;   
+        newTrain[i] = temp->matrix;
+        new_y[i] = temp->result;
+
+        temp = temp->next;
+        free(toFreeNode);
     }
 
-    x = newTrain;
-    y = new_y;
+    //assign values to struct
+    trainSet->x = newTrain;
+    trainSet->y = new_y;
 
     //free the tree
     freeTree(tree_ptr);
 
-    return newSize;
+    printf("MESA");
+    // for(int i = 0; i < newSize; i++){
+    //     printf("MATRIX %d\n", i);
+    //     // printf("INDEX1: %d       RES: %d\n", i, new_y[i]);
+    //     printSparceMatrix(trainSet->x[i]);
+    // }
+
+    //update size
+    *size_x = newSize;
+    //return the new set
+    return trainSet;
 }

@@ -171,3 +171,28 @@ void deleteSparceMatrix(sparceMatrix *matrix){
     
     free(matrix);
 }
+
+trainData * createTrainData(sparceMatrix **X, int *Y){
+
+    trainData *temp = NULL;
+    temp = malloc(sizeof(trainData));
+
+    temp->x = X;
+    temp->y = Y;
+
+    return temp;
+}
+
+void printSparceMatrix(sparceMatrix *m){
+
+    sparceNode *cur;
+    cur = m->head;
+    while(cur != NULL){
+
+        if(cur->value > 1.0)
+            printf("INDEX: %d       VALUE %f\n", cur->index, cur->value);
+
+        cur = cur->next;
+    }
+
+}
