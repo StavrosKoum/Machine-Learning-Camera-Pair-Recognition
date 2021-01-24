@@ -1,22 +1,16 @@
 ![run-tests](../../workflows/tests/badge.svg)
 
-# Software-Development-part-2
+# Software-Development-part-3
 
 This project extends the functionality of the first project
 
-([Project1](https://github.com/panoskorovesis/Software-Development-part-1)) by adding negative interrelations between the .json files and appying
+([Project2](https://github.com/panoskorovesis/Software-Development-part-2)) By changing the train process as follows
 
-machine learning algorithms to the data.
+Train set is being extended for each train repetition depending on the thresh-hold value.
 
-Using the 80% of the data as a Train set and the remaining 20% as a Test set,
+Each json file vector has been replaced by a sparce matrix to make the process more efficient.
 
-we apply the Train set to a **Logistic Regression** classifier -build from scratch- 
-
-and then we test the model using the Test set.
-
-For each prediction from the model, we print the actual result.
-
-Results are in the file: predictions.txt
+In addition a thread pool has been implemented to divide the train function in smaller, parallel runing parts being handled by threads.
 
 For more intricate documentation check the file **readme.pdf**.
 
