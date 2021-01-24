@@ -25,7 +25,7 @@ logistic_reg * create_logistic_reg(int lineSize)
     ptr = malloc(sizeof(logistic_reg));
 
     ptr->bias = 0.0;
-    ptr->learning = 0.02;
+    ptr->learning = 0.05;
     ptr->x = NULL;
     ptr->lineSize = lineSize;
     ptr->arraySize = 0;
@@ -104,7 +104,7 @@ double cost_function(logistic_reg *cls){
         error_sum +=error;
     }
 
-    printf("%f      %d\n", error_sum, cls->arraySize);
+    // printf("%f      %d\n", error_sum, cls->arraySize);
 
     double J = error_sum / cls->arraySize;
     return J;
@@ -193,7 +193,7 @@ void cost_function_derivative2(void *arg)
 
         if(cls->y[i] == 1){
             //if its 1 add more repetitions
-            for(int k = 0; k < 12; k++){
+            for(int k = 0; k < 8; k++){
 
                 line = cls->x[i];
 
@@ -228,6 +228,10 @@ void cost_function_derivative2(void *arg)
         pthread_mutex_unlock(&lock_weight);
 
     }
+
+    //free arguments
+    free(args);
+
     pthread_mutex_unlock(&lock);
     // printf("job done %ld\n", pthread_self());
 }
@@ -254,7 +258,7 @@ double* gradient_descend(logistic_reg *cls)
 logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,sparceMatrix **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize,int thread_num){
 
     double threshold = 0.10;
-    double step = 0.1;
+    double step = 0.05;
     int current;
     int remaining;
     sparceMatrix **x_train;
@@ -427,11 +431,11 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     }
 
     //free unneeded memory
-    // free(y);
-    // for(int i = 0; i < newRemaining; i++){
-    //     deleteSparceMatrix(x[i]);
-    // }
-    // free(x);
+    free(trainSet->y);
+    for(int i = x_size * 60 / 100; i < newRemaining; i++){
+        deleteSparceMatrix(trainSet->x[i]);
+    }
+    free(trainSet);
 
     //return the new weights
     return cls;
@@ -1154,6 +1158,9 @@ trainData* predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double 
 
     // free(trainSet->x);
     // free(trainSet->y);
+    // free(trainSet);
+
+    // trainSet = malloc(sizeof(trainSet));
 
     // x = NULL;
     // y = NULL;
@@ -1171,6 +1178,7 @@ trainData* predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double 
         temp = temp->next;
         free(toFreeNode);
     }
+    free(spList);
 
     //assign values to struct
     trainSet->x = newTrain;
@@ -1179,20 +1187,8 @@ trainData* predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double 
     //free the tree
     freeTree(tree_ptr);
 
-    printf("MESA");
-    // for(int i = 0; i < newSize; i++){
-    //     printf("MATRIX %d\n", i);
-    //     // printf("INDEX1: %d       RES: %d\n", i, new_y[i]);
-    //     printSparceMatrix(trainSet->x[i]);
-    // }
-
     //update size
     *size_x = newSize;
     //return the new set
     return trainSet;
-}
-
-void split_to_threads()
-{
-    
 }

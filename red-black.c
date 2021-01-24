@@ -6,9 +6,7 @@
 
 //create a tree
 rbTree* createTree(){
-
-    printf("!!!!!!!tree\n");
-
+    
     rbTree* tree = NULL;
     tree = malloc(sizeof(rbTree));
     //error check

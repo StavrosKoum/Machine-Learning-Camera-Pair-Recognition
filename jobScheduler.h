@@ -27,6 +27,11 @@ typedef struct args{
 
     logistic_reg *classfier;
 
+    // pthread_mutex_t lock;
+
+    // pthread_mutex_t lock_weight;
+    // pthread_cond_t cond_weight;
+
 }Arguments;
 
 

@@ -1474,7 +1474,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     //     remaining -= batch_size;
     // }
 
-    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize, 4);
+    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize, 2);
 
     current = size * 60 / 100;
     printf("\nTraining Completed.\n");
@@ -1492,7 +1492,12 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     //free name arrays
     free(fileNameLeft);
     free(fileNameRight);
-
+    //free miniFile
+    for(int i = 0; i < size; i ++){
+        //free each matrix
+        deleteSparceMatrix(sparceFile[i]);
+    }
+    free(sparceFile);
     // //traverse the array and feed it to the classifier
     // for(int i = 0; i < size; i++){
 
@@ -1548,8 +1553,8 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     freeBuckets(transitivityHashtable, thashSize);
 
     //free metrics 
-    // freePositiveMetrics(&P_metrics);
-    // freeNegativeMetrics(&N_metrics);
+    freePositiveMetrics(&P_metrics);
+    freeNegativeMetrics(&N_metrics);
 
 
     //return the classifier

@@ -171,6 +171,7 @@ void* thread_Job_function(void* jobSch)
         if(work != NULL){
             work->func(work->args);
             //destroy job
+            free(work);
         }
 
         pthread_mutex_lock(&(JS->work_mutex));
