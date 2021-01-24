@@ -20,14 +20,12 @@ typedef struct args{
 
     int *activeThreads;
 
-    int *J;
+    double *J;
     
     //loop (for k;)
     int k;
 
     logistic_reg *classfier;
-
-    pthread_mutex_t *lock;
 
 }Arguments;
 

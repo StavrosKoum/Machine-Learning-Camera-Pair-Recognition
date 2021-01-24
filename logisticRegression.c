@@ -9,11 +9,13 @@
 #include "red-black.h"
 #include "sparce.h"
 #include "jobScheduler.h"
+#include <signal.h>
+#include <unistd.h>
 
 //init mutex
-pthread_mutex_t lock;
-pthread_mutex_t lock_weight;
-pthread_cond_t cond_weight;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;;
+pthread_mutex_t lock_weight = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond_weight = PTHREAD_COND_INITIALIZER;
 
 logistic_reg * create_logistic_reg(int lineSize)
 {
@@ -159,13 +161,15 @@ double cost_function_derivative(logistic_reg *cls, int j)
     return J;
 }
 
-double cost_function_derivative2(void *arg)
+void cost_function_derivative2(void *arg)
 {
+
     Arguments *args = arg;
+    logistic_reg *cls = args->classfier;
 
     double linear_score = 0.0;
     double error = 0.0;
-    double J;
+    // double J;
     sparceMatrix* line = NULL;
     double error_sum = 0.0;
     double line_j;
@@ -208,10 +212,24 @@ double cost_function_derivative2(void *arg)
 
     //error = (linear_score - cls->y) * cls->x[j];
 
-    J = (cls->learning) * error_sum;
+    //critical section here
+    pthread_mutex_lock(&lock);
+    //update alive threads counter
+    // printf("NUM: %d    Thread %ld\n", *(args->activeThreads), pthread_self());
+    *(args->activeThreads) -= 1;
+    //update the z
+    *(args->J) =+ (cls->learning) * error_sum;
 
-    //printf("J is ----> %6.4f",J);
-    return J;
+    //if its the last thread signal the parent to continue
+    if(*(args->activeThreads) == 0){
+        // printf("SIGNAL %ld", pthread_self());
+        pthread_mutex_lock(&lock_weight);
+        pthread_cond_signal(&cond_weight);
+        pthread_mutex_unlock(&lock_weight);
+
+    }
+    pthread_mutex_unlock(&lock);
+    // printf("job done %ld\n", pthread_self());
 }
 
 double* gradient_descend(logistic_reg *cls)
@@ -248,14 +266,14 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
 
     //create the struct to hold the train set
     trainSet = createTrainData(x, y);
-
-
+    
     //Init job scheduler
     jobScheduler *jb;
     Arguments *args;
     Job *job;
 
-    int J,aliveThreads;
+    double J;
+    int aliveThreads;
     int result;
     int numfiles[thread_num];
     int start[thread_num];
@@ -265,15 +283,17 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     jb = initialise_jobScheduler(thread_num);
     printf("threads created\n");
 
-    // init mutex
+    // // init mutex
     if (pthread_mutex_init(&lock, NULL) != 0)
     {
         printf("\n mutex init failed\n");
-        return 1;
+        return NULL;
     }
-    
-
-    // exit(-1);
+    if (pthread_mutex_init(&lock_weight, NULL) != 0)
+    {
+        printf("\n mutex init failed\n");
+        return NULL;
+    }
 
     //do the following steps until the threshold
     while(threshold < 0.5){
@@ -341,13 +361,14 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
 
             // cls->weights = gradient_descend(cls);
 
-            double derivative = 0.0;
+            // double derivative = 0.0;
 
             for(int k =0; k < cls->lineSize;k++ )
             {
-                J = 0;
+                J = 0.0;
                 aliveThreads = thread_num;
 
+                pthread_mutex_lock(&lock_weight);
                 for(int i=0;i<thread_num;i++){
 
                     args = malloc(sizeof(Arguments));
@@ -355,24 +376,24 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
                     args->finish = end[i];
                     args->J = &J;
                     args->activeThreads = &aliveThreads;
-                    args->lock = &lock;
+                    // args->lock = &lock;
                     args->classfier = cls;
                     args->k = k;
-
+                    // args->lock_weight = &lock_weight;
+                    // args->cond_weight = &cond_weight;
                     job = create_job(cost_function_derivative2,args);
 
                     queueInsert(jb,job);
                 }
 
-
-                derivative = cost_function_derivative(cls,k);
+                // derivative = cost_function_derivative(cls,k);
                 // wait threads to finish working
-                pthread_mutex_lock(&lock_weight);
+                // printf("waiting threads\n");
                 pthread_cond_wait(&cond_weight, &lock_weight);
                 pthread_mutex_unlock(&lock_weight);
 
             
-                cls->weights[k] -= derivative;
+                cls->weights[k] -= J;
 
             }
 
