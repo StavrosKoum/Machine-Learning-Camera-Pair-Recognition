@@ -190,7 +190,7 @@ int main(int argc,char *argv[]){
             while ((dx = readdir(subdir)) != NULL ){
                 if(strcmp(dx->d_name,".") != 0 && strcmp(dx->d_name,"..") != 0){
                     // printf("%s\n",dx->d_name);
-                    snprintf(shopPath,sizeof(shopPath),"%s/%s",path,dx->d_name);
+                    snprintf(shopPath,sizeof(shopPath),"%s/%s",path,dx->d_name) < 0 ? abort() : (void)0;
 
                     //Read the json files
                     shopDIR = opendir(shopPath);
@@ -204,7 +204,7 @@ int main(int argc,char *argv[]){
                         if(strcmp(fe->d_name,".") != 0 && strcmp(fe->d_name,"..") != 0){
                             
                             //fix the path for fopen
-                            snprintf(jsonPath, sizeof(jsonPath), "%s/%s", shopPath, fe->d_name);
+                            snprintf(jsonPath, sizeof(jsonPath), "%s/%s", shopPath, fe->d_name) < 0 ? abort() : (void)0;
                             //printf("%s\n", jsonPath);
 
                             fp = fopen(jsonPath, "r");

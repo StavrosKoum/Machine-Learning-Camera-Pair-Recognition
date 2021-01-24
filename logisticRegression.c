@@ -872,7 +872,7 @@ trainData* predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double 
     rbTree* tree_ptr;
     SparceList *spList;
     
-    printf("PAME\n");
+    printf("Resolving Transitivity\n");
     
     //create tree for pairs
     tree_ptr = createTree();
