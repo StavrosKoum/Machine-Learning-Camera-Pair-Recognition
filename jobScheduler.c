@@ -115,7 +115,7 @@ Job *queuePop(Queue *q){
     q->head = q->head->next;
 
     //free the node
-    //freeQueueNode(node);
+    freeQueueNode(node);
 
     //return the job
     return j;
@@ -160,6 +160,7 @@ void* thread_Job_function(void* jobSch)
         }
 
         if(JS->stop){
+            
             break;
         }
 
@@ -252,6 +253,7 @@ jobScheduler* initialise_jobScheduler(int num_threads)
 
 void JobSchedulerWait(jobScheduler *jb){
 
+    //printf("%d\n",jb->stop);
     if(jb == NULL){
         return;
     }

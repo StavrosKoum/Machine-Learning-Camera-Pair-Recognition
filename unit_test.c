@@ -1,9 +1,31 @@
 #include  "acutest.h"			
-#include "jsonStruct.h"         //  Our structs
-#include "hashTable.h"         //  Our structs
+#include "jsonStruct.h"         
+#include "hashTable.h"         
 #include "graph.h"
 #include "math.h"
 #include "logisticRegression.h"
+#include "jobScheduler.h"
+#include <pthread.h>
+
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mu = PTHREAD_MUTEX_INITIALIZER;
+
+
+void worker(void *arg)
+{
+	
+    Arguments *args = arg;
+	*(args->activeThreads) -= 1;
+	
+
+	//signal
+	pthread_mutex_lock(&mu);
+  	pthread_cond_signal(&cond);
+  	pthread_mutex_unlock(&mu);
+	
+	
+
+}
 
 void test_create_list(void) {
 	
@@ -169,69 +191,67 @@ void test_word_ht(void)
 
 }
 
-void test_logistic_regression(void)
-{
-	// logistic_reg *ptr;
-	// ptr = create_logistic_reg(100);
-	// TEST_ASSERT(ptr != NULL);
-	// TEST_ASSERT(ptr->lineSize == 100);
-	// TEST_ASSERT(ptr->weights != NULL);
+// void test_logistic_regression(void)
+// {
+// 	logistic_reg *ptr;
+// 	ptr = create_logistic_reg(100);
+// 	TEST_ASSERT(ptr != NULL);
+// 	TEST_ASSERT(ptr->lineSize == 100);
+// 	TEST_ASSERT(ptr->weights != NULL);
 
-	// double** array;
-	// double* ar_ptr;
+// 	double** array;
+// 	double* ar_ptr;
 
-	// array = malloc(2* sizeof(double*));
+// 	array = malloc(2* sizeof(double*));
 
-	// for(int i = 0; i< 2; i++)
-	// {
-	// 	array[i] = malloc(100*sizeof(i));
-	// }
+// 	for(int i = 0; i< 2; i++)
+// 	{
+// 		array[i] = malloc(100*sizeof(i));
+// 	}
 
-	// for(int i = 0; i< 2; i++)
-	// {
-	// 	ar_ptr = array[i];
-	// 	//give some values to array
-	// 	for(int i = 0; i< 100; i++)
-	// 	{
-	// 		ar_ptr[i] = 1.0/i;
-	// 	}
-	// }
+// 	for(int i = 0; i< 2; i++)
+// 	{
+// 		ar_ptr = array[i];
+// 		//give some values to array
+// 		for(int i = 0; i< 100; i++)
+// 		{
+// 			ar_ptr[i] = 1.0/i;
+// 		}
+// 	}
 	
-	// fit(ptr,array,0,100,2);
+// 	fit(ptr,array,0,100,2);
 
-	// TEST_ASSERT(ptr->x != NULL);
-	// TEST_ASSERT(ptr->y == 0);
+// 	TEST_ASSERT(ptr->x != NULL);
+// 	TEST_ASSERT(ptr->y == 0);
 
-	// ptr = logisticRegretionAlgorithm(ptr,10);
+// 	ptr = logisticRegretionAlgorithm(ptr,10);
 
-	// //test if there is any non zero weight
-	// int flag = 0;
-	// for(int i = 0; i< ptr->lineSize; i++)
-	// {
-	// 	if(ptr->weights[i]!=0)
-	// 	{
-	// 		flag = 1;
-	// 	}
-	// }
-	// TEST_ASSERT(flag);
+// 	//test if there is any non zero weight
+// 	int flag = 0;
+// 	for(int i = 0; i< ptr->lineSize; i++)
+// 	{
+// 		if(ptr->weights[i]!=0)
+// 		{
+// 			flag = 1;
+// 		}
+// 	}
+// 	TEST_ASSERT(flag);
 
 	
 	
+// 	free(array[0]);
+// 	free(array[1]);
+// 	free(array);
 
+// 	freeLogisticRegressor(ptr);
 
-	// free(array[0]);
-	// free(array[1]);
-	// free(array);
-
-	// freeLogisticRegressor(ptr);
-
-}
+// }
 
 void test_array_functions()
 {
 	double firstArray[5];
 	double secondArray[5];
-	int size = 30;
+	int size = 5;
 
 	// fill array with numbers
 	for(int j=0;j<5;j++){
@@ -244,16 +264,71 @@ void test_array_functions()
 	newArray = arrayConcat(firstArray,secondArray,size);
 
 	int flag = 1;
-	for(int i=0;i<10;i++){
-		if(i < 5){
-			if(newArray[i] != sqrt(pow((firstArray[i] - secondArray[i]), 2) +  pow((firstArray[i] - secondArray[i]), 2) )){
-				flag = 0;
-			}
+	for(int i=0;i<size;i++){
+		
+		
+		if(newArray[i] != sqrt(pow((firstArray[i] - secondArray[i]), 2) +  pow((firstArray[i] - secondArray[i]), 2) ))
+		{
+			flag = 0;
 		}
+		
 	}
 	TEST_ASSERT(flag);
 
 	free(newArray);
+}
+
+void test_JobScheduler()
+{
+	// sparceMatrix * matrix = createSparceMatrix();
+    // for(int i = 0; i < 10; i++)
+    // {
+    //     insertMatrixNode(matrix,i,(i*0.1));
+    // }
+
+    jobScheduler *jb;
+    Job *job;
+    Arguments *args;
+
+	int num = 10;
+
+	args = malloc(sizeof(Arguments));
+	args->activeThreads = &num;
+	args->start = 0;
+	args->finish = 0;
+	args->J = NULL;
+	args->k = 0;
+	args->classfier = NULL;
+	
+
+    jb = initialise_jobScheduler(1);
+
+    for (int i = 0; i<1; i++) {
+        
+        job = create_job(worker,args);
+  
+        queueInsert(jb,job);
+    }
+    
+	//wait worker to run
+	pthread_mutex_lock(&mu);
+	pthread_cond_wait(&cond,&mu);
+	pthread_mutex_unlock(&mu);
+
+	jb->stop = 1;
+	jb->alive_thread_count = 0;
+	
+ 
+	
+	free(args);
+	free(jb->tids);
+	free(jb->q);
+	free(jb);
+
+	
+
+	TEST_ASSERT(num == 9);
+
 }
 
 TEST_LIST = {
@@ -266,7 +341,8 @@ TEST_LIST = {
 	{"test_search", test_search},
 	{"test_word_list_and_node", test_word_list_and_node},
 	{"test_word_hash_table", test_word_ht},
-	{"test_logistic_regression", test_logistic_regression},
+	//{"test_logistic_regression", test_logistic_regression},
     {"test_array_functions",test_array_functions},
+	{"test_JobScheduler",test_JobScheduler},
     { NULL, NULL } 
 };

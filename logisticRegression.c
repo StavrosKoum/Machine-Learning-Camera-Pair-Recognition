@@ -406,7 +406,11 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
         }
 
         
-        if(i == 3)      break;
+        if(i == 3)
+        {
+            JobSchedulerWait(jb);
+            break;
+        }      
         //enlarge the data set
         trainSet = predictHashTable(cls, ht, HTsize, threshold, wordHash, trHash, trSize, i, trainSet, &newRemaining);
         
