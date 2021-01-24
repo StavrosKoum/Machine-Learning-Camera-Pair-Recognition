@@ -5,19 +5,31 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "logisticRegression.h"
 
 typedef void (*thread_funct)(void *args);
 
 //struct keeping the arguments for each job
 typedef struct args{
 
-    //num of args
-    int argc;
+    //batch start
+    int start;
 
-    //array with arguments
-    void **argv;
+    //batch finish
+    int finish;
 
-}Arguments;   
+    int *activeThreads;
+
+    int *J;
+    
+    //loop (for k;)
+    int k;
+
+    logistic_reg *classfier;
+
+    pthread_mutex_t *lock;
+
+}Arguments;
 
 
 
@@ -29,7 +41,7 @@ typedef struct job{
     //pointer to the function to be executed
     void *function;
     //pointer to a struct containing arguments
-    Arguments *args;
+    void *args;
 
 }Job;
 

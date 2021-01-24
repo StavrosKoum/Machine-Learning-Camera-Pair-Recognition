@@ -1474,12 +1474,15 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     //     remaining -= batch_size;
     // }
 
-    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize);
+    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize,2);
 
     current = size * 60 / 100;
     printf("\nTraining Completed.\n");
     printf("\nGenerating test results...\n");
     printf("start: %d       finish: %d", current, (size * 80 / 100));
+
+    
+
     for(int i = current; i < (size * 80 / 100); i ++)
     {
         //test

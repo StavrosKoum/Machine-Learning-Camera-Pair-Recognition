@@ -8,7 +8,12 @@
 #include "time.h"
 #include "red-black.h"
 #include "sparce.h"
+#include "jobScheduler.h"
 
+//init mutex
+pthread_mutex_t lock;
+pthread_mutex_t lock_weight;
+pthread_cond_t cond_weight;
 
 logistic_reg * create_logistic_reg(int lineSize)
 {
@@ -154,6 +159,61 @@ double cost_function_derivative(logistic_reg *cls, int j)
     return J;
 }
 
+double cost_function_derivative2(void *arg)
+{
+    Arguments *args = arg;
+
+    double linear_score = 0.0;
+    double error = 0.0;
+    double J;
+    sparceMatrix* line = NULL;
+    double error_sum = 0.0;
+    double line_j;
+
+    int j = args->k;
+
+    for(int i =0; i < cls->arraySize;i++ )
+    {
+        line = cls->x[i];
+        line_j = sparce_search(line,j);
+
+        //if line[j] is 0
+        //we know that the error will also be 0
+        if(line_j == 0){
+            continue;
+        }
+
+        linear_score = calculateZ(line,cls);
+        error = (linear_score - cls->y[i]) * line_j;
+        error_sum +=error;
+
+        if(cls->y[i] == 1){
+            //if its 1 add more repetitions
+            for(int k = 0; k < 12; k++){
+
+                line = cls->x[i];
+
+                linear_score = calculateZ(line,cls);
+                error = (linear_score - cls->y[i]) * line_j;
+                error_sum +=error;
+
+            }
+        }
+    }
+
+
+    //printf("%d %f\n", i, x[i][0]);
+    //linear_score = calculateZ(cls->x,cls);
+    // printf("linear score is %6.4f",linear_score);
+
+    //error = (linear_score - cls->y) * cls->x[j];
+
+    J = (cls->learning) * error_sum;
+
+    //printf("J is ----> %6.4f",J);
+    return J;
+}
+
 double* gradient_descend(logistic_reg *cls)
 {
     double derivative = 0.0;
@@ -173,7 +233,7 @@ double* gradient_descend(logistic_reg *cls)
 
 //for each step until limit the algorithm calculates gradients which change the weights
 //each time closer to the ideal weights
-logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,sparceMatrix **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize){
+logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **ht, int HTsize, word_ht *wordHash,sparceMatrix **x, int *y,int x_size,int batchSize, Bucket **trHash, int trSize,int thread_num){
 
     double threshold = 0.10;
     double step = 0.1;
@@ -189,6 +249,32 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
     //create the struct to hold the train set
     trainSet = createTrainData(x, y);
 
+
+    //Init job scheduler
+    jobScheduler *jb;
+    Arguments *args;
+    Job *job;
+
+    int J,aliveThreads;
+    int result;
+    int numfiles[thread_num];
+    int start[thread_num];
+    int end[thread_num];
+    int pos = 0;
+
+    jb = initialise_jobScheduler(thread_num);
+    printf("threads created\n");
+
+    // init mutex
+    if (pthread_mutex_init(&lock, NULL) != 0)
+    {
+        printf("\n mutex init failed\n");
+        return 1;
+    }
+    
+
+    // exit(-1);
+
     //do the following steps until the threshold
     while(threshold < 0.5){
 
@@ -200,6 +286,9 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
         batchSize = bSize;
             
         while(remaining != 0){
+
+            // counter to help divide batch for threads
+            pos = 0;
 
             if(remaining < batchSize){
                 batchSize = remaining;
@@ -215,9 +304,77 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
                 current+=1;
             }
 
+            // seperate batch
+            result = batchSize / thread_num;
+            for(int i = 0; i < thread_num; i++){
+                numfiles[i] = result;
+            }
+            int mod = batchSize % thread_num;
+            while(mod != 0){
+                for(int i = 0; i < thread_num; i++){
+                    if(mod > 0){
+                        numfiles[i] += 1;
+                        mod--;
+                    }
+                }
+            }
+
+            for(int i=0;i<thread_num;i++){
+                
+                // printf("%d  %d\n",i,numfiles[i]);
+                start[i] = pos;
+                end[i] = start[i]+numfiles[i];
+                pos = end[i];
+            }
+
+            // for(int i=0;i<thread_num;i++){
+            //     args = malloc(sizeof(Arguments));
+            //     args->start = start[i];
+            //     args->finish = end[i];
+
+            //     printf("thread num %d  start %d end %d\n",i,start[i],end[i]);
+            // }
+
             fit(cls, x_train, y_train, wordHash->id_counter, batchSize);
             //calculate the new weights
-            cls->weights = gradient_descend(cls);
+
+
+            // cls->weights = gradient_descend(cls);
+
+            double derivative = 0.0;
+
+            for(int k =0; k < cls->lineSize;k++ )
+            {
+                J = 0;
+                aliveThreads = thread_num;
+
+                for(int i=0;i<thread_num;i++){
+
+                    args = malloc(sizeof(Arguments));
+                    args->start = start[i];
+                    args->finish = end[i];
+                    args->J = &J;
+                    args->activeThreads = &aliveThreads;
+                    args->lock = &lock;
+                    args->classfier = cls;
+                    args->k = k;
+
+                    job = create_job(cost_function_derivative2,args);
+
+                    queueInsert(jb,job);
+                }
+
+
+                derivative = cost_function_derivative(cls,k);
+                // wait threads to finish working
+                pthread_mutex_lock(&lock_weight);
+                pthread_cond_wait(&cond_weight, &lock_weight);
+                pthread_mutex_unlock(&lock_weight);
+
+            
+                cls->weights[k] -= derivative;
+
+            }
 
             printf("Remaining = %d and batchSize = %d\n",remaining,batchSize);
             printf("Current Cost: %f\n", cost_function(cls));
