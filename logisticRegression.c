@@ -409,7 +409,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             remaining -= batchSize;
         }
 
-        
+        logisticValidationTest(cls,x,y,x_size);
         if(i == 3)
         {
             JobSchedulerWait(jb);
@@ -467,6 +467,51 @@ double logisticRegrationTest(logistic_reg *cls, sparceMatrix *data, char *left, 
     //return it
     return z;
 }
+
+void logisticValidationTest(logistic_reg *cls, sparceMatrix **data,  int * y,int size)
+{    
+    //sum
+    double z = 0.0;
+    //model prediction
+    int roundZ;
+
+    //init metrics
+    positiveMetrics *P_metrics;
+    negativeMetrics *N_metrics;
+
+    P_metrics = initPositiveMetrics("possitive");
+    N_metrics = initNegativeMetrics("negative");
+
+
+    for(int i= (80/100) * size ; i< size; i++)
+    {
+        //calculate the z for the data
+        z = calculateZ(data[i], cls);
+        roundZ = round(z);
+
+        //print metrics
+        P_metrics = updatePositiveMetrics(P_metrics,roundZ,y[i]);
+        N_metrics = updateNegativeMetrics(N_metrics,roundZ,y[i]);
+
+
+    }
+    
+    //get metrics
+    P_metrics = evaluatePositiveMetrics(P_metrics);
+    N_metrics = evaluateNegativeMetrics(N_metrics);
+
+    printf("-----------------\n-----------------\n");
+    printf("Model results after training: \n");
+    printPositiveMetrics(P_metrics);
+    //printf("-----------------\n-----------------\n");
+    printNegativeMetrics(N_metrics);
+    printf("-----------------\n-----------------\n");
+    //free metrics 
+    freePositiveMetrics(&P_metrics);
+    freeNegativeMetrics(&N_metrics);
+    
+}
+
 
 void printClassifier(logistic_reg *cls){
 

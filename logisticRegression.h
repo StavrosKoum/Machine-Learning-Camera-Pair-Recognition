@@ -41,5 +41,7 @@ trainData *predictHashTable(logistic_reg *cls, Bucket ** ht, int HTsize, double 
 // void resolveTransitivity(treeNode *root, Bucket **hashTable, int trSize, sparceMatrix **X, int *Y, SparceList *spList);
 void printClassifier(logistic_reg *cls);
 void freeLogisticRegressor(logistic_reg *cls);
+void logisticValidationTest(logistic_reg *cls, sparceMatrix **data, int * y,int size);
+
 
 #endif

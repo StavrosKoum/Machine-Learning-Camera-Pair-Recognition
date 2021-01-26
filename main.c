@@ -18,70 +18,8 @@
 #define BUCKETSIZE 120
 #define SIZE 5000
 
-int my_run()
-{
-    return rand();
-}
-
-
-// void worker(void *arg)
-// {
-//     // int *val = arg;
-//     // int  old = *val;
-
-//     Arguments *temp = arg;
-//     sparceMatrix *val = temp->argv[0];
-//     sparceNode* cur = val->head;
-//     // int num = temp->start;
-//     int counter = 0;
-
-//     while(cur!=NULL)
-//     {
-//         printf("%d--%ld\n",cur->index,pthread_self());
-//         counter += cur->index;
-//         cur = cur->next;
-//     }
-//     *(temp->start) -= 1;
-//     printf("%d\n",*(temp->start));
-//     // printf("-------------->%d\n",num);
-//     // static __thread int old = 5;
-
-//     // *val += 1000;
-//     // printf("tid=%ld, old=%d, val=%d\n", pthread_self(), old, *val);
-//     //printf("value = %d , %ld\n",old,pthread_self());
-//     //old+=10;
-//     //temp->argv[0] = &old;
-//     //printf("New value = %d, %ld \n",old,pthread_self());
-
-// }
-
-
 
 int main(int argc,char *argv[]){
-
-    // sparceMatrix * matrix = createSparceMatrix();
-    // for(int i = 0; i < 10; i++)
-    // {
-    //     insertMatrixNode(matrix,i,(i*0.1));
-    // }
-
-    // jobScheduler *jb;
-    // Job *job;
-    // Arguments *args;
-
-    // jb = initialise_jobScheduler(2);
-
-    // printf("threads\n");
-    // int j = 5;
-    // for (int i = 0; i<5; i++) {
-        
-    //     job = create_job(worker,args);
-  
-    //     queueInsert(jb,job);
-    //     //printf("after %d\n",*(int *)args->argv[0]);
-    // }
-    
-    // JobSchedulerWait(jb);
 
 
     

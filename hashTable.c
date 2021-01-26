@@ -1447,35 +1447,11 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     int current = 0;
     printf("\nTraining the Logistic Regression Classifier...\n");
     
-    // while(remaining!=0)
-    // {
-    //     if(remaining < batch_size)
-    //     {
-    //         batch_size = remaining;
-    //     }
-        
-    //     //allocate the arrays
-    //     x_train  = malloc(sizeof(double*) * batch_size);
-    //     y_train = malloc(sizeof(int) * batch_size);
-
-    //     for(int i=0; i < batch_size; i++)
-    //     {
-    //         x_train[i]= file[current];
-    //         y_train[i] = fileResults[current];
-    //         current+=1;
-    //     }
-
-    //     //fit data
-    //     fit(classifier, x_train, y_train,2 * (wordHash->id_counter),batch_size);   
-    //     //train with the current file 10 times
-    //     printf("Current Cost: %f\n", cost_function(classifier));
-    //     free(y_train);
-    //     free(x_train);
-    //     remaining -= batch_size;
-    // }
+    
 
     classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize, 2);
 
+    
     current = size * 60 / 100;
     printf("\nTraining Completed.\n");
     printf("\nGenerating test results...\n");
@@ -1498,50 +1474,19 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
         deleteSparceMatrix(sparceFile[i]);
     }
     free(sparceFile);
-    // //traverse the array and feed it to the classifier
-    // for(int i = 0; i < size; i++){
-
-    //     //if its the first 80%
-    //     //go to train
-    //     if(i < (size * 60 / 100)){
-            
-    //         //message
-    //         if(i == 0){
-    //             printf("\nTraining the Logistic Regression Classifier...\n");
-    //         }
-
-    //         //fit data
-    //         fit(classifier, file[i], fileResults[i], wordHash->id_counter);   
-    //         //train with the current file 10 times
-    //         classifier = logisticRegretionAlgorithm(classifier, 10);
-
-    //         if(i % 1000 == 0){
-    //             printf("Current Cost: %f\n", cost_function(classifier));
-    //         }
-
-    //     //else start testing
-    //     }else{
-            
-    //         if(i == (size * 80 / 100 + 1)){
-    //             printf("\nTraining Completed.\n");
-    //             printf("\nGenerating test results...\n");
-    //         }
-
-    //         //test
-    //         logisticRegrationTest(classifier, file[i], fileNameLeft[i], fileNameRight[i], fileResults[i], predFp, P_metrics, N_metrics);
-
-    //     }
-
-    // }
-
+    
     printf("\nTesting Completed.\n");
 
     //get metrics
     P_metrics = evaluatePositiveMetrics(P_metrics);
     N_metrics = evaluateNegativeMetrics(N_metrics);
 
+    printf("-----------------\n-----------------\n");
+    printf("Model predictions: \n");
     printPositiveMetrics(P_metrics);
+    //printf("-----------------\n-----------------\n");
     printNegativeMetrics(N_metrics);
+    printf("-----------------\n-----------------\n");
 
 
 
