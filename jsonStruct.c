@@ -456,7 +456,8 @@ void FillJsonWordCountArray(jsonFile *list, int arraySize,word_ht *wordHash ){
         if(idf != -1.0){
             //printf("word found %s %d TF: %10.8f\n",cur->word,wordPos, cur->tf / idf);
             if(idf == 0.0)    printf("eeeeeeeeeeeeee\n");
-            list->JsonWordCount[wordPos] = (double) cur->tf / idf;
+            // list->JsonWordCount[wordPos] = (double) cur->tf / idf;
+            list->JsonWordCount[wordPos] = (double) cur->counter;
         }
         else{
             // Word not in hashtable

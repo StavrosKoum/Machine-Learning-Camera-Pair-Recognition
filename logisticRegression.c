@@ -174,9 +174,15 @@ void cost_function_derivative2(void *arg)
     double error_sum = 0.0;
     double line_j;
 
+    //get start end
+    pthread_mutex_lock(&lock);
+    int start = args->start;
+    int finish = args->finish;
+    pthread_mutex_unlock(&lock);
+
     int j = args->k;
 
-    for(int i =0; i < cls->arraySize;i++ )
+    for(int i = start; i < finish;i++ )
     {
         line = cls->x[i];
         line_j = sparce_search(line,j);
@@ -402,7 +408,7 @@ logistic_reg* logisticRegretionAlgorithm(logistic_reg *cls, int limit, Bucket **
             }
 
             printf("Remaining = %d and batchSize = %d\n",remaining,batchSize);
-            printf("Current Cost: %f\n", cost_function(cls));
+            // printf("Current Cost: %f\n", cost_function(cls));
             free(y_train);
             free(x_train);
 
