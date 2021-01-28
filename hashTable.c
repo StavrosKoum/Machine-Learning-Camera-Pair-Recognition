@@ -1449,7 +1449,7 @@ logistic_reg* CreateTrainAndTest(char *path,char *csv,Bucket** ht,int hashSize, 
     
     
 
-    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize, 1);
+    classifier = logisticRegretionAlgorithm(classifier, 1, ht, hashSize, wordHash,sparceFile,fileResults,size,batch_size, transitivityHashtable, thashSize, 3);
 
     
     current = size * 60 / 100;
