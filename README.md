@@ -12,7 +12,9 @@ Each json file vector has been replaced by a sparce matrix to make the process m
 
 In addition a thread pool has been implemented to divide the train function in smaller, parallel runing parts being handled by threads.
 
-For more intricate documentation check the file **readme.pdf**.
+For more intricate documentation check the [readme.pdf](https://github.com/panoskorovesis/Software-Development-part-3/blob/master/ergasia3-readme.pdf)
+
+For a detailed descreption along with statistics check the included [paper](https://github.com/panoskorovesis/Software-Development-part-3/blob/master/Machine%20Learning%20with%20Logistic%20Regression%20Study.pdf)
 
 
 ---
