@@ -1,8 +1,8 @@
 ![run-tests](../../workflows/tests/badge.svg)
 
-# Software-Development-part-3
+# Machine Learning Camera Pair Recognition
 
-This project extends the functionality of the first project
+This project extends the functionality of the second project
 
 ([Project2](https://github.com/panoskorovesis/Software-Development-part-2)) By changing the train process as follows
 
