@@ -1,4 +1,4 @@
-![run-tests](../../workflows/tests/badge.svg)
+![run-tests](../../workflows/badge(1).svg)
 
 # Machine Learning Camera Pair Recognition
 
